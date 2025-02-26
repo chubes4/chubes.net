@@ -1,0 +1,217 @@
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+    position: relative; /* Establish container for absolute positioning */
+    overflow: hidden;  /* Allow expanded items to be fully visible */
+}
+
+.service-item {
+    box-sizing: border-box;  /* Include padding & border in width */
+    background: #222;
+    border: 2px solid #00c2ff;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.6s ease, opacity 0.6s ease, width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+.page-template-page-services .post-navigation{
+    margin-bottom: 18px;
+}
+/* Header and arrow styling */
+.service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    /* Animate gap change */
+    transition: gap 0.6s ease;
+}
+.dropdown-arrow {
+    font-size: 18px;
+    display: inline-block; /* Ensure transforms work properly */
+    transform-origin: center;
+    transition: transform 0.6s ease-in-out;
+}
+.service-item.expanded .service-header .dropdown-arrow {
+    transform: translateX(-10px) rotate(180deg);
+    margin-left:20px;
+}
+
+/* Animate header children for a smoother centering effect */
+.service-header h3,
+.service-header .dropdown-arrow {
+    transition: transform 0.6s ease;
+}
+
+.service-item.expanded .service-header {
+    /* Instead of an instantaneous jump to center, we animate gap change */
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+}
+.service-item.expanded .service-header h3 {
+    transform: translateX(10px);
+}
+.service-item.expanded .service-header .dropdown-arrow {
+    transform: translateX(-10px) rotate(180deg);
+}
+
+/* Keep overflow hidden on the collapsible content only */
+.service-content {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease, opacity 0.6s ease;
+    text-align: center;
+}
+
+.get-quote {
+    display: flex;
+    margin: 15px auto auto;
+}
+
+/* Reveal content when expanded */
+.service-item.expanded .service-content {
+    opacity: 1;
+}
+
+/* Expanded service item styles */
+.service-item.expanded {
+    width: 100%;
+    z-index: 10;
+    overflow: visible;  /* Ensure all content is shown when expanded */
+    position: relative;
+}
+
+/* Responsive grid: two columns on mobile (426px - 768px) */
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* Let grid items align normally by default */
+        justify-items: stretch;
+    }
+    .service-item.expanded {
+        left: 0 !important;
+        width: 100%;
+        margin-top: 20px;
+    }
+    /* For an odd number of items, make only the last item centered */
+    .services-grid > .service-item:last-child {
+        /* Remove any forced full-row span so it retains its natural width */
+        grid-column: auto;
+        justify-self: center;
+    }
+}
+
+/* For very small screens, switch to a single-column layout */
+@media (max-width: 425px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Modal Overlay */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #222;       /* Dark background to match theme */
+    color: #ddd;                  /* Light text color */
+    margin: 10% auto;
+    padding: 50px 20px 20px;       /* Increase top padding to 50px */
+    width: 85%;
+    max-width: 500px;
+    border: 2px solid #00c2ff;    /* Accent border */
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Modal Header */
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 24px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 5px;   
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #00c2ff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.close:hover {
+    color: #009dc0;
+}
+
+/* Form Elements */
+.modal-content form label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: 600;
+}
+
+.modal-content form input[type="text"],
+.modal-content form input[type="email"],
+.modal-content form input[type="url"],
+.modal-content form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #00c2ff;
+    border-radius: 4px;
+    background: #111;
+    color: #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.modal-content form input[type="text"]:focus,
+.modal-content form input[type="email"]:focus,
+.modal-content form input[type="url"]:focus,
+.modal-content form textarea:focus {
+    border-color: #00e0ff;
+    outline: none;
+}
+
+.modal-content form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Submit Button */
+.modal-content form button[type="submit"] {
+    display: inline-block;
+    background: #00c2ff;
+    color: #000;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.modal-content form button[type="submit"]:hover {
+    background: #009dc0;
+    color: #fff;
+}

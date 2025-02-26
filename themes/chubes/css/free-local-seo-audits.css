@@ -1,0 +1,108 @@
+/* Container for the Form */
+.seo-audit-form {
+    background: #222;
+    border: 2px solid #00c2ff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    color: #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+.seo-audit-form:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Form Headings */
+.seo-audit-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* Form Labels */
+.seo-audit-form label {
+    display: block;
+    font-weight: 600;
+    margin: 15px 0 5px;
+    color: #ddd;
+}
+
+/* Input Fields */
+.seo-audit-form input[type="text"],
+.seo-audit-form input[type="email"],
+.seo-audit-form input[type="url"],
+.seo-audit-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #00c2ff;
+    border-radius: 4px;
+    background: #111;
+    color: #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.seo-audit-form input[type="text"]:focus,
+.seo-audit-form input[type="email"]:focus,
+.seo-audit-form input[type="url"]:focus,
+.seo-audit-form textarea:focus {
+    border-color: #00e0ff;
+    outline: none;
+}
+
+/* Textarea Resizing */
+.seo-audit-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Submit Button */
+.seo-audit-form button[type="submit"] {
+    display: inline-block;
+    background: #00c2ff;
+    color: #000;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.seo-audit-form button[type="submit"]:hover {
+    background: #009dc0;
+    color: #fff;
+}
+
+/* Error and Success Messages */
+.seo-audit-form .seo-error {
+    color: #ff4f4f;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+}
+
+.seo-audit-form .success-message {
+    color: #4fff4f;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .seo-audit-form {
+        padding: 15px;
+    }
+
+    .seo-audit-form button[type="submit"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

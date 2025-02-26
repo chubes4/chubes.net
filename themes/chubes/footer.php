@@ -1,0 +1,47 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-nav">
+            <ul>
+                <li><a href="<?php echo home_url('/about'); ?>">About</a></li>
+                <li><a href="<?php echo home_url('/portfolio'); ?>">Portfolio</a></li>
+                <li><a href="<?php echo home_url('/services'); ?>">Services</a></li>
+                <li><a href="<?php echo home_url('/blog'); ?>">Blog</a></li>
+                <li><a href="<?php echo home_url('/journal'); ?>">Journal</a></li>
+                <li><a href="<?php echo home_url('/free-local-seo-audits'); ?>">Free Local SEO Audits</a></li>
+            </ul>
+        </div>
+
+
+
+
+        <div class="footer-info">
+            <p>Need a website or digital strategy? Let’s make it happen.</p>
+            <p><a href="mailto:chubes@chubes.net" class="footer-cta">chubes@chubes.net</a></p>
+            <?php 
+// Build the sprite URL with versioning based on file modification time.
+$social_sprite = get_stylesheet_directory_uri() . '/fonts/social-icons.svg?ver=' . filemtime(get_stylesheet_directory() . '/fonts/social-icons.svg');
+?>
+<ul class="social-links">
+  <li>
+    <a href="https://x.com/chubes4" target="_blank" rel="noopener noreferrer">
+      <svg class="icon icon-twitter">
+        <use xlink:href="<?php echo $social_sprite; ?>#icon-twitter"></use>
+      </svg>
+    </a>
+  </li>
+  <li>
+    <a href="https://instagram.com/chubes4" target="_blank" rel="noopener noreferrer">
+      <svg class="icon icon-instagram">
+        <use xlink:href="<?php echo $social_sprite; ?>#icon-instagram"></use>
+      </svg>
+    </a>
+  </li>
+</ul>
+            <p>© <?php echo date('Y'); ?> chubes.net. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<?php wp_footer(); ?>
+</body>
+</html>
