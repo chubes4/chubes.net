@@ -7,7 +7,7 @@ get_header();
 $services = [
     [
         'title' => 'Web Development',
-        'description' => "Transform your online presence with a custom or template-based website designed for speed, responsiveness, and engagement.\n\n• Stunning, mobile-first designs\n• Feature-rich, custom builds (including membership areas and advanced integrations)\n• Engineered for performance & SEO success",
+        'description' => "Transform your online presence with a custom or template-based website designed for speed, responsiveness, and engagement.\n\n• Stunning, mobile-first designs\n• Feature-rich, custom builds (including membership areas and advanced integrations)\n• Engineered for performance & SEO success\n• Specialized solutions are available for <a href='".home_url('/services/marine-industry-websites')."'>the marine industry</a> and <a href='/portfolio/music-venue-website'>the music industry</a>",
         'price' => "Starting at \$1,000 – \$5,000+",
     ],
     [

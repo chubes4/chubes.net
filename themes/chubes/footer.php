@@ -36,7 +36,15 @@ $social_sprite = get_stylesheet_directory_uri() . '/fonts/social-icons.svg?ver='
       </svg>
     </a>
   </li>
+  <li>
+    <a href="https://github.com/chubes4" target="_blank" rel="noopener noreferrer">
+      <svg class="icon icon-github">
+        <use xlink:href="<?php echo $social_sprite; ?>#icon-github"></use>
+      </svg>
+    </a>
+  </li>
 </ul>
+
             <p>© <?php echo date('Y'); ?> chubes.net. All rights reserved.</p>
         </div>
     </div>
