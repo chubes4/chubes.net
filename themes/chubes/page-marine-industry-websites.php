@@ -10,6 +10,7 @@
             <nav class="section-nav sticky">
                 <ul>
                     <li><a href="#tour-boat-charters">Tour Boat Charters</a></li>
+                    <li><a href="#fishing-charters">Fishing Charters</a></li>
                     <li><a href="#boat-repair-shops">Boat Repair Shops</a></li>
                     <li><a href="#boat-dealerships">Boat Dealerships</a></li>
                     <li><a href="#marine-supply-stores">Marine Supply Stores</a></li>
@@ -29,10 +30,13 @@
                 <?php the_content(); ?>
             </div>
 
-            <!-- Back to Homepage -->
-            <div class="post-navigation custom-boat-websites">
-                <a href="<?php echo home_url(); ?>" class="btn secondary">
-                    ← Back to Chubes.net
+            <!-- Dynamic Back To Navigation -->
+            <div class="post-navigation">
+                <?php 
+                $parent = chubes_get_parent_page();
+                ?>
+                <a href="<?php echo esc_url($parent['url']); ?>" class="btn secondary">
+                    ← Back to <?php echo esc_html($parent['title']); ?>
                 </a>
             </div>
         </div>
@@ -71,7 +75,8 @@
                 <textarea id="boatMessage" name="boatMessage" required></textarea>
                 
                 <button type="submit" class="btn">Submit</button>
-                <p class="contact-error" style="display:none; color:red; text-align:center; margin-top:10px;"></p>
+                <p class="error-message"></p>
+                <p class="success-message"></p>
             </form>
         </div>
     </div>

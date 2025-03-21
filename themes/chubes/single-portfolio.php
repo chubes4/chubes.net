@@ -47,9 +47,12 @@
                 <?php the_content(); ?>
             </div>
 
-            <!-- Back to Portfolio -->
-            <div class="portfolio-navigation">
-                <a href="<?php echo get_post_type_archive_link('portfolio'); ?>" class="btn secondary">← Back to Portfolio</a>
+            <!-- Dynamic Back To Navigation -->
+            <div class="portfolio-button">
+                <?php 
+                $parent = chubes_get_parent_page();
+                ?>
+                <a href="<?php echo esc_url($parent['url']); ?>" class="btn secondary">← Back to <?php echo esc_html($parent['title']); ?></a>
             </div>
         </div>
     </section>

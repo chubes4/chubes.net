@@ -1,26 +1,76 @@
+/* Services Page Styling */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     position: relative; /* Establish container for absolute positioning */
-    overflow: hidden;  /* Allow expanded items to be fully visible */
+    overflow: visible;  /* Changed to visible to prevent content cutoff */
+    min-height: 500px; /* Ensure enough space for expanded content */
+    will-change: contents; /* Optimize for animation performance */
+}
+
+/* Services introduction styling */
+.services-intro {
+    text-align: center;
+    margin: 0 auto 40px;
+    max-width: 750px;
+    color: #ddd;
+}
+
+.services-intro p {
+    font-size: 18px;
+    line-height: 1.8;
 }
 
 .service-item {
     box-sizing: border-box;  /* Include padding & border in width */
-    background: #222;
-    border: 2px solid #00c2ff;
+    background: rgba(34, 34, 34, 0.7);
+    border: 2px solid rgba(0, 194, 255, 0.3);
     border-radius: 8px;
-    padding: 20px;
+    padding: 25px;
     cursor: pointer;
-    transition: transform 0.6s ease, opacity 0.6s ease, width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
     overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                opacity 0.6s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                width 0.6s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                border-color 0.3s ease, 
+                background-color 0.3s ease,
+                box-shadow 0.6s cubic-bezier(0.2, 0.82, 0.2, 1);
+    will-change: transform, opacity, width, left, top, box-shadow;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
-.page-template-page-services .post-navigation{
-    margin-bottom: 18px;
+
+.service-item:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 194, 255, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
+
+.service-item:hover {
+    border-color: rgba(0, 194, 255, 0.5);
+    background: rgba(34, 34, 34, 0.9);
+    transform: translateY(-3px) translateZ(0);
+    box-shadow: 0 6px 20px rgba(0, 194, 255, 0.1);
+    transition: transform 0.3s cubic-bezier(0.2, 0.82, 0.2, 1),
+                border-color 0.3s ease,
+                background-color 0.3s ease,
+                box-shadow 0.3s cubic-bezier(0.2, 0.82, 0.2, 1);
+}
+
+.service-item:hover:before {
+    opacity: 1;
+}
+
 /* Header and arrow styling */
 .service-header {
     display: flex;
@@ -28,23 +78,47 @@
     align-items: center;
     gap: 5px;
     /* Animate gap change */
-    transition: gap 0.6s ease;
+    transition: gap 0.5s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                justify-content 0.5s cubic-bezier(0.2, 0.82, 0.2, 1);
+    will-change: gap, justify-content; /* Optimize for animation performance */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
+
+.service-header h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #00c2ff;
+    margin: 0;
+    font-size: 20px;
+    transition: color 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.82, 0.2, 1);
+    will-change: transform; /* Optimize for animation performance */
+    transform: translateZ(0);
+}
+
 .dropdown-arrow {
     font-size: 18px;
     display: inline-block; /* Ensure transforms work properly */
     transform-origin: center;
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.5s cubic-bezier(0.2, 0.82, 0.2, 1);
+    color: #00c2ff;
+    will-change: transform; /* Optimize for animation performance */
+    backface-visibility: hidden;
 }
+
+.service-item:hover .dropdown-arrow {
+    transform: translateX(3px) translateZ(0);
+    transition: transform 0.3s cubic-bezier(0.2, 0.82, 0.2, 1);
+}
+
 .service-item.expanded .service-header .dropdown-arrow {
-    transform: translateX(-10px) rotate(180deg);
-    margin-left:20px;
+    transform: translateX(-10px) rotate(180deg) translateZ(0);
+    margin-left: 20px;
 }
 
 /* Animate header children for a smoother centering effect */
 .service-header h3,
 .service-header .dropdown-arrow {
-    transition: transform 0.6s ease;
+    transition: transform 0.5s cubic-bezier(0.2, 0.82, 0.2, 1), color 0.3s ease;
 }
 
 .service-item.expanded .service-header {
@@ -53,11 +127,44 @@
     text-align: center;
     gap: 10px;
 }
+
 .service-item.expanded .service-header h3 {
     transform: translateX(10px);
+    margin: 0;
 }
+
 .service-item.expanded .service-header .dropdown-arrow {
     transform: translateX(-10px) rotate(180deg);
+}
+
+.service-item.expanded {
+    border-color: rgba(0, 194, 255, 0.6);
+    background: rgba(34, 34, 34, 0.95);
+    box-shadow: 0 8px 25px rgba(0, 194, 255, 0.15);
+    z-index: 100; /* Ensure it's above other items during transition */
+    width: 100%;
+    overflow: visible;
+    position: relative;
+    transform: translateZ(0);
+    height: auto;
+    min-height: 300px;
+    transition: transform 0.5s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                box-shadow 0.5s cubic-bezier(0.2, 0.82, 0.2, 1),
+                border-color 0.5s ease;
+    will-change: transform, opacity, width, left, top;
+    backface-visibility: hidden;
+}
+
+.service-item.collapsing {
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                box-shadow 0.5s cubic-bezier(0.2, 0.82, 0.2, 1),
+                width 0.5s cubic-bezier(0.2, 0.82, 0.2, 1),
+                left 0.5s cubic-bezier(0.2, 0.82, 0.2, 1),
+                top 0.5s cubic-bezier(0.2, 0.82, 0.2, 1);
+    will-change: transform, width, left, top;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 /* Keep overflow hidden on the collapsible content only */
@@ -65,45 +172,111 @@
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.6s ease, opacity 0.6s ease;
+    transition: max-height 0.5s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                opacity 0.5s cubic-bezier(0.2, 0.82, 0.2, 1);
+    will-change: max-height, opacity;
     text-align: center;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.get-quote {
+.service-content p {
+    margin-bottom: 20px;
+    text-align: left;
+    white-space: pre-line;
+    line-height: 1.8;
+    color: #ddd;
+    font-size: 16px;
+}
+
+.service-content .price {
+    display: block;
+    font-weight: bold;
+    color: #00e0ff;
+    margin: 20px 0;
+    font-size: 17px;
+}
+
+.get-quote, .service-content .btn {
     display: flex;
-    margin: 15px auto auto;
+    margin: 25px auto 10px;
+    width: max-content;
+    background-color: #00c2ff;
+    color: #000;
+    padding: 12px 28px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.get-quote:hover, .service-content .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 194, 255, 0.3);
 }
 
 /* Reveal content when expanded */
 .service-item.expanded .service-content {
     opacity: 1;
-}
-
-/* Expanded service item styles */
-.service-item.expanded {
-    width: 100%;
-    z-index: 10;
-    overflow: visible;  /* Ensure all content is shown when expanded */
-    position: relative;
+    transition: max-height 0.5s cubic-bezier(0.2, 0.82, 0.2, 1), 
+                opacity 0.5s cubic-bezier(0.2, 0.82, 0.2, 1);
+    max-height: 2000px; /* Large enough value to accommodate any content */
+    padding: 20px 10px 10px;
+    overflow: visible;
 }
 
 /* Responsive grid: two columns on mobile (426px - 768px) */
 @media (max-width: 768px) {
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
-        /* Let grid items align normally by default */
         justify-items: stretch;
+        gap: 15px;
+        transform: translateZ(0);
+        backface-visibility: hidden;
     }
+    
+    .service-item {
+        padding: 20px;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+    
     .service-item.expanded {
         left: 0 !important;
         width: 100%;
         margin-top: 20px;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        overflow: visible;
+        height: auto;
+        min-height: auto;
+        padding-bottom: 30px; /* Ensure enough space for button */
     }
+    
+    .service-item.expanded .service-content {
+        overflow: visible;
+        padding-bottom: 20px;
+    }
+    
+    .service-content .btn {
+        position: relative;
+        z-index: 10;
+        margin-bottom: 10px;
+    }
+    
     /* For an odd number of items, make only the last item centered */
     .services-grid > .service-item:last-child {
-        /* Remove any forced full-row span so it retains its natural width */
         grid-column: auto;
-        justify-self: center;
+    }
+    
+    .services-intro p {
+        font-size: 16px;
+        line-height: 1.6;
     }
 }
 
@@ -111,6 +284,53 @@
 @media (max-width: 425px) {
     .services-grid {
         grid-template-columns: 1fr;
+    }
+
+    .service-item {
+        padding: 15px;
+    }
+
+    .service-content {
+        padding: 15px 5px 5px;
+    }
+    
+    .service-content .btn,
+    .service-content a.btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: calc(100% - 20px);
+        justify-content: center;
+        margin: 20px 10px 5px;
+        text-align: center;
+        display: flex;
+        box-sizing: border-box;
+    }
+    
+    .service-item.expanded {
+        padding-bottom: 40px; /* Additional bottom padding on smaller screens */
+    }
+    
+    .service-item.expanded .service-content {
+        padding-bottom: 25px;
+    }
+    
+    .service-content .btn {
+        margin-bottom: 15px;
+        width: calc(100% - 20px); /* Ensure button doesn't overflow */
+    }
+
+    .service-header h3 {
+        font-size: 18px;
+    }
+
+    .service-content p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .service-content .price {
+        font-size: 16px;
+        margin: 15px 0;
     }
 }
 
@@ -124,27 +344,31 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
 }
 
 /* Modal Content */
 .modal-content {
-    background-color: #222;       /* Dark background to match theme */
-    color: #ddd;                  /* Light text color */
-    margin: 10% auto;
-    padding: 50px 20px 20px;       /* Increase top padding to 50px */
-    width: 85%;
-    max-width: 500px;
-    border: 2px solid #00c2ff;    /* Accent border */
+    background: rgba(34, 34, 34, 0.95);
+    border: 2px solid rgba(0, 194, 255, 0.6);
     border-radius: 8px;
+    padding: 30px 25px 25px;
+    width: 85%;
+    max-width: 600px;
+    margin: 10% auto;
+    color: #ddd;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 194, 255, 0.15);
     position: relative;
 }
 
 /* Modal Header */
 .modal-content h2 {
     margin-top: 0;
-    font-size: 24px;
+    margin-bottom: 20px;
     text-align: center;
+    font-size: 28px;
+    color: #fff;
 }
 
 .close {
@@ -155,17 +379,20 @@
     font-weight: bold;
     color: #00c2ff;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
+
 .close:hover {
     color: #009dc0;
+    transform: scale(1.1);
 }
 
 /* Form Elements */
 .modal-content form label {
     display: block;
-    margin: 15px 0 5px;
     font-weight: 600;
+    margin: 15px 0 5px;
+    color: #ddd;
 }
 
 .modal-content form input[type="text"],
@@ -173,14 +400,14 @@
 .modal-content form input[type="url"],
 .modal-content form textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #00c2ff;
-    border-radius: 4px;
-    background: #111;
+    padding: 12px;
+    border: 1px solid rgba(0, 194, 255, 0.4);
+    border-radius: 6px;
+    background: rgba(17, 17, 17, 0.7);
     color: #ddd;
     font-size: 16px;
     box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .modal-content form input[type="text"]:focus,
@@ -189,11 +416,12 @@
 .modal-content form textarea:focus {
     border-color: #00e0ff;
     outline: none;
+    box-shadow: 0 0 8px rgba(0, 224, 255, 0.2);
 }
 
 .modal-content form textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 100px;
 }
 
 /* Submit Button */
@@ -201,17 +429,125 @@
     display: inline-block;
     background: #00c2ff;
     color: #000;
-    padding: 12px 24px;
+    padding: 12px 28px;
     font-size: 16px;
     font-weight: 600;
     border: none;
     border-radius: 6px;
-    margin-top: 15px;
+    margin-top: 20px;
     cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.2);
 }
 
 .modal-content form button[type="submit"]:hover {
     background: #009dc0;
     color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 194, 255, 0.3);
+}
+
+/* Error and Success Messages */
+.modal-content .error-message,
+.modal-content .success-message {
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 16px;
+    display: none;
+    border-radius: 6px;
+}
+
+.modal-content .error-message {
+    color: #ff4f4f;
+    background-color: rgba(255, 79, 79, 0.1);
+    border: 1px solid rgba(255, 79, 79, 0.3);
+}
+
+.modal-content .success-message {
+    color: #00e0ff;
+    background-color: rgba(0, 224, 255, 0.1);
+    border: 1px solid rgba(0, 224, 255, 0.3);
+}
+
+/* Service Title Area */
+.service-title-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: all 0.4s ease;
+}
+
+.service-item.expanded .service-header {
+    flex-direction: column;
+    gap: 5px;
+}
+
+.service-item.expanded .service-title-area {
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.service-item.expanded .service-header h3 {
+    transform: none;
+    margin-top: 0;
+}
+
+/* Add animation classes for staggered entries/exits */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeOutDown {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0);
+    }
+}
+
+/* Apply animation classes when needed */
+.service-item.animating-in {
+    animation: fadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.service-item.animating-out {
+    animation: fadeOutDown 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+/* Global Quote Button */
+.global-quote-button {
+    text-align: center;
+    margin: 0 auto 30px;
+}
+
+.global-quote-button .btn {
+    font-size: 18px;
+    padding: 14px 32px;
+    background: linear-gradient(to right, #00c2ff, #00e0ff);
+    color: #000;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 194, 255, 0.25);
+    border: none;
+    cursor: pointer;
+    transform: translateY(0);
+}
+
+.global-quote-button .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 194, 255, 0.35);
+    background: linear-gradient(to right, #00c2ff, #00b8d9);
 }

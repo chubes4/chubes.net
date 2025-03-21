@@ -25,4 +25,27 @@
             </a>
         </h1>
     </div>
+<!-- Minimal Two-Bar Icon -->
+<div class="hamburger" id="hamburger">
+  <span class="bar bar1"></span>
+  <span class="bar bar2"></span>
+</div>
+
+<!-- Fullscreen Overlay -->
+<div class="nav-overlay" id="overlay">
+  <nav class="overlay-nav">
+    <ul>
+      <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/portfolio' ) ); ?>">Portfolio</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/services' ) ); ?>">Services</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/blog' ) ); ?>">Blog</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
+    </ul>
+  </nav>
+</div>
 </header>
+
+<?php
+// Action hook for content before main - used for breadcrumbs
+do_action('chubes_before_main_content');
+?>

@@ -7,7 +7,7 @@
                 <li><a href="<?php echo home_url('/services'); ?>">Services</a></li>
                 <li><a href="<?php echo home_url('/blog'); ?>">Blog</a></li>
                 <li><a href="<?php echo home_url('/journal'); ?>">Journal</a></li>
-                <li><a href="<?php echo home_url('/free-local-seo-audits'); ?>">Free Local SEO Audits</a></li>
+                <li><a href="<?php echo home_url('/services/free-local-seo-audits'); ?>">Free Local SEO Audits</a></li>
             </ul>
         </div>
 
@@ -15,7 +15,7 @@
 
 
         <div class="footer-info">
-            <p>Need a website or digital strategy? Let’s make it happen.</p>
+            <p>Need a website or digital strategy? Let’s build something epic.</p>
             <p><a href="mailto:chubes@chubes.net" class="footer-cta">chubes@chubes.net</a></p>
             <?php 
 // Build the sprite URL with versioning based on file modification time.

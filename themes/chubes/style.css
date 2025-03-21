@@ -83,9 +83,38 @@ h4{
     font-size: .9em;
     text-align: center;
 }
-img{
+img {
     width: 100%;
+    border-radius: 8px;
+    max-height: 80vh;
+    object-fit: contain;
+    overflow: hidden;
 }
+
+/* Container with fixed maximum height based on viewport */
+figure.wp-block-image {
+    border-radius: 8px;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto;
+    max-height: 80vh; 
+    position: relative; 
+    width: max-content;
+    max-width: 100%;
+}
+
+/* Force the image to fill the container while preserving aspect ratio */
+figure.wp-block-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* scales image down without cropping */
+    display: block;
+}
+
+
+
+
+
 a {
     color: #ddd;
     text-decoration: underline;
@@ -93,18 +122,15 @@ a {
     border-bottom: 2px solid transparent;
 }
 p {
-    margin: 1.2em 0;
+    margin: 1.3em 0;
 }
 
 li {
-    margin: 5px 0;
+    margin: 8px 0;
 }
 
 .archive-posts .post-item{
     border-bottom:.5px solid;
-}
-.archive-posts .post-item:last-child {
-    border-bottom: none;
 }
 
 .btn {
@@ -117,13 +143,13 @@ li {
     text-decoration: none;
     border-radius: 6px; /* Slightly rounded corners */
     transition: all 0.3s ease-in-out;
+    line-height: inherit;
 }
 
 .btn:hover {
     background: #009dc0; /* Slightly darker on hover */
     color: #fff;
 }
-
 
 .site-title a:hover, a:hover, .site-footer a:hover {
     color: #00e0ff;
@@ -314,6 +340,9 @@ button{
     display: flex;
     justify-content: center;
 }
+.post-navigation{
+margin: 30px 0 25px;
+}
 .post-content, .portfolio-single, .portfolio-content, .archive-posts {
     margin-bottom: 18px;
 }
@@ -420,4 +449,885 @@ button{
 
 .footer-cta:hover {
     color: #009dc0;
+}
+
+.error-actions{
+    display: flex;
+    width: 100%;
+    gap: 15px;
+    margin:18px auto;
+    justify-content: center;
+}
+.error-message {
+    text-align: center;
+}
+
+/* -------------------- HAMBURGER ICON -------------------- */
+.hamburger {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 9999; /* Keep it on top */
+  }
+
+  /* Offset the hamburger when the admin bar is visible */
+body.admin-bar .hamburger {
+    top: 32px; /* Adjust based on your admin bar height */
+  }
+  
+  /* Each bar is absolutely positioned within the .hamburger container */
+  .bar {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #fff; /* or your preferred color */
+    transition: all 0.4s ease;
+  }
+  
+  /* Default positions for the two bars */
+  .bar1 {
+    top: 8px;
+  }
+  .bar2 {
+    bottom: 8px;
+  }
+  
+  /* When .hamburger has .open, morph bars to a single horizontal line */
+  .hamburger.open .bar1 {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .hamburger.open .bar2 {
+    bottom: 50%;
+    transform: translateY(50%);
+  }
+
+
+.hamburger:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+.hamburger, .nav-overlay {
+    will-change: transform, opacity;
+}
+
+  /* -------------------- NAV OVERLAY -------------------- */
+  .nav-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* a dark overlay */
+    opacity: 0;
+    pointer-events: none; /* not clickable when hidden */
+    transition: opacity 0.4s ease;
+    z-index: 9998; /* behind the hamburger icon */
+  }
+  .nav-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* When closing, delay the overlay fade-out so links can animate out first */
+.nav-overlay.closing {
+    transition: opacity 0.4s ease 0.6s;
+    opacity: 0;
+  }
+  
+  /* Center the nav inside the overlay */
+  .overlay-nav {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Basic list styles */
+  .overlay-nav ul {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+  .overlay-nav ul li {
+    margin: 1rem 0;
+  }
+  
+  /* Links start off hidden; we'll fade/slide them in when .open is toggled */
+  .overlay-nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Reveal the links in a staggered fashion when .open is active */
+  .nav-overlay.open .overlay-nav ul li a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Stagger them for a cascading reveal */
+  .nav-overlay.open .overlay-nav ul li:nth-child(1) a { transition-delay: 0.1s; }
+  .nav-overlay.open .overlay-nav ul li:nth-child(2) a { transition-delay: 0.2s; }
+  .nav-overlay.open .overlay-nav ul li:nth-child(3) a { transition-delay: 0.3s; }
+  .nav-overlay.open .overlay-nav ul li:nth-child(4) a { transition-delay: 0.4s; }
+  .nav-overlay.open .overlay-nav ul li:nth-child(5) a { transition-delay: 0.5s; }
+  
+  /* Reverse cascade when closing */
+.nav-overlay.closing .overlay-nav ul li:nth-child(1) a { transition-delay: 0.5s; }
+.nav-overlay.closing .overlay-nav ul li:nth-child(2) a { transition-delay: 0.4s; }
+.nav-overlay.closing .overlay-nav ul li:nth-child(3) a { transition-delay: 0.3s; }
+.nav-overlay.closing .overlay-nav ul li:nth-child(4) a { transition-delay: 0.2s; }
+.nav-overlay.closing .overlay-nav ul li:nth-child(5) a { transition-delay: 0.1s; }
+
+/* Tech Cloud Styles */
+.tech-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    perspective: 1000px;
+    margin-top: 30px;
+}
+
+.tech-item {
+    background: rgba(0, 194, 255, 0.1);
+    color: #ddd;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: default;
+    border: 1px solid rgba(0, 194, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Category-specific variations */
+.tech-item[data-category="web"] {
+    background: rgba(0, 194, 255, 0.08);
+    border-color: rgba(0, 194, 255, 0.25);
+}
+
+.tech-item[data-category="seo"] {
+    background: rgba(0, 224, 255, 0.06);
+    border-color: rgba(0, 224, 255, 0.2);
+}
+
+.tech-item[data-category="api"] {
+    background: rgba(0, 255, 194, 0.06);
+    border-color: rgba(0, 255, 194, 0.2);
+}
+
+.tech-item[data-category="ai"] {
+    background: rgba(194, 0, 255, 0.06);
+    border-color: rgba(194, 0, 255, 0.2);
+}
+
+.tech-item[data-category="marketing"] {
+    background: rgba(255, 194, 0, 0.06);
+    border-color: rgba(255, 194, 0, 0.2);
+}
+
+/* Enhanced hover effects */
+.tech-item:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: rgba(0, 194, 255, 0.15);
+    border-color: rgba(0, 194, 255, 0.4);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
+}
+
+.tech-item[data-category="seo"]:hover {
+    background: rgba(0, 224, 255, 0.15);
+    border-color: rgba(0, 224, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 224, 255, 0.15);
+}
+
+.tech-item[data-category="api"]:hover {
+    background: rgba(0, 255, 194, 0.15);
+    border-color: rgba(0, 255, 194, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 255, 194, 0.15);
+}
+
+.tech-item[data-category="ai"]:hover {
+    background: rgba(194, 0, 255, 0.15);
+    border-color: rgba(194, 0, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(194, 0, 255, 0.15);
+}
+
+.tech-item[data-category="marketing"]:hover {
+    background: rgba(255, 194, 0, 0.15);
+    border-color: rgba(255, 194, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 194, 0, 0.15);
+}
+
+/* Add subtle glow effect on hover */
+.tech-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(0, 194, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tech-item:hover::after {
+    opacity: 1;
+}
+
+/* Reveal animation enhancement for tech cloud */
+.tech-cloud.reveal {
+    transform: translateY(30px) scale(0.95);
+}
+
+.tech-cloud.reveal.active {
+    transform: translateY(0) scale(1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tech-cloud {
+        gap: 8px;
+    }
+    
+    .tech-item {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+}
+
+/* Service Category Link Styles */
+.service-category-link {
+    text-decoration: none;
+    display: block;
+    position: relative;
+    color: inherit;
+}
+
+.service-category-link:hover {
+    border-bottom: none;
+}
+
+.service-category-link:hover .service-category {
+    background: rgba(0, 194, 255, 0.06);
+    border-color: rgba(0, 194, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.service-category-link:hover .service-category::after {
+    opacity: 1;
+    transform: translate(5px, -50%);
+}
+
+/* Position fix for the arrow */
+.service-category {
+    position: relative;
+}
+
+/* Enhance link transitions */
+.service-category-link .service-category {
+    will-change: transform, background-color, border-color;
+}
+
+/* Services Section Enhancement */
+.services .container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.service-category {
+    background: rgba(0, 194, 255, 0.03);
+    border: 1px solid rgba(0, 194, 255, 0.1);
+    border-radius: 8px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.service-category:hover {
+    background: rgba(0, 194, 255, 0.06);
+    border-color: rgba(0, 194, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.service-category h3 {
+    margin: 0 0 15px;
+    color: #00c2ff;
+    font-size: 20px;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.service-category:hover h3 {
+    color: #00e0ff;
+}
+
+.service-category p {
+    margin: 0;
+    text-align: left;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+.services-button {
+    margin-top: 15px;
+}
+
+/* Make services section responsive */
+@media (min-width: 768px) {
+    .services .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .services h2,
+    .services-button {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Enhance button hover state */
+.services .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.2);
+}
+
+/* Add subtle animation to service categories */
+.service-category.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.service-category.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Add hover indicator */
+.service-category::after {
+    content: '→';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    color: #00c2ff;
+}
+
+.service-category:hover::after {
+    opacity: 1;
+    transform: translate(5px, -50%);
+}
+
+/* Ensure consistent spacing */
+.services {
+    padding: 20px 0;
+}
+
+.services h2 {
+    margin-bottom: 30px;
+}
+
+/* Hero Section Enhancement */
+.hero {
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 194, 255, 0.03) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: -1;
+}
+
+.hero h1 {
+    font-size: 42px;
+    line-height: 1.2;
+    margin-bottom: 25px;
+    background: linear-gradient(45deg, #fff, #00e0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #ddd;
+    margin-bottom: 35px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero .contact-button {
+    margin-top: 30px;
+}
+
+.hero .btn {
+    padding: 15px 32px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero h1 {
+        font-size: 32px;
+    }
+    
+    .hero p {
+        font-size: 18px;
+    }
+}
+
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    background-color: transparent;
+    padding: 10px 20px;
+    margin: 0 auto 0;
+    border-radius: 0;
+    font-size: 14px;
+    width: max-content;
+    max-width: 90%;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 194, 255, 0.1);
+    justify-content: center;
+    gap: 0;
+    line-height: 1.5;
+}
+
+.breadcrumbs a {
+    color: #00c2ff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.breadcrumbs a:hover {
+    color: #00e0ff;
+    text-decoration: underline;
+}
+
+.breadcrumbs-separator {
+    margin: 0 8px;
+    color: #555;
+    flex-shrink: 0;
+}
+
+.breadcrumbs-current {
+    color: #eee;
+    font-weight: 500;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+    white-space: normal;
+    display: inline-block;
+    hyphens: auto;
+    line-height: 1.4;
+}
+
+/* Mobile Post Title and Breadcrumbs Fix */
+@media (max-width: 768px) {
+    .breadcrumbs {
+        padding: 8px 15px;
+        font-size: 13px;
+        margin-bottom: 0;
+        box-sizing: border-box;
+        background-color: transparent;
+        max-width: 95%;
+    }
+    
+    .breadcrumbs-separator {
+        margin: 0 6px;
+        flex-shrink: 0;
+    }
+    
+    .breadcrumbs a {
+        max-width: 200px;
+    }
+    
+    /* Fix for post titles wrapping on mobile */
+    .post-content-preview h3,
+    .single-post h1 {
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+}
+
+/* Enhanced Archive Headers */
+.archive-header.enhanced,
+.portfolio-header.enhanced {
+    padding: 25px 0 35px;
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+}
+
+.archive-header.enhanced::before {
+    display: none;
+}
+
+.archive-header-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.archive-header.enhanced h1,
+.portfolio-header.enhanced h1 {
+    font-size: 2.6rem;
+    margin-bottom: 15px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+}
+
+.archive-header.enhanced p,
+.portfolio-header.enhanced p {
+    font-size: 1.1rem;
+    color: #ccc;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    line-height: 1.7;
+}
+
+.header-accent {
+    width: 60px;
+    height: 4px;
+    background: #00c2ff;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.header-accent:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.archive-type {
+    display: block;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #00c2ff;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* Enhanced Post Grid - Minimalist Version */
+.post-grid.enhanced {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.post-grid.enhanced .post-item {
+    background: rgba(25, 25, 25, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    height: 100%;
+}
+
+.post-grid.enhanced .post-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 194, 255, 0.2);
+}
+
+.post-content-preview {
+    padding: 25px;
+}
+
+.post-content-preview h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.post-item:hover .post-content-preview h3 {
+    color: #00c2ff;
+}
+
+.post-content-preview p {
+    color: #aaa;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+.post-date {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.read-more {
+    color: #00c2ff;
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.read-more:after {
+    content: '→';
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.post-item:hover .read-more:after {
+    transform: translateX(5px);
+}
+
+/* Enhanced Journal List */
+.journal-list.enhanced {
+    list-style: none;
+    padding: 0;
+    margin: 40px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(25, 25, 25, 0.7);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.archive-journal .pagination{
+display: flex;      
+justify-content: center;
+gap: 10px;
+}
+.journal-list.enhanced li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.journal-list.enhanced li:last-child {
+    border-bottom: none;
+}
+
+.journal-list.enhanced a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    color: #ddd;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.journal-list.enhanced a:hover {
+    background: rgba(0, 194, 255, 0.1);
+    color: #fff;
+}
+
+.journal-title {
+    font-weight: 500;
+}
+
+.journal-date {
+    color: #00c2ff;
+    font-size: 0.9rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .archive-header.enhanced,
+    .portfolio-header.enhanced {
+        padding: 40px 0 30px;
+    }
+    
+    .archive-header.enhanced h1,
+    .portfolio-header.enhanced h1 {
+        font-size: 2.2rem;
+    }
+    
+    .archive-header.enhanced p,
+    .portfolio-header.enhanced p {
+        font-size: 1rem;
+    }
+    
+    .post-grid.enhanced {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .journal-list.enhanced a {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .journal-date {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 425px) {
+    .archive-header.enhanced h1,
+    .portfolio-header.enhanced h1 {
+        font-size: 1.8rem;
+    }
+    
+    .post-grid.enhanced {
+        grid-template-columns: 1fr;
+    }
+    
+    .post-content-preview {
+        padding: 20px;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* Single Post Styling */
+.single-post .post-meta {
+    display: block;
+    text-align: center;
+    margin: 15px 0 25px;
+    padding-bottom: 20px;
+    border-top: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0;
+}
+
+.single-post .post-meta p {
+    margin: 0;
+    color: #777;
+    font-size: 0.9em;
+}
+
+/* Mobile Post Title Fix */
+@media (max-width: 768px) {
+    .post-content-preview h3 {
+        font-size: 1.3rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+    
+    /* Single post title mobile fix */
+    .single-post h1 {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+}
+
+
+
+.why-choose-me-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.why-choose-me-image {
+    flex: 1;
+    max-width: 400px;
+}
+
+.why-choose-me-image img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 1;
+}
+
+.why-choose-me-content {
+    flex: 1;
+}
+.why-choose-me-content .btn{
+    width: max-content;
+    display: flex;
+    margin: auto;
+}
+.why-choose-me-content h2 {
+    color: #00c2ff;
+}
+
+
+.why-choose-me-content .btn:hover {
+    background: #009dc0;
+    color: #fff;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .why-choose-me-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .why-choose-me-image {
+        max-width: 100%;
+    }
+
+    .why-choose-me-content .btn {
+        display: block;
+        width: fit-content;
+        margin: 0 auto;
+    }
 }

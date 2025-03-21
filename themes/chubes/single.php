@@ -23,10 +23,13 @@
                 <?php the_content(); ?>
             </div>
 
-            <!-- Back to Blog (Dynamic for Journal or Blog) -->
+            <!-- Dynamic Back To Navigation -->
             <div class="post-navigation">
-                <a href="<?php echo get_post_type_archive_link(get_post_type()); ?>" class="btn secondary">
-                    ← Back to <?php echo get_post_type() == 'journal' ? 'Journal' : 'Blog'; ?>
+                <?php 
+                $parent = chubes_get_parent_page();
+                ?>
+                <a href="<?php echo esc_url($parent['url']); ?>" class="btn secondary">
+                    ← Back to <?php echo esc_html($parent['title']); ?>
                 </a>
             </div>
         </div>

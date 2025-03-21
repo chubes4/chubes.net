@@ -18,10 +18,13 @@
                 <?php the_content(); ?>
             </div>
 
-            <!-- Back to Homepage -->
+            <!-- Dynamic Back To Navigation -->
             <div class="post-navigation">
-                <a href="<?php echo home_url(); ?>" class="btn secondary">
-                    ← Back to Chubes.net
+                <?php 
+                $parent = chubes_get_parent_page();
+                ?>
+                <a href="<?php echo esc_url($parent['url']); ?>" class="btn secondary">
+                    ← Back to <?php echo esc_html($parent['title']); ?>
                 </a>
             </div>
         </div>

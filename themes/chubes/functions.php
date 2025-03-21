@@ -40,10 +40,7 @@ function chubes_enqueue_scripts() {
         ));
     }
     
-    if (is_front_page()) {
-        // Enqueue reveal.js only on the homepage
         wp_enqueue_script('reveal', get_template_directory_uri() . '/js/reveal.js', array('jquery'), filemtime(get_template_directory() . '/js/reveal.js'), true);
-    }
 }
 add_action('wp_enqueue_scripts', 'chubes_enqueue_scripts');
 
@@ -74,3 +71,76 @@ add_filter('the_generator', 'chubes_remove_wp_version');
 // Disable WordPress emoji scripts for performance
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_print_styles', 'print_emoji_styles');
+
+/**
+ * Get parent page information for navigation
+ */
+function chubes_get_parent_page() {
+    global $post;
+    
+    // Default is homepage
+    $parent = array(
+        'url' => home_url('/'),
+        'title' => 'Chubes.net'
+    );
+    
+    // For single post - always go back to Blog
+    if (is_single() && get_post_type() === 'post') {
+        $parent = array(
+            'url' => get_permalink(get_option('page_for_posts')),
+            'title' => 'Blog'
+        );
+    } 
+    // For custom post types
+    elseif (is_single() && get_post_type() !== 'post') {
+        $post_type = get_post_type_object(get_post_type());
+        $archive_link = get_post_type_archive_link(get_post_type());
+        
+        if ($archive_link) {
+            $parent = array(
+                'url' => $archive_link,
+                'title' => $post_type->labels->name
+            );
+        }
+    }
+    // For pages with ancestors
+    elseif (is_page()) {
+        if ($post->post_parent) {
+            // Get ancestors array (parent, grandparent, etc.)
+            $ancestors = get_post_ancestors($post->ID);
+            
+            if (!empty($ancestors)) {
+                // The first item in the array is the immediate parent
+                $parent_id = $ancestors[0];
+                $parent = array(
+                    'url' => get_permalink($parent_id),
+                    'title' => get_the_title($parent_id)
+                );
+            } else {
+                // Fallback to direct parent
+                $parent_id = $post->post_parent;
+                $parent = array(
+                    'url' => get_permalink($parent_id),
+                    'title' => get_the_title($parent_id)
+                );
+            }
+        }
+    }
+    // For category archives
+    elseif (is_category() || is_tag() || is_date() || is_author()) {
+        $parent = array(
+            'url' => get_permalink(get_option('page_for_posts')),
+            'title' => 'Blog'
+        );
+    }
+    // For post type archives (like Portfolio or Journal)
+    elseif (is_post_type_archive()) {
+        // These should go back to the homepage
+        $parent = array(
+            'url' => home_url('/'),
+            'title' => 'Chubes.net'
+        );
+    }
+    
+    return $parent;
+}

@@ -1,10 +1,13 @@
 <?php get_header(); ?>
 
 <main class="site-main">
-    <section class="portfolio-header">
+    <section class="portfolio-header enhanced">
         <div class="container">
-            <h1>WordPress Development Portfolio</h1>
-            <p>Browse my recent projects, custom WordPress builds, and high-performance website solutions.</p>
+            <div class="archive-header-inner">
+            <h1>My Digital Craftsmanship Portfolio</h1>
+            <p>Explore custom WordPress builds, high-performance solutions, and innovative tools—crafted with focus and grit to deliver real results for small businesses.</p>
+                <div class="header-accent"></div>
+            </div>
         </div>
     </section>
 
@@ -43,7 +46,18 @@
                 <!-- Load More Button (Only shows if there are more pages) -->
                 <div class="load-more-container">
                     <div id="load-more" class="btn">Load More</div>
+                </div>
             <?php endif; ?>
+            
+            <!-- Dynamic Back To Navigation -->
+            <div class="post-navigation">
+                <?php 
+                $parent = chubes_get_parent_page();
+                ?>
+                <a href="<?php echo esc_url($parent['url']); ?>" class="btn secondary">
+                    ← Back to <?php echo esc_html($parent['title']); ?>
+                </a>
+            </div>
         </div>
     </section>
 </main>

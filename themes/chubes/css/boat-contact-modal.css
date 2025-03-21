@@ -8,20 +8,24 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
 }
 
 /* Modal Content */
 .modal-content {
-    background-color: #222;
+    background-color: rgba(34, 34, 34, 0.95);
     color: #ddd;
     margin: 10% auto;
-    padding: 50px 20px 20px;
+    padding: 50px 25px 25px;
     width: 85%;
     max-width: 500px;
-    border: 2px solid #00c2ff;
+    border: 2px solid rgba(0, 194, 255, 0.6);
     border-radius: 8px;
     position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 194, 255, 0.15);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
 }
 
 /* Modal Header */
@@ -29,6 +33,7 @@
     margin-top: 0;
     font-size: 24px;
     text-align: center;
+    color: #fff;
 }
 
 /* Close Button */
@@ -40,10 +45,11 @@
     font-weight: bold;
     color: #00c2ff;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 .close:hover {
     color: #009dc0;
+    transform: scale(1.1);
 }
 
 /* Form Elements */
@@ -51,20 +57,21 @@
     display: block;
     margin: 15px 0 5px;
     font-weight: 600;
+    color: #ddd;
 }
 
 .modal-content form input[type="text"],
 .modal-content form input[type="email"],
 .modal-content form textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #00c2ff;
-    border-radius: 4px;
-    background: #111;
+    padding: 12px;
+    border: 1px solid rgba(0, 194, 255, 0.4);
+    border-radius: 6px;
+    background: rgba(17, 17, 17, 0.7);
     color: #ddd;
     font-size: 16px;
     box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .modal-content form input[type="text"]:focus,
@@ -72,11 +79,12 @@
 .modal-content form textarea:focus {
     border-color: #00e0ff;
     outline: none;
+    box-shadow: 0 0 8px rgba(0, 224, 255, 0.2);
 }
 
 .modal-content form textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 100px;
 }
 
 .boat-cta{
@@ -89,24 +97,40 @@
     display: inline-block;
     background: #00c2ff;
     color: #000;
-    padding: 12px 24px;
+    padding: 12px 28px;
     font-size: 16px;
     font-weight: 600;
     border: none;
     border-radius: 6px;
-    margin-top: 15px;
+    margin-top: 20px;
     cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.2);
 }
 
 .modal-content form button[type="submit"]:hover {
     background: #009dc0;
     color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 194, 255, 0.3);
 }
 
-.post-navigation{
-    margin-top: 18px;
+/* Error and Success Messages */
+.modal-content .form-error,
+.modal-content .form-success {
+    text-align: center;
+    margin-top: 10px;
+    display: none;
 }
+
+.modal-content .form-error {
+    color: #ff4f4f;
+}
+
+.modal-content .form-success {
+    color: #00e0ff;
+}
+
 
 .section-nav {
     background: #222;
@@ -138,4 +162,11 @@
 }
 html {
     scroll-behavior: smooth;
+}
+@media (max-width:768px) {
+    
+
+.section-nav li{
+    line-height: 1;
+}
 }

@@ -1,43 +1,74 @@
 <?php get_header(); ?>
 
 <main class="site-main">
+    <!-- Hero Section -->
     <section class="hero reveal">
         <div class="container">
-            <h1>Websites Built for Speed, SEO, & Growth</h1>
-            <p>I design and develop high-performance websites for businesses, brands, and creatives—built for speed, SEO, and conversions.</p>
-            <p><strong>Hit me up: </strong><a href="mailto:chubes@chubes.net">chubes@chubes.net</a></p>
+            <h1>One-Man Digital Powerhouse for Small Business Growth</h1>
+            <p>I build custom websites and digital solutions that work as hard as you do—no fluff, just results-driven features that help your business thrive online.</p>
+            <div class="contact-button">
+                <a href="/contact" class="btn">Let's Build Something Great</a>
+            </div>        
         </div>
     </section>
 
     <!-- Services Section -->
     <section class="services reveal">
     <div class="container">
-        <h2>What I Do</h2>
+        <h2>My Services</h2>
 
-        <div class="service-category reveal">
-            <h3>Web Development</h3>
-            <p>Custom or template-based websites that load fast, rank high, and drive revenue.</p>
-        </div>
+        <a href="/services#web-development" class="service-category-link">
+            <div class="service-category reveal">
+                <h3>Small Business Web Development</h3>
+                <p>Custom websites built with grit and purpose—no templates, no bloat, just clean code that drives real results for your local business.</p>
+            </div>
+        </a>
 
-        <div class="service-category reveal">
-            <h3>SEO & Performance</h3>
-            <p>Higher rankings, faster load times, and optimized content that gets results.</p>
-        </div>
+        <a href="/services#local-seo" class="service-category-link">
+            <div class="service-category reveal">
+                <h3>Local SEO & Performance</h3>
+                <p>Turn your website into a local powerhouse. Data-driven optimization that brings customers to your door, proven by my own success stories.</p>
+            </div>
+        </a>
 
-        <div class="service-category reveal">
-            <h3>Content & Lead Generation</h3>
-            <p>Smart keyword strategy and conversion-driven content to bring in the right audience.</p>
-        </div>
+        <a href="/services#content-marketing" class="service-category-link">
+            <div class="service-category reveal">
+                <h3>Content & Marketing</h3>
+                <p>Scale your content like I scaled Extra Chill to 300k monthly visitors. Strategic automation that works while you sleep.</p>
+            </div>
+        </a>
 
-        <div class="service-category reveal">
-            <h3>Automation & AI</h3>
-            <p>Save time with automated workflows, AI tools, and API integrations.</p>
-        </div>
+        <a href="/services#ai-automation" class="service-category-link">
+            <div class="service-category reveal">
+                <h3>AI & Automation</h3>
+                <p>Transform into a digital powerhouse. Custom AI tools and workflows that multiply your productivity and capabilities.</p>
+            </div>
+        </a>
         <div class="services-button">
-            <a href="/services" class="btn">View Services</a>
+            <a href="/services" class="btn">View Services & Pricing</a>
         </div>
     </div>
 </section>
+
+<!-- Why Choose Me Section -->
+<section class="why-choose-me">
+    <div class="container">
+        <div class="why-choose-me-inner">
+            <div class="why-choose-me-image">
+                <img src="<?php echo get_theme_mod('why_choose_me_image', get_template_directory_uri() . '/images/default-image.jpg'); ?>" alt="Chris Huber - Digital Entrepreneur">
+            </div>
+            <div class="why-choose-me-content">
+                <h2>Meet Chris Huber</h2>
+                <p>From captaining boats to building digital empires, I’ve built a career that fuses creativity, technology, and entrepreneurship.</p>
+                <p>Based in Austin, TX, I bring a unique perspective shaped by my experience as a 100-Ton Master Captain, music journalist, and digital entrepreneur. I’ve spent years documenting the DIY music scene, growing platforms like Extra Chill, and mastering the art of SEO, automation, and AI-driven web development.</p>
+                <p>Today, I help small businesses and creatives turn their digital presence into a powerhouse—leveraging cutting-edge tech, custom-built tools, and a relentless drive for results.</p>
+             <a href="/about" class="btn">Learn More About Me</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
 
 
@@ -83,43 +114,39 @@
     <section class="tech-stack">
     <div class="container">
         <h2 class="reveal">Under the Hood</h2>
-        <p>Whether you need a simple site or complex integrations, I have the technical skills to deliver.</p>
-        <div class="reveal">
-            <h3>Web Development & CMS</h3>
-            <ul>
-                <li>WordPress, WooCommerce, BBPress, The Events Calendar</li>
-                <li>Shopify, Dropshipping (Printful, POD solutions)</li>
-                <li>WordPress REST API & External API Integrations</li>
-            </ul>
-        </div>
-
-        <div class="reveal">
-            <h3>SEO & Performance</h3>
-            <ul>
-                <li>SEMrush, Ahrefs, LowFruits</li>
-                <li>Google Search Console, PageSpeed Insights</li>
-                <li>Keyword Research & SERP Analysis</li>
-                <li>Technical SEO & Site Audits</li>
-            </ul>
-        </div>
-
-        <div class="reveal">
-            <h3>API Integrations & Social Media</h3>
-            <ul>
-                <li><strong>Social APIs:</strong> Twitter, Facebook, Instagram, Pinterest, Tumblr, DeviantArt</li>
-                <li><strong>Event Platforms:</strong> Ticketmaster, Eventbrite, DICE.FM</li>
-                <li><strong>AI APIs:</strong> ChatGPT, Stable Diffusion</li>
-                <li><strong>Unique Data:</strong> Custom Web Scraping</li>
-            </ul>
-        </div>
-
-        <div class="reveal">
-            <h3>Email Marketing & Automation</h3>
-            <ul>
-                <li>Sendy (AWS-powered email marketing)</li>
-                <li>Mailchimp & Email List Growth Strategies</li>
-                <li>Newsletter Automation</li>
-            </ul>
+        <p>From basic websites to complex automations, I've mastered the tools that drive digital success. Every technology I use has been battle-tested in my own projects.</p>
+        
+        <div class="tech-cloud reveal">
+            <!-- Core Development -->
+            <div class="tech-item" data-category="web">WordPress</div>
+            <div class="tech-item" data-category="web">Custom Plugins</div>
+            <div class="tech-item" data-category="web">PHP</div>
+            <div class="tech-item" data-category="web">JavaScript</div>
+            <div class="tech-item" data-category="web">HTML/CSS</div>
+            
+            <!-- SEO Tools -->
+            <div class="tech-item" data-category="seo">Google Analytics</div>
+            <div class="tech-item" data-category="seo">Search Console</div>
+            <div class="tech-item" data-category="seo">Local SEO</div>
+            <div class="tech-item" data-category="seo">Schema Markup</div>
+            
+            <!-- API Integrations -->
+            <div class="tech-item" data-category="api">REST APIs</div>
+            <div class="tech-item" data-category="api">WooCommerce</div>
+            <div class="tech-item" data-category="api">Payment Gateways</div>
+            <div class="tech-item" data-category="api">3rd Party APIs</div>
+            
+            <!-- AI & Automation -->
+            <div class="tech-item" data-category="ai">ChatGPT API</div>
+            <div class="tech-item" data-category="ai">AI Content Tools</div>
+            <div class="tech-item" data-category="ai">Automation Scripts</div>
+            <div class="tech-item" data-category="ai">Custom AI Solutions</div>
+            
+            <!-- Marketing Tools -->
+            <div class="tech-item" data-category="marketing">Email Marketing</div>
+            <div class="tech-item" data-category="marketing">Social Media</div>
+            <div class="tech-item" data-category="marketing">Content Strategy</div>
+            <div class="tech-item" data-category="marketing">Analytics</div>
         </div>
     </div>
 </section>
