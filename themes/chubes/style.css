@@ -365,11 +365,7 @@ margin: 30px 0 25px;
     padding: 10px;
 }
 }
-.portfolio-single .container{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
+
 .load-more-container{
     display: flex;
     margin: 15px;
