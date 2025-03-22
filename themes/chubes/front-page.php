@@ -20,7 +20,7 @@
         <a href="/services#web-development" class="service-category-link">
             <div class="service-category reveal">
                 <h3>Small Business Web Development</h3>
-                <p>Custom websites built with grit and purpose—no templates, no bloat, just clean code that drives real results for your local business.</p>
+                <p>Custom websites built with grit and purpose. Engineered with precision to drive real results for your small business.</p>
             </div>
         </a>
 
