@@ -12,8 +12,8 @@ if (!defined('ABSPATH')) {
 // Enqueue Scripts and Styles only on the specific page
 function boat_website_enqueue_assets() {
     if (is_page('marine-industry-websites')) {
-        $js_path = get_template_directory() . '/js/boat-contact-modal.js';
-        $css_path = get_template_directory() . '/css/boat-contact-modal.css';
+        $js_path = get_template_directory() . '/assets/js/boat-contact-modal.js';
+        $css_path = get_template_directory() . '/assets/css/boat-contact-modal.css';
 
         // Dynamic versioning based on file modification time
         $js_version = file_exists($js_path) ? filemtime($js_path) : '1.0';
@@ -21,7 +21,7 @@ function boat_website_enqueue_assets() {
 
         wp_enqueue_script(
             'boat-contact-modal-js',
-            get_template_directory_uri() . '/js/boat-contact-modal.js',
+            get_template_directory_uri() . '/assets/js/boat-contact-modal.js',
             ['jquery'],
             $js_version,
             true
@@ -29,7 +29,7 @@ function boat_website_enqueue_assets() {
 
         wp_enqueue_style(
             'boat-contact-modal-css',
-            get_template_directory_uri() . '/css/boat-contact-modal.css',
+            get_template_directory_uri() . '/assets/css/boat-contact-modal.css',
             [],
             $css_version
         );
@@ -81,12 +81,12 @@ function process_boat_contact_form() {
     // Send confirmation email to user
     $user_subject = "Your Boat Website Consultation Request";
     $user_body = "Hi $name,\n\n";
-    $user_body .= "Thank you for requesting a consultation for your boat business, $company. I’ll reach out soon to discuss your website needs.\n\n";
+    $user_body .= "Thank you for requesting a consultation for your boat business, $company. I'll reach out soon to discuss your website needs.\n\n";
     $user_body .= "Best,\nChris Huber";
     wp_mail($email, $user_subject, $user_body, $headers);
 
     // Send JSON success response
-    wp_send_json_success(['message' => 'Thank you! I’ll contact you soon to discuss your boat website.']);
+    wp_send_json_success(['message' => 'Thank you! I\'ll contact you soon to discuss your boat website.']);
     exit;
 }
 add_action('wp_ajax_process_boat_contact_form', 'process_boat_contact_form');

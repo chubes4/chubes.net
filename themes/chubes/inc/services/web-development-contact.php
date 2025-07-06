@@ -96,8 +96,8 @@ function web_dev_contact_enqueue_assets() {
         $theme_uri = get_template_directory_uri();
 
         // Define file paths
-        $js_file = '/js/web-dev-contact.js';
-        $css_file = '/css/web-dev-contact.css';
+        $js_file = '/assets/js/web-dev-contact.js';
+        $css_file = '/assets/css/web-dev-contact.css';
 
         // Get file modification time for cache busting
         $js_version = file_exists($theme_dir . $js_file) ? filemtime($theme_dir . $js_file) : null;

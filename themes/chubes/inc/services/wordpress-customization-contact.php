@@ -75,12 +75,12 @@ function process_wp_customization_contact_form() {
     // Confirmation email for the user
     $user_subject = "Thank You for Your WordPress Customization Inquiry";
     $user_body  = "Hi " . $name . ",\n\n";
-    $user_body .= "Thank you for reaching out about your WordPress customization needs. I’ll review your message and get back to you soon to discuss how we can add that advanced feature to your site.\n\n";
+    $user_body .= "Thank you for reaching out about your WordPress customization needs. I'll review your message and get back to you soon to discuss how we can add that advanced feature to your site.\n\n";
     $user_body .= "Best regards,\nChris Huber\n" . get_bloginfo('name');
     
     wp_mail($email, $user_subject, $user_body, $headers);
     
-    wp_send_json_success(array('message' => 'Thank you for your request! I’ll get back to you soon.'));
+    wp_send_json_success(array('message' => 'Thank you for your request! I\'ll get back to you soon.'));
     exit;
 }
 add_action('wp_ajax_process_wp_customization_contact_form', 'process_wp_customization_contact_form');
@@ -91,16 +91,16 @@ function wp_customization_contact_enqueue_assets() {
     if (is_page('wordpress-customization')) { // Adjust the page slug as needed
         $theme_dir = get_template_directory_uri();
         // Dynamic versioning using file modification time
-        $js_version = filemtime(get_template_directory() . '/js/wordpress-customization-contact.js');
-        $css_version = filemtime(get_template_directory() . '/css/wordpress-customization-contact.css');
+        $js_version = filemtime(get_template_directory() . '/assets/js/wordpress-customization-contact.js');
+        $css_version = filemtime(get_template_directory() . '/assets/css/wordpress-customization-contact.css');
         
-        wp_enqueue_script('wp-customization-contact-ajax', $theme_dir . '/js/wordpress-customization-contact.js', array('jquery'), $js_version, true);
+        wp_enqueue_script('wp-customization-contact-ajax', $theme_dir . '/assets/js/wordpress-customization-contact.js', array('jquery'), $js_version, true);
         wp_localize_script('wp-customization-contact-ajax', 'wp_customization_contact_params', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('wp_customization_contact_nonce')
         ));
         
-        wp_enqueue_style('wp-customization-contact-css', $theme_dir . '/css/wordpress-customization-contact.css', array(), $css_version);
+        wp_enqueue_style('wp-customization-contact-css', $theme_dir . '/assets/css/wordpress-customization-contact.css', array(), $css_version);
     }
 }
 add_action('wp_enqueue_scripts', 'wp_customization_contact_enqueue_assets');

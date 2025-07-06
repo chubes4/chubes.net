@@ -1,0 +1,467 @@
+/* Home Page Specific Styles */
+
+/* Home Section Layout */
+.home section .container ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+}
+
+.home section .container {
+    border-bottom: .5px solid #444;
+    padding: 30px 0;
+}
+
+.home section.tech-stack .container {
+    border-bottom: none;
+}
+
+.service-category p, .home section .container p {
+    color: #ddd;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .home h1, .home h2 {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 425px) {
+    .home section .container ul, .journal-list {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+}
+
+/* Hero Section Enhancement */
+.hero {
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 194, 255, 0.03) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: -1;
+}
+
+.hero h1 {
+    font-size: 42px;
+    line-height: 1.2;
+    margin-bottom: 25px;
+    background: linear-gradient(45deg, #fff, #00e0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #ddd;
+    margin-bottom: 35px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.hero .contact-button {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.hero .btn {
+    padding: 15px 32px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero h1 {
+        font-size: 32px;
+    }
+    
+    .hero p {
+        font-size: 18px;
+    }
+}
+
+/* Services Section */
+.services {
+    padding: 20px 0;
+}
+
+.services h2 {
+    margin-bottom: 30px;
+}
+
+/* Service Category Link Styles */
+.service-category-link {
+    text-decoration: none;
+    display: block;
+    position: relative;
+    color: inherit;
+}
+
+.service-category-link:hover {
+    border-bottom: none;
+}
+
+.service-category-link:hover .service-category {
+    background: rgba(0, 194, 255, 0.06);
+    border-color: rgba(0, 194, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.service-category-link:hover .service-category::after {
+    opacity: 1;
+    transform: translate(5px, -50%);
+}
+
+/* Position fix for the arrow */
+.service-category {
+    position: relative;
+}
+
+/* Enhance link transitions */
+.service-category-link .service-category {
+    will-change: transform, background-color, border-color;
+}
+
+/* Services Section Enhancement */
+.services .container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.service-category {
+    background: rgba(0, 194, 255, 0.03);
+    border: 1px solid rgba(0, 194, 255, 0.1);
+    border-radius: 8px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.service-category:hover {
+    background: rgba(0, 194, 255, 0.06);
+    border-color: rgba(0, 194, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.service-category h3 {
+    margin: 0 0 15px;
+    color: #00c2ff;
+    font-size: 20px;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.service-category:hover h3 {
+    color: #00e0ff;
+}
+
+.service-category p {
+    margin: 0;
+    text-align: left;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+.services-button {
+    margin-top: 15px;
+}
+
+/* Make services section responsive */
+@media (min-width: 768px) {
+    .services .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .services h2,
+    .services-button {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Enhance button hover state */
+.services .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.2);
+}
+
+/* Add subtle animation to service categories */
+.service-category.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.service-category.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Add hover indicator */
+.service-category::after {
+    content: '→';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    color: #00c2ff;
+}
+
+.service-category:hover::after {
+    opacity: 1;
+    transform: translate(5px, -50%);
+}
+
+/* Tech Cloud Styles */
+.tech-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    perspective: 1000px;
+    margin-top: 30px;
+}
+
+.tech-item {
+    background: rgba(0, 194, 255, 0.1);
+    color: #ddd;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: default;
+    border: 1px solid rgba(0, 194, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Category-specific variations */
+.tech-item[data-category="web"] {
+    background: rgba(0, 194, 255, 0.08);
+    border-color: rgba(0, 194, 255, 0.25);
+}
+
+.tech-item[data-category="seo"] {
+    background: rgba(0, 224, 255, 0.06);
+    border-color: rgba(0, 224, 255, 0.2);
+}
+
+.tech-item[data-category="api"] {
+    background: rgba(0, 255, 194, 0.06);
+    border-color: rgba(0, 255, 194, 0.2);
+}
+
+.tech-item[data-category="ai"] {
+    background: rgba(194, 0, 255, 0.06);
+    border-color: rgba(194, 0, 255, 0.2);
+}
+
+.tech-item[data-category="marketing"] {
+    background: rgba(255, 194, 0, 0.06);
+    border-color: rgba(255, 194, 0, 0.2);
+}
+
+/* Enhanced hover effects */
+.tech-item:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: rgba(0, 194, 255, 0.15);
+    border-color: rgba(0, 194, 255, 0.4);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
+}
+
+.tech-item[data-category="seo"]:hover {
+    background: rgba(0, 224, 255, 0.15);
+    border-color: rgba(0, 224, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 224, 255, 0.15);
+}
+
+.tech-item[data-category="api"]:hover {
+    background: rgba(0, 255, 194, 0.15);
+    border-color: rgba(0, 255, 194, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 255, 194, 0.15);
+}
+
+.tech-item[data-category="ai"]:hover {
+    background: rgba(194, 0, 255, 0.15);
+    border-color: rgba(194, 0, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(194, 0, 255, 0.15);
+}
+
+.tech-item[data-category="marketing"]:hover {
+    background: rgba(255, 194, 0, 0.15);
+    border-color: rgba(255, 194, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 194, 0, 0.15);
+}
+
+/* Add subtle glow effect on hover */
+.tech-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(0, 194, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tech-item:hover::after {
+    opacity: 1;
+}
+
+/* Reveal animation enhancement for tech cloud */
+.tech-cloud.reveal {
+    transform: translateY(30px) scale(0.95);
+}
+
+.tech-cloud.reveal.active {
+    transform: translateY(0) scale(1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tech-cloud {
+        gap: 8px;
+    }
+    
+    .tech-item {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+}
+
+/* Why Choose Me Section */
+.why-choose-me-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.why-choose-me-image {
+    flex: 1;
+    max-width: 400px;
+}
+
+.why-choose-me-image img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 1;
+}
+
+.why-choose-me-content {
+    flex: 1;
+}
+
+.why-choose-me-content .btn {
+    width: max-content;
+    display: flex;
+    margin: auto;
+}
+
+.why-choose-me-content h2 {
+    color: #00c2ff;
+}
+
+.why-choose-me-content .btn:hover {
+    background: #009dc0;
+    color: #fff;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .why-choose-me-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .why-choose-me-image {
+        max-width: 100%;
+    }
+
+    .why-choose-me-content .btn {
+        display: block;
+        width: fit-content;
+        margin: 0 auto;
+    }
+}
+
+/* Trust Logos in Tech Stack Section */
+.tech-stack .trust-logos-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: 3rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid #444;
+}
+
+.trust-logo {
+    height: 48px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    filter: grayscale(30%);
+}
+
+.trust-logo:hover {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .tech-stack .trust-logos-container {
+        gap: 1.5rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+    }
+    
+    .trust-logo {
+        height: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tech-stack .trust-logos-container {
+        gap: 1rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+    }
+    
+    .trust-logo {
+        height: 28px;
+    }
+} 

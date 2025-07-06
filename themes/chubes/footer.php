@@ -15,11 +15,11 @@
 
 
         <div class="footer-info">
-            <p>Need a website or digital strategy? Let’s build something epic.</p>
+            <p>Need a website or digital strategy? Let's build something epic.</p>
             <p><a href="mailto:chubes@chubes.net" class="footer-cta">chubes@chubes.net</a></p>
             <?php 
 // Build the sprite URL with versioning based on file modification time.
-$social_sprite = get_stylesheet_directory_uri() . '/fonts/social-icons.svg?ver=' . filemtime(get_stylesheet_directory() . '/fonts/social-icons.svg');
+$social_sprite = get_stylesheet_directory_uri() . '/assets/fonts/social-icons.svg?ver=' . filemtime(get_stylesheet_directory() . '/assets/fonts/social-icons.svg');
 ?>
 <ul class="social-links">
   <li>

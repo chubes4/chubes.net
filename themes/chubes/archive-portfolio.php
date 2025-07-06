@@ -4,8 +4,8 @@
     <section class="portfolio-header enhanced">
         <div class="container">
             <div class="archive-header-inner">
-            <h1>My Digital Craftsmanship Portfolio</h1>
-            <p>Explore custom WordPress builds, high-performance solutions, and innovative tools—crafted with focus and grit to deliver real results for small businesses.</p>
+            <h1>My Developer Portfolio</h1>
+            <p>Explore my collection of custom WordPress builds, high-performance solutions, and innovative marketing tools.</p>
                 <div class="header-accent"></div>
             </div>
         </div>

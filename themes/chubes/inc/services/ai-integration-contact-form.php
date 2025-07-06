@@ -75,12 +75,12 @@ function process_ai_integration_contact_form() {
     // Confirmation email for the user
     $user_subject = "Thank You for Your AI Integration Inquiry";
     $user_body  = "Hi " . $name . ",\n\n";
-    $user_body .= "Thank you for reaching out about AI integration. I’ll review your message and contact you soon to discuss how we can transform your workflow with AI.\n\n";
+    $user_body .= "Thank you for reaching out about AI integration. I'll review your message and contact you soon to discuss how we can transform your workflow with AI.\n\n";
     $user_body .= "Best regards,\nChris Huber\n" . get_bloginfo('name');
     
     wp_mail($email, $user_subject, $user_body, $headers);
     
-    wp_send_json_success(array('message' => 'Thank you for your request! I’ll get back to you soon.'));
+    wp_send_json_success(array('message' => 'Thank you for your request! I\'ll get back to you soon.'));
     exit;
 }
 add_action('wp_ajax_process_ai_integration_contact_form', 'process_ai_integration_contact_form');
@@ -91,16 +91,16 @@ function ai_integration_contact_enqueue_assets() {
     if (is_page('ai-integration')) { // Adjust the page slug as needed
         $theme_dir = get_template_directory_uri();
         // Dynamic versioning using file modification time
-        $js_version = filemtime(get_template_directory() . '/js/ai-integration-contact.js');
-        $css_version = filemtime(get_template_directory() . '/css/ai-integration-contact.css');
+        $js_version = filemtime(get_template_directory() . '/assets/js/ai-integration-contact.js');
+        $css_version = filemtime(get_template_directory() . '/assets/css/ai-integration-contact.css');
         
-        wp_enqueue_script('ai-integration-contact-ajax', $theme_dir . '/js/ai-integration-contact.js', array('jquery'), $js_version, true);
+        wp_enqueue_script('ai-integration-contact-ajax', $theme_dir . '/assets/js/ai-integration-contact.js', array('jquery'), $js_version, true);
         wp_localize_script('ai-integration-contact-ajax', 'ai_integration_contact_params', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('ai_integration_contact_nonce')
         ));
         
-        wp_enqueue_style('ai-integration-contact-css', $theme_dir . '/css/ai-integration-contact.css', array(), $css_version);
+        wp_enqueue_style('ai-integration-contact-css', $theme_dir . '/assets/css/ai-integration-contact.css', array(), $css_version);
     }
 }
 add_action('wp_enqueue_scripts', 'ai_integration_contact_enqueue_assets');

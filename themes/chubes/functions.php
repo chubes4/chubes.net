@@ -16,13 +16,18 @@ function chubes_enqueue_scripts() {
     // Enqueue main stylesheet with dynamic versioning
     wp_enqueue_style('chubes-style', get_stylesheet_uri(), array(), filemtime(get_template_directory() . '/style.css'));
     
+    // Enqueue home page CSS on front page
+    if (is_front_page()) {
+        wp_enqueue_style('home-style', get_template_directory_uri() . '/assets/css/home.css', array(), filemtime(get_template_directory() . '/assets/css/home.css'));
+    }
+    
     // Enqueue page-specific assets
     if (is_page('services')) {
         // Enqueue Services page CSS
-        wp_enqueue_style('services-style', get_template_directory_uri() . '/css/page-services.css', array(), filemtime(get_template_directory() . '/css/page-services.css'));
+        wp_enqueue_style('services-style', get_template_directory_uri() . '/assets/css/page-services.css', array(), filemtime(get_template_directory() . '/assets/css/page-services.css'));
         
         // Enqueue Services page JavaScript and localize the AJAX URL
-        wp_enqueue_script('services-script', get_template_directory_uri() . '/js/services.js', array('jquery'), filemtime(get_template_directory() . '/js/services.js'), true);
+        wp_enqueue_script('services-script', get_template_directory_uri() . '/assets/js/services.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/services.js'), true);
         wp_localize_script('services-script', 'chubes_vars', array(
             'ajaxUrl' => admin_url('admin-post.php')
         ));
@@ -30,7 +35,7 @@ function chubes_enqueue_scripts() {
     
     if (is_post_type_archive('portfolio')) {
         // Enqueue load-more.js only on portfolio archive pages
-        wp_enqueue_script('load-more', get_template_directory_uri() . '/js/load-more.js', array('jquery'), filemtime(get_template_directory() . '/js/load-more.js'), true);
+        wp_enqueue_script('load-more', get_template_directory_uri() . '/assets/js/load-more.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/load-more.js'), true);
         
         global $wp_query;
         wp_localize_script('load-more', 'loadmore_params', array(
@@ -40,27 +45,9 @@ function chubes_enqueue_scripts() {
         ));
     }
     
-        wp_enqueue_script('reveal', get_template_directory_uri() . '/js/reveal.js', array('jquery'), filemtime(get_template_directory() . '/js/reveal.js'), true);
+        wp_enqueue_script('reveal', get_template_directory_uri() . '/assets/js/reveal.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/reveal.js'), true);
 }
 add_action('wp_enqueue_scripts', 'chubes_enqueue_scripts');
-
-
-
-
-
-
-// Automatically include all PHP files in the /php/ folder
-function chubes_include_php_files() {
-    $php_dir = get_template_directory() . '/php/';
-
-    if (file_exists($php_dir)) {
-        foreach (glob($php_dir . '*.php') as $file) {
-            require_once $file;
-        }
-    }
-}
-chubes_include_php_files();
-
 
 // Remove WordPress version for security
 function chubes_remove_wp_version() {
@@ -143,4 +130,80 @@ function chubes_get_parent_page() {
     }
     
     return $parent;
+}
+
+// Explicitly include all service-related PHP files from /inc/services/
+$services_dir = get_template_directory() . '/inc/services/';
+$service_files = [
+    'ai-integration-contact-form.php',
+    'boat-website-contact.php',
+    'get-a-quote.php',
+    'free-local-seo-audits.php',
+    'wordpress-customization-contact.php',
+    'web-development-contact.php'
+];
+
+foreach ($service_files as $file) {
+    $path = $services_dir . $file;
+    if (file_exists($path)) {
+        require_once $path;
+    }
+}
+
+// Explicitly include all general PHP files from /inc/
+$inc_dir = get_template_directory() . '/inc/';
+$inc_files = [
+    'custom-post-types.php',
+    'customizer.php',
+    'breadcrumbs.php',
+    'contact-ajax.php',
+    // other inc files remain here
+];
+
+// Include portfolio-related files
+$portfolio_dir = get_template_directory() . '/inc/portfolio/';
+$portfolio_files = [
+    'portfolio-custom-fields.php',
+    'portfolio-image-overlay.php'
+];
+
+foreach ($portfolio_files as $file) {
+    $path = $portfolio_dir . $file;
+    if (file_exists($path)) {
+        require_once $path;
+    }
+}
+
+// Include utility files
+$utils_dir = get_template_directory() . '/inc/utils/';
+$utils_files = [
+    'load-more.php',
+    'instagram-embeds.php'
+];
+
+foreach ($inc_files as $file) {
+    $path = $inc_dir . $file;
+    if (file_exists($path)) {
+        require_once $path;
+    }
+}
+
+foreach ($utils_files as $file) {
+    $path = $utils_dir . $file;
+    if (file_exists($path)) {
+        require_once $path;
+    }
+}
+
+// Include plugin-related files
+$plugins_dir = get_template_directory() . '/inc/plugins/';
+$plugin_files = [
+    'plugin-custom-fields.php'
+];
+
+foreach ($plugin_files as $file) {
+    $path = $plugins_dir . $file;
+    if (file_exists($path)) {
+        require_once $path;
+    }
 }

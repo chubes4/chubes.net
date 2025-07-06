@@ -89,14 +89,14 @@ add_action( 'wp_ajax_nopriv_process_seo_audit_form', 'process_seo_audit_form' );
 function seo_audit_enqueue_assets() {
     if ( is_page( array( 'free-local-seo-audits', 'local-seo' ) ) ) {
         // Enqueue the AJAX script
-        wp_enqueue_script( 'seo-audit-ajax', get_template_directory_uri() . '/js/seo-audit.js', array('jquery'), null, true );
+        wp_enqueue_script( 'seo-audit-ajax', get_template_directory_uri() . '/assets/js/seo-audit.js', array('jquery'), null, true );
         wp_localize_script( 'seo-audit-ajax', 'seo_audit_params', array(
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'nonce'    => wp_create_nonce( 'seo_audit_nonce' )
         ));
         
         // Enqueue the CSS for the SEO Audit form
-        wp_enqueue_style( 'seo-audit-css', get_template_directory_uri() . '/css/free-local-seo-audits.css' );
+        wp_enqueue_style( 'seo-audit-css', get_template_directory_uri() . '/assets/css/free-local-seo-audits.css' );
     }
 }
 add_action( 'wp_enqueue_scripts', 'seo_audit_enqueue_assets' );

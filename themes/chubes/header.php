@@ -40,6 +40,7 @@
       <li><a href="<?php echo esc_url( home_url( '/services' ) ); ?>">Services</a></li>
       <li><a href="<?php echo esc_url( home_url( '/blog' ) ); ?>">Blog</a></li>
       <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/visualizer' ) ); ?>">Visualizer</a></li>
     </ul>
   </nav>
 </div>

@@ -8,10 +8,10 @@ function contact_enqueue_assets() {
         $theme_path = get_template_directory();
         
         // Enqueue the CSS file with filemtime for cache busting.
-        wp_enqueue_style( 'contact-css', $theme_dir . '/css/contact.css', array(), filemtime( $theme_path . '/css/contact.css' ) );
+        wp_enqueue_style( 'contact-css', $theme_dir . '/assets/css/contact.css', array(), filemtime( $theme_path . '/assets/css/contact.css' ) );
         
         // Enqueue the JS file with filemtime for cache busting.
-        wp_enqueue_script( 'contact-js', $theme_dir . '/js/contact.js', array('jquery'), filemtime( $theme_path . '/js/contact.js' ), true );
+        wp_enqueue_script( 'contact-js', $theme_dir . '/assets/js/contact.js', array('jquery'), filemtime( $theme_path . '/assets/js/contact.js' ), true );
         
         // Localize the script with the AJAX URL and a security nonce.
         wp_localize_script( 'contact-js', 'contact_params', array(
@@ -33,7 +33,7 @@ function process_contact_form() {
         wp_die();
     }
     
-    // Check that the form wasn’t submitted too quickly.
+    // Check that the form wasn't submitted too quickly.
     $submitted_time = isset( $_POST['contact_timestamp'] ) ? intval( $_POST['contact_timestamp'] ) : 0;
     if ( ( time() - $submitted_time ) < 5 ) {
         wp_send_json_error( array( 'message' => 'Form submitted too quickly. Please try again.' ) );
