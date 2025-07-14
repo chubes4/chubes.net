@@ -198,7 +198,8 @@ foreach ($utils_files as $file) {
 // Include plugin-related files
 $plugins_dir = get_template_directory() . '/inc/plugins/';
 $plugin_files = [
-    'plugin-custom-fields.php'
+    'plugin-custom-fields.php',
+    'track-plugin-installs.php'
 ];
 
 foreach ($plugin_files as $file) {
