@@ -326,7 +326,7 @@ button{
     border: none;
 }
 
-.portfolio-button, .post-navigation, .services-button{
+.portfolio-button, .post-navigation{
     display: flex;
     justify-content: center;
 }
@@ -538,20 +538,21 @@ body.admin-bar .hamburger {
     transform: translate(-50%, -50%);
 }
 
-/* Basic list styles */
-.overlay-nav ul {
+/* Basic menu styles for WordPress menu */
+.overlay-nav .overlay-menu {
     list-style: none;
     text-align: center;
     padding: 0;
     margin: 0;
 }
 
-.overlay-nav ul li {
+.overlay-nav .overlay-menu li {
     margin: 1rem 0;
+    position: relative;
 }
 
 /* Links start off hidden; we'll fade/slide them in when .open is toggled */
-.overlay-nav ul li a {
+.overlay-nav .overlay-menu li a {
     color: #fff;
     text-decoration: none;
     font-size: 1.5rem;
@@ -560,25 +561,113 @@ body.admin-bar .hamburger {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+.overlay-nav .overlay-menu li a:hover {
+    color: #00e0ff;
+}
+
 /* Reveal the links in a staggered fashion when .open is active */
-.nav-overlay.open .overlay-nav ul li a {
+.nav-overlay.open .overlay-nav .overlay-menu li a {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Stagger them for a cascading reveal */
-.nav-overlay.open .overlay-nav ul li:nth-child(1) a { transition-delay: 0.1s; }
-.nav-overlay.open .overlay-nav ul li:nth-child(2) a { transition-delay: 0.2s; }
-.nav-overlay.open .overlay-nav ul li:nth-child(3) a { transition-delay: 0.3s; }
-.nav-overlay.open .overlay-nav ul li:nth-child(4) a { transition-delay: 0.4s; }
-.nav-overlay.open .overlay-nav ul li:nth-child(5) a { transition-delay: 0.5s; }
+/* Dropdown/submenu toggle button */
+.overlay-nav .overlay-menu li.menu-item-has-children > a::after {
+    content: ' ▼';
+    font-size: 0.8em;
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+.overlay-nav .overlay-menu li.menu-item-has-children.submenu-open > a::after {
+    transform: rotate(180deg);
+}
+
+/* Submenu styles */
+.overlay-nav .overlay-menu .sub-menu {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.overlay-nav .overlay-menu .sub-menu.submenu-open {
+    max-height: 500px;
+}
+
+.overlay-nav .overlay-menu .sub-menu li {
+    margin: 0.5rem 0;
+}
+
+.overlay-nav .overlay-menu .sub-menu li a {
+    font-size: 1.2rem;
+    color: #ccc;
+    padding-left: 20px;
+}
+
+.overlay-nav .overlay-menu .sub-menu li a:hover {
+    color: #00e0ff;
+}
+
+/* Stagger them for a cascading reveal - support up to 8 items */
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(1) a { transition-delay: 0.1s; }
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(2) a { transition-delay: 0.2s; }
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(3) a { transition-delay: 0.3s; }
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(4) a { transition-delay: 0.4s; }
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(5) a { transition-delay: 0.5s; }
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(6) a { transition-delay: 0.6s; }
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(7) a { transition-delay: 0.7s; }
+.nav-overlay.open .overlay-nav .overlay-menu li:nth-child(8) a { transition-delay: 0.8s; }
 
 /* Reverse cascade when closing */
-.nav-overlay.closing .overlay-nav ul li:nth-child(1) a { transition-delay: 0.5s; }
-.nav-overlay.closing .overlay-nav ul li:nth-child(2) a { transition-delay: 0.4s; }
-.nav-overlay.closing .overlay-nav ul li:nth-child(3) a { transition-delay: 0.3s; }
-.nav-overlay.closing .overlay-nav ul li:nth-child(4) a { transition-delay: 0.2s; }
-.nav-overlay.closing .overlay-nav ul li:nth-child(5) a { transition-delay: 0.1s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(1) a { transition-delay: 0.8s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(2) a { transition-delay: 0.7s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(3) a { transition-delay: 0.6s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(4) a { transition-delay: 0.5s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(5) a { transition-delay: 0.4s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(6) a { transition-delay: 0.3s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(7) a { transition-delay: 0.2s; }
+.nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(8) a { transition-delay: 0.1s; }
+
+/* Legacy ul support - maintains backward compatibility */
+.overlay-nav ul:not(.overlay-menu) {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.overlay-nav ul:not(.overlay-menu) li {
+    margin: 1rem 0;
+}
+
+.overlay-nav ul:not(.overlay-menu) li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li a {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(1) a { transition-delay: 0.1s; }
+.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(2) a { transition-delay: 0.2s; }
+.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(3) a { transition-delay: 0.3s; }
+.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(4) a { transition-delay: 0.4s; }
+.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(5) a { transition-delay: 0.5s; }
+
+.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(1) a { transition-delay: 0.5s; }
+.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(2) a { transition-delay: 0.4s; }
+.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(3) a { transition-delay: 0.3s; }
+.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(4) a { transition-delay: 0.2s; }
+.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(5) a { transition-delay: 0.1s; }
 
 /* Breadcrumbs Styling */
 .breadcrumbs {

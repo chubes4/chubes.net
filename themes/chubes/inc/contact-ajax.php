@@ -48,7 +48,7 @@ function process_contact_form() {
     
     // Prepare the email to be sent to the admin.
     $admin_email   = get_option( 'admin_email' );
-    $email_subject = 'New Portfolio Contact Message';
+    $email_subject = 'New Contact Message from Chubes.net';
     
     $email_body  = "Name: {$name}\n";
     $email_body .= "Email: {$email}\n";
@@ -70,8 +70,11 @@ function process_contact_form() {
     $user_subject = 'Thanks for reaching out!';
     $user_body  = "Hi {$name},\n\n";
     $user_body .= "Thank you for reaching out. I've received your message and will get back to you as soon as possible.\n\n";
-    $user_body .= "In the meantime, feel free to check out my services here: https://chubes.net/services\n";
-    $user_body .= "Also, you can read my blog at: https://chubes.net/blog\n\n";
+    $user_body .= "In the meantime, feel free to check out my work:\n";
+    $user_body .= "- WordPress plugins: https://chubes.net/plugins\n";
+    $user_body .= "- Portfolio: https://chubes.net/portfolio\n";
+    $user_body .= "- Extra Chill music platform: https://extrachill.com\n";
+    $user_body .= "- Blog: https://chubes.net/blog\n\n";
     $user_body .= "Best regards,\nChris Huber";
     
     $user_sent = wp_mail( $email, $user_subject, $user_body, $headers );

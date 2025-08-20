@@ -102,140 +102,84 @@
     }
 }
 
-/* Services Section */
-.services {
+/* Featured Projects Section */
+.featured-projects {
     padding: 20px 0;
 }
 
-.services h2 {
+.featured-projects h2 {
     margin-bottom: 30px;
 }
 
-/* Service Category Link Styles */
-.service-category-link {
-    text-decoration: none;
-    display: block;
+/* Project Category Styles */
+.project-category {
+    background: rgba(34, 34, 34, 0.95);
+    border: 1px solid rgba(68, 68, 68, 0.6);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
     position: relative;
-    color: inherit;
 }
 
-.service-category-link:hover {
-    border-bottom: none;
-}
-
-.service-category-link:hover .service-category {
+.project-category:hover {
     background: rgba(0, 194, 255, 0.06);
     border-color: rgba(0, 194, 255, 0.2);
     transform: translateY(-2px);
 }
 
-.service-category-link:hover .service-category::after {
-    opacity: 1;
-    transform: translate(5px, -50%);
+.project-category h3 {
+    margin-bottom: 15px;
+    color: #fff;
 }
 
-/* Position fix for the arrow */
-.service-category {
-    position: relative;
+.project-category p {
+    margin-bottom: 20px;
+    color: #ddd;
 }
 
-/* Enhance link transitions */
-.service-category-link .service-category {
-    will-change: transform, background-color, border-color;
+.project-category .btn {
+    margin-top: 10px;
 }
 
-/* Services Section Enhancement */
-.services .container {
+/* Featured Projects Section Enhancement */
+.featured-projects .container {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
-.service-category {
-    background: rgba(0, 194, 255, 0.03);
-    border: 1px solid rgba(0, 194, 255, 0.1);
-    border-radius: 8px;
-    padding: 25px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
 
-.service-category:hover {
-    background: rgba(0, 194, 255, 0.06);
-    border-color: rgba(0, 194, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.service-category h3 {
-    margin: 0 0 15px;
-    color: #00c2ff;
-    font-size: 20px;
-    text-align: center;
-    transition: color 0.3s ease;
-}
-
-.service-category:hover h3 {
-    color: #00e0ff;
-}
-
-.service-category p {
-    margin: 0;
-    text-align: left;
-    line-height: 1.6;
-    color: #ddd;
-}
-
-.services-button {
-    margin-top: 15px;
-}
-
-/* Make services section responsive */
+/* Make featured projects section responsive */
 @media (min-width: 768px) {
-    .services .container {
+    .featured-projects .container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
     }
     
-    .services h2,
-    .services-button {
+    .featured-projects h2 {
         grid-column: 1 / -1;
     }
 }
 
 /* Enhance button hover state */
-.services .btn:hover {
+.featured-projects .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 194, 255, 0.2);
 }
 
-/* Add subtle animation to service categories */
-.service-category.reveal {
+/* Add subtle animation to project categories */
+.project-category.reveal {
     opacity: 0;
     transform: translateY(30px);
 }
 
-.service-category.reveal.active {
+.project-category.reveal.active {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Add hover indicator */
-.service-category::after {
-    content: '→';
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: all 0.3s ease;
-    color: #00c2ff;
-}
-
-.service-category:hover::after {
-    opacity: 1;
-    transform: translate(5px, -50%);
-}
 
 /* Tech Cloud Styles */
 .tech-cloud {
@@ -357,20 +301,20 @@
     }
 }
 
-/* Why Choose Me Section */
-.why-choose-me-inner {
+/* About Section */
+.about-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 40px;
 }
 
-.why-choose-me-image {
+.about-image {
     flex: 1;
     max-width: 400px;
 }
 
-.why-choose-me-image img {
+.about-image img {
     width: 100%;
     border-radius: 8px;
     display: block;
@@ -378,37 +322,37 @@
     aspect-ratio: 1;
 }
 
-.why-choose-me-content {
+.about-content {
     flex: 1;
 }
 
-.why-choose-me-content .btn {
+.about-content .btn {
     width: max-content;
     display: flex;
     margin: auto;
 }
 
-.why-choose-me-content h2 {
+.about-content h2 {
     color: #00c2ff;
 }
 
-.why-choose-me-content .btn:hover {
+.about-content .btn:hover {
     background: #009dc0;
     color: #fff;
 }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-    .why-choose-me-inner {
+    .about-inner {
         flex-direction: column;
         text-align: center;
     }
 
-    .why-choose-me-image {
+    .about-image {
         max-width: 100%;
     }
 
-    .why-choose-me-content .btn {
+    .about-content .btn {
         display: block;
         width: fit-content;
         margin: 0 auto;

@@ -34,14 +34,13 @@
 <!-- Fullscreen Overlay -->
 <div class="nav-overlay" id="overlay">
   <nav class="overlay-nav">
-    <ul>
-      <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/portfolio' ) ); ?>">Portfolio</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/services' ) ); ?>">Services</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/blog' ) ); ?>">Blog</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/visualizer' ) ); ?>">Visualizer</a></li>
-    </ul>
+    <?php
+    wp_nav_menu(array(
+        'theme_location' => 'primary',
+        'menu_class' => 'overlay-menu',
+        'container' => false,
+    ));
+    ?>
   </nav>
 </div>
 </header>

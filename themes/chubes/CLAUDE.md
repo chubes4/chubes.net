@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Chubes Theme** is a custom WordPress theme for https://chubes.net, serving as a personal/professional portfolio and service showcase for Chris Huber's WordPress development, creative services, and digital tools business.
+**Chubes Theme** is a custom WordPress theme for https://chubes.net, serving as a personal/professional portfolio and showcase for Chris Huber's AI-first WordPress development, music journalism, and content automation systems.
+
+*For detailed context about Chris's background, expertise, and strategic positioning, see `who-is-chubes.md` (private developer reference, gitignored).*
 
 ## Development Commands
 
@@ -20,33 +22,38 @@ This theme uses traditional WordPress development without build tools:
 ### Core Structure
 - **Traditional WordPress theme** with modular PHP organization
 - **Custom post types**: Portfolio, Journal, Game, Plugin
-- **Service-focused contact forms** with anti-spam protection
+- **Contact form system** with anti-spam protection
 - **Manual asset management** with conditional loading
 
 ### Directory Structure
 ```
 /chubes/
-├── Template files (404.php, front-page.php, page-*.php, single*.php, etc.)
+├── Template files:
+│   ├── 404.php - Custom 404 error page
+│   ├── archive.php - Generic archive template with dynamic headers
+│   ├── front-page.php - Homepage template
+│   ├── page-*.php - Specialized page templates
+│   └── single*.php - Post type templates
 ├── /assets/
 │   ├── /css/ - Page-specific stylesheets
 │   ├── /js/ - JavaScript for AJAX, animations, interactions  
 │   └── /fonts/ - Custom fonts (Inter, Space Grotesk) + SVG icons
 ├── /inc/ - Modular PHP functionality:
-│   ├── /services/ - Contact forms for different services
+│   ├── contact-ajax.php - Contact form implementation
 │   ├── /portfolio/ - Portfolio custom fields & image overlays
 │   ├── /plugins/ - Plugin install tracking system
-│   └── /utils/ - Load more, Instagram embeds, breadcrumbs
-└── functions.php - Theme setup & asset loading
+│   └── /utils/ - Load more, Instagram embeds
+└── functions.php - Theme setup, navigation, & asset loading
 ```
 
 ### Key Systems
 
-#### Contact & Lead Generation
-Multiple specialized contact forms in `/inc/services/`:
-- AI Integration, WordPress Customization, Web Development
-- Boat Website Development, SEO Audits
-- All use honeypot/timestamp spam protection + AJAX
-- Send both admin and user notification emails
+#### Contact System
+Simple, secure contact form system:
+- Single contact form with honeypot/timestamp spam protection
+- AJAX submission with user feedback
+- Sends both admin and user notification emails
+- WordPress nonce security and input sanitization
 
 #### Portfolio System
 - Grid display with hover overlays (`/inc/portfolio/`)
@@ -54,16 +61,18 @@ Multiple specialized contact forms in `/inc/services/`:
 - AJAX load-more functionality
 - Image overlay with "Visit Live Site" buttons
 
-#### Plugin Distribution (New Feature)
-- WordPress.org API integration for install tracking
-- Automated daily updates via cron jobs
-- Admin interface for manual updates (`/inc/plugins/`)
+#### Plugin Distribution System
+- **Full WordPress.org API integration** for real-time install tracking
+- **Automated daily cron updates** via `wp_schedule_event()`
+- **Admin interface** with manual update controls (`/inc/plugins/`)
+- **Install count aggregation** across all plugins
+- **Auto-updates on post save** for immediate data refresh
 
 ### Asset Loading Patterns
 
 CSS/JS conditionally loaded in `functions.php`:
 - **Front page**: `home.css`
-- **Services page**: `page-services.css` + `services.js`
+- **Contact page**: `contact.css` + `contact.js`
 - **Portfolio archive**: `load-more.js` with localized AJAX params
 - **Global**: `reveal.js` for scroll animations
 
@@ -77,21 +86,28 @@ PHP to JS data uses `wp_localize_script` with naming pattern:
 - **Game** (`/game`) - Game hosting/showcase (new)
 - **Plugin** (`/plugin`) - Plugin distribution (new)
 
+### Navigation System
+Advanced parent page navigation implemented in `functions.php:70-138`:
+- **Dynamic breadcrumb generation** for all post types and archives
+- **Context-aware back navigation** (Blog posts → Blog, Portfolio → Portfolio, etc.)
+- **Hierarchical page support** with ancestor detection
+- **Custom post type archive detection**
+
 ## Recent Major Changes
 
 Based on git history:
-- Restructured theme (removed old PHP directory/autoloader)
-- Added Games and Plugins custom post types
-- Implemented plugin install tracking system
-- Preparation for expansion into plugin/game distribution
+- **Theme restructuring** (removed old PHP directory/autoloader)
+- **Asset reorganization** (moved CSS/fonts from root to `/assets/`)
+- **New template additions** (`404.php`, `archive.php` with dynamic headers)
+- **Enhanced plugin tracking system** (full API integration, admin interface)
+- **Advanced navigation system** (parent page detection, dynamic breadcrumbs)
 
 ## Development Guidelines
 
-### Following Cursor Rules
-The project maintains documentation in `.cursor/rules/`:
-- `project-architecture.mdc` - Current codebase documentation
-- `project-plan.mdc` - Future development roadmap
-- `documentation-rules.mdc` - Documentation standards
+### Development Documentation
+Project documentation is maintained in:
+- `CLAUDE.md` - Current codebase architecture and guidance
+- `README.md` - Developer setup and overview
 
 ### Code Conventions
 - **No build tools** - direct file editing
@@ -100,7 +116,7 @@ The project maintains documentation in `.cursor/rules/`:
 - **Performance optimizations** - disabled emojis, removed WP version
 
 ### Common Development Tasks
-- **Add new contact form**: Create in `/inc/services/`, add to `functions.php` includes
+- **Contact form modifications**: Update `/inc/contact-ajax.php` and contact page assets
 - **Portfolio modifications**: Work with `/inc/portfolio/` files
 - **Asset changes**: Edit directly in `/assets/`, cache-busting automatic
 - **Custom post type changes**: Modify `/inc/custom-post-types.php`

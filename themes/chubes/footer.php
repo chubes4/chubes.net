@@ -4,10 +4,10 @@
             <ul>
                 <li><a href="<?php echo home_url('/about'); ?>">About</a></li>
                 <li><a href="<?php echo home_url('/portfolio'); ?>">Portfolio</a></li>
-                <li><a href="<?php echo home_url('/services'); ?>">Services</a></li>
+                <li><a href="<?php echo home_url('/plugins'); ?>">Plugins</a></li>
                 <li><a href="<?php echo home_url('/blog'); ?>">Blog</a></li>
                 <li><a href="<?php echo home_url('/journal'); ?>">Journal</a></li>
-                <li><a href="<?php echo home_url('/services/free-local-seo-audits'); ?>">Free Local SEO Audits</a></li>
+                <li><a href="https://extrachill.com" target="_blank">Extra Chill</a></li>
             </ul>
         </div>
 
@@ -15,7 +15,7 @@
 
 
         <div class="footer-info">
-            <p>Need a website or digital strategy? Let's build something epic.</p>
+            <p>WordPress developer, music journalist, and creator of digital tools that matter.</p>
             <p><a href="mailto:chubes@chubes.net" class="footer-cta">chubes@chubes.net</a></p>
             <?php 
 // Build the sprite URL with versioning based on file modification time.

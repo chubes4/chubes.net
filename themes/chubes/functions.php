@@ -8,6 +8,11 @@ function chubes_theme_setup() {
     add_theme_support('menus');
     add_theme_support('editor-styles');
     add_editor_style('style.css');
+    
+    // Register navigation menu location
+    register_nav_menus(array(
+        'primary' => __('Primary Navigation', 'chubes-theme'),
+    ));
 }
 add_action('after_setup_theme', 'chubes_theme_setup');
 
@@ -22,16 +27,6 @@ function chubes_enqueue_scripts() {
     }
     
     // Enqueue page-specific assets
-    if (is_page('services')) {
-        // Enqueue Services page CSS
-        wp_enqueue_style('services-style', get_template_directory_uri() . '/assets/css/page-services.css', array(), filemtime(get_template_directory() . '/assets/css/page-services.css'));
-        
-        // Enqueue Services page JavaScript and localize the AJAX URL
-        wp_enqueue_script('services-script', get_template_directory_uri() . '/assets/js/services.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/services.js'), true);
-        wp_localize_script('services-script', 'chubes_vars', array(
-            'ajaxUrl' => admin_url('admin-post.php')
-        ));
-    }
     
     if (is_post_type_archive('portfolio')) {
         // Enqueue load-more.js only on portfolio archive pages
@@ -132,23 +127,7 @@ function chubes_get_parent_page() {
     return $parent;
 }
 
-// Explicitly include all service-related PHP files from /inc/services/
-$services_dir = get_template_directory() . '/inc/services/';
-$service_files = [
-    'ai-integration-contact-form.php',
-    'boat-website-contact.php',
-    'get-a-quote.php',
-    'free-local-seo-audits.php',
-    'wordpress-customization-contact.php',
-    'web-development-contact.php'
-];
 
-foreach ($service_files as $file) {
-    $path = $services_dir . $file;
-    if (file_exists($path)) {
-        require_once $path;
-    }
-}
 
 // Explicitly include all general PHP files from /inc/
 $inc_dir = get_template_directory() . '/inc/';
