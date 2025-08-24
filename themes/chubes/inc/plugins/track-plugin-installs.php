@@ -1,20 +1,5 @@
 <?php
-/**
- * Plugin Install Tracking System
- * 
- * Fetches plugin install data from WordPress.org API and stores it locally.
- * Provides functions to get individual plugin installs and total installs across all plugins.
- *
- * @author Chris Huber
- * @link https://chubes.net
- */
 
-/**
- * Fetch plugin data from WordPress.org API
- * 
- * @param string $plugin_slug The plugin slug from WordPress.org
- * @return array|false Plugin data or false on failure
- */
 function chubes_fetch_plugin_data($plugin_slug) {
     $api_url = "https://api.wordpress.org/plugins/info/1.0/{$plugin_slug}.json";
     
@@ -37,85 +22,33 @@ function chubes_fetch_plugin_data($plugin_slug) {
     return $data;
 }
 
-/**
- * Update install count for a specific plugin
- * 
- * @param int $post_id The plugin post ID
- * @param string $wp_url The WordPress.org URL
- * @return bool Success status
- */
 function chubes_update_plugin_installs($post_id, $wp_url) {
-    // Extract plugin slug from WordPress.org URL
     $slug = chubes_extract_plugin_slug($wp_url);
-    if (!$slug) {
-        return false;
-    }
+    $plugin_data = $slug ? chubes_fetch_plugin_data($slug) : false;
     
-    // Fetch data from WordPress.org
-    $plugin_data = chubes_fetch_plugin_data($slug);
-    if (!$plugin_data) {
-        return false;
-    }
+    if (!$plugin_data) return false;
     
-    // Extract install count
-    $installs = 0;
-    if (isset($plugin_data['downloaded'])) {
-        $installs = intval($plugin_data['downloaded']);
-    }
+    $installs = intval($plugin_data['downloaded'] ?? 0);
     
-    // Store the data
     update_post_meta($post_id, 'wp_installs', $installs);
     update_post_meta($post_id, 'wp_last_updated', current_time('mysql'));
     update_post_meta($post_id, 'wp_plugin_slug', $slug);
-    
-    // Also store the full response for potential future use
     update_post_meta($post_id, 'wp_plugin_data', $plugin_data);
     
     return true;
 }
 
-/**
- * Extract plugin slug from WordPress.org URL
- * 
- * @param string $wp_url WordPress.org plugin URL
- * @return string|false Plugin slug or false if invalid
- */
 function chubes_extract_plugin_slug($wp_url) {
-    if (empty($wp_url)) {
-        return false;
-    }
-    
-    // Handle various WordPress.org URL formats
-    $patterns = array(
-        '/wordpress\.org\/plugins\/([^\/\?]+)/',
-        '/plugins\.wordpress\.org\/([^\/\?]+)/'
-    );
-    
-    foreach ($patterns as $pattern) {
-        if (preg_match($pattern, $wp_url, $matches)) {
-            return $matches[1];
-        }
-    }
-    
-    return false;
+    return preg_match('/(?:wordpress\.org|plugins\.wordpress\.org)\/plugins\/([^\/\?]+)/', $wp_url, $matches) 
+        ? $matches[1] 
+        : false;
 }
 
-/**
- * Get install count for a specific plugin
- * 
- * @param int $post_id The plugin post ID
- * @return int Install count (0 if not found)
- */
 function chubes_get_plugin_installs($post_id) {
     $installs = get_post_meta($post_id, 'wp_installs', true);
     return intval($installs);
 }
 
-/**
- * Get total installs across all plugins
- * 
- * @return int Total install count
- */
 function chubes_get_total_plugin_installs() {
     $args = array(
         'post_type' => 'plugin',
@@ -195,44 +128,24 @@ function chubes_schedule_plugin_install_updates() {
 }
 add_action('wp', 'chubes_schedule_plugin_install_updates');
 
-/**
- * Hook to update plugin installs when a plugin post is saved
- */
 function chubes_update_plugin_installs_on_save($post_id) {
-    // Only process plugin post type
-    if (get_post_type($post_id) !== 'plugin') {
+    if (get_post_type($post_id) !== 'plugin' || 
+        (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) ||
+        !current_user_can('edit_post', $post_id)) {
         return;
     }
     
-    // Security checks
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-    
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
-    
-    // Get the WordPress.org URL
     $wp_url = get_post_meta($post_id, 'wp_url', true);
-    
-    if (!empty($wp_url)) {
+    if ($wp_url) {
         chubes_update_plugin_installs($post_id, $wp_url);
     }
 }
 add_action('save_post', 'chubes_update_plugin_installs_on_save');
 
-/**
- * Hook for the scheduled event
- */
 function chubes_update_plugin_installs_cron() {
     chubes_update_all_plugin_installs();
 }
 add_action('chubes_update_plugin_installs', 'chubes_update_plugin_installs_cron');
-
-/**
- * Add admin menu item for manual updates
- */
 function chubes_add_plugin_installs_admin_menu() {
     add_submenu_page(
         'edit.php?post_type=plugin',

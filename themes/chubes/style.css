@@ -631,43 +631,6 @@ body.admin-bar .hamburger {
 .nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(7) a { transition-delay: 0.2s; }
 .nav-overlay.closing .overlay-nav .overlay-menu li:nth-child(8) a { transition-delay: 0.1s; }
 
-/* Legacy ul support - maintains backward compatibility */
-.overlay-nav ul:not(.overlay-menu) {
-    list-style: none;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-}
-
-.overlay-nav ul:not(.overlay-menu) li {
-    margin: 1rem 0;
-}
-
-.overlay-nav ul:not(.overlay-menu) li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li a {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(1) a { transition-delay: 0.1s; }
-.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(2) a { transition-delay: 0.2s; }
-.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(3) a { transition-delay: 0.3s; }
-.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(4) a { transition-delay: 0.4s; }
-.nav-overlay.open .overlay-nav ul:not(.overlay-menu) li:nth-child(5) a { transition-delay: 0.5s; }
-
-.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(1) a { transition-delay: 0.5s; }
-.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(2) a { transition-delay: 0.4s; }
-.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(3) a { transition-delay: 0.3s; }
-.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(4) a { transition-delay: 0.2s; }
-.nav-overlay.closing .overlay-nav ul:not(.overlay-menu) li:nth-child(5) a { transition-delay: 0.1s; }
 
 /* Breadcrumbs Styling */
 .breadcrumbs {

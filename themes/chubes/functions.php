@@ -33,7 +33,7 @@ function chubes_enqueue_scripts() {
         wp_enqueue_script('load-more', get_template_directory_uri() . '/assets/js/load-more.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/load-more.js'), true);
         
         global $wp_query;
-        wp_localize_script('load-more', 'loadmore_params', array(
+        wp_localize_script('load-more', 'chubes_params', array(
             'ajaxurl'      => admin_url('admin-ajax.php'),
             'current_page' => max(1, get_query_var('paged')),
             'max_page'     => $wp_query->max_num_pages
@@ -91,21 +91,12 @@ function chubes_get_parent_page() {
             // Get ancestors array (parent, grandparent, etc.)
             $ancestors = get_post_ancestors($post->ID);
             
-            if (!empty($ancestors)) {
-                // The first item in the array is the immediate parent
-                $parent_id = $ancestors[0];
-                $parent = array(
-                    'url' => get_permalink($parent_id),
-                    'title' => get_the_title($parent_id)
-                );
-            } else {
-                // Fallback to direct parent
-                $parent_id = $post->post_parent;
-                $parent = array(
-                    'url' => get_permalink($parent_id),
-                    'title' => get_the_title($parent_id)
-                );
-            }
+            // The first item in the array is the immediate parent
+            $parent_id = $ancestors[0];
+            $parent = array(
+                'url' => get_permalink($parent_id),
+                'title' => get_the_title($parent_id)
+            );
         }
     }
     // For category archives
@@ -129,61 +120,14 @@ function chubes_get_parent_page() {
 
 
 
-// Explicitly include all general PHP files from /inc/
-$inc_dir = get_template_directory() . '/inc/';
-$inc_files = [
-    'custom-post-types.php',
-    'customizer.php',
-    'breadcrumbs.php',
-    'contact-ajax.php',
-    // other inc files remain here
-];
-
-// Include portfolio-related files
-$portfolio_dir = get_template_directory() . '/inc/portfolio/';
-$portfolio_files = [
-    'portfolio-custom-fields.php',
-    'portfolio-image-overlay.php'
-];
-
-foreach ($portfolio_files as $file) {
-    $path = $portfolio_dir . $file;
-    if (file_exists($path)) {
-        require_once $path;
-    }
-}
-
-// Include utility files
-$utils_dir = get_template_directory() . '/inc/utils/';
-$utils_files = [
-    'load-more.php',
-    'instagram-embeds.php'
-];
-
-foreach ($inc_files as $file) {
-    $path = $inc_dir . $file;
-    if (file_exists($path)) {
-        require_once $path;
-    }
-}
-
-foreach ($utils_files as $file) {
-    $path = $utils_dir . $file;
-    if (file_exists($path)) {
-        require_once $path;
-    }
-}
-
-// Include plugin-related files
-$plugins_dir = get_template_directory() . '/inc/plugins/';
-$plugin_files = [
-    'plugin-custom-fields.php',
-    'track-plugin-installs.php'
-];
-
-foreach ($plugin_files as $file) {
-    $path = $plugins_dir . $file;
-    if (file_exists($path)) {
-        require_once $path;
-    }
-}
+// Include theme functionality
+require_once get_template_directory() . '/inc/custom-post-types.php';
+require_once get_template_directory() . '/inc/custom-taxonomies.php';
+require_once get_template_directory() . '/inc/breadcrumbs.php';
+require_once get_template_directory() . '/inc/contact-ajax.php';
+require_once get_template_directory() . '/inc/portfolio/portfolio-custom-fields.php';
+require_once get_template_directory() . '/inc/portfolio/portfolio-image-overlay.php';
+require_once get_template_directory() . '/inc/utils/load-more.php';
+require_once get_template_directory() . '/inc/utils/instagram-embeds.php';
+require_once get_template_directory() . '/inc/plugins/plugin-custom-fields.php';
+require_once get_template_directory() . '/inc/plugins/track-plugin-installs.php';

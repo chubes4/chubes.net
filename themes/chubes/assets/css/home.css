@@ -59,6 +59,7 @@
     line-height: 1.2;
     margin-bottom: 25px;
     background: linear-gradient(45deg, #fff, #00e0ff);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -139,7 +140,9 @@
 }
 
 .project-category .btn {
-    margin-top: 10px;
+    margin: 20px auto 0;
+    display: block;
+    width: fit-content;
 }
 
 /* Featured Projects Section Enhancement */
@@ -289,6 +292,55 @@
     transform: translateY(0) scale(1);
 }
 
+/* Docs + Blog Section */
+.docs-blog {
+    padding: 20px 0 10px;
+}
+
+.docs-blog h2 {
+    margin-bottom: 20px;
+}
+
+.docs-blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.docs-list, .blog-list {
+    background: rgba(34, 34, 34, 0.95);
+    border: 1px solid rgba(68, 68, 68, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.item-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+}
+
+.item-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.item-list li:last-child { border-bottom: none; }
+
+.item-list a { text-decoration: none; }
+
+.item-list a:hover { color: #00e0ff; }
+
+.item-list .meta { color: #777; margin-top: 6px; }
+
+.list-cta { margin-top: 14px; text-align: center; }
+
+@media (min-width: 768px) {
+    .docs-blog-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .tech-cloud {
@@ -301,63 +353,7 @@
     }
 }
 
-/* About Section */
-.about-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-}
-
-.about-image {
-    flex: 1;
-    max-width: 400px;
-}
-
-.about-image img {
-    width: 100%;
-    border-radius: 8px;
-    display: block;
-    object-fit: cover;
-    aspect-ratio: 1;
-}
-
-.about-content {
-    flex: 1;
-}
-
-.about-content .btn {
-    width: max-content;
-    display: flex;
-    margin: auto;
-}
-
-.about-content h2 {
-    color: #00c2ff;
-}
-
-.about-content .btn:hover {
-    background: #009dc0;
-    color: #fff;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .about-inner {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .about-image {
-        max-width: 100%;
-    }
-
-    .about-content .btn {
-        display: block;
-        width: fit-content;
-        margin: 0 auto;
-    }
-}
+/* About/Journey section removed on redesign */
 
 /* Trust Logos in Tech Stack Section */
 .tech-stack .trust-logos-container {

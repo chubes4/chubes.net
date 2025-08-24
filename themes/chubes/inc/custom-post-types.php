@@ -153,4 +153,64 @@ function chubes_register_plugin_post_type() {
     );
     register_post_type( 'plugin', $args );
 }
-add_action( 'init', 'chubes_register_plugin_post_type', 0 ); 
+add_action( 'init', 'chubes_register_plugin_post_type', 0 );
+
+/**
+ * Register Documentation Post Type.
+ * Used for plugin documentation, guides, and tutorials.
+ */
+function chubes_register_documentation_post_type() {
+    $labels = array(
+        'name'                  => _x( 'Documentation', 'Post Type General Name', 'chubes' ),
+        'singular_name'         => _x( 'Document', 'Post Type Singular Name', 'chubes' ),
+        'menu_name'             => __( 'Documentation', 'chubes' ),
+        'name_admin_bar'        => __( 'Document', 'chubes' ),
+        'archives'              => __( 'Documentation Archives', 'chubes' ),
+        'attributes'            => __( 'Document Attributes', 'chubes' ),
+        'parent_item_colon'     => __( 'Parent Document:', 'chubes' ),
+        'all_items'             => __( 'All Documentation', 'chubes' ),
+        'add_new_item'          => __( 'Add New Document', 'chubes' ),
+        'add_new'               => __( 'Add New', 'chubes' ),
+        'new_item'              => __( 'New Document', 'chubes' ),
+        'edit_item'             => __( 'Edit Document', 'chubes' ),
+        'update_item'           => __( 'Update Document', 'chubes' ),
+        'view_item'             => __( 'View Document', 'chubes' ),
+        'view_items'            => __( 'View Documentation', 'chubes' ),
+        'search_items'          => __( 'Search Documentation', 'chubes' ),
+        'not_found'             => __( 'Not found', 'chubes' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'chubes' ),
+        'featured_image'        => __( 'Featured Image', 'chubes' ),
+        'set_featured_image'    => __( 'Set featured image', 'chubes' ),
+        'remove_featured_image' => __( 'Remove featured image', 'chubes' ),
+        'use_featured_image'    => __( 'Use as featured image', 'chubes' ),
+        'insert_into_item'      => __( 'Insert into document', 'chubes' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this document', 'chubes' ),
+        'items_list'            => __( 'Documentation list', 'chubes' ),
+        'items_list_navigation' => __( 'Documentation list navigation', 'chubes' ),
+        'filter_items_list'     => __( 'Filter documentation list', 'chubes' ),
+    );
+    $args = array(
+        'label'                 => __( 'Documentation', 'chubes' ),
+        'description'           => __( 'Post type for plugin documentation, guides, and tutorials.', 'chubes' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'page-attributes' ),
+        'taxonomies'            => array( 'plugin' ),
+        'hierarchical'          => true,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 8,
+        'menu_icon'             => 'dashicons-media-document',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => 'docs',
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'show_in_rest'          => true,
+        'rewrite'               => array('slug' => 'docs'),
+    );
+    register_post_type( 'documentation', $args );
+}
+add_action( 'init', 'chubes_register_documentation_post_type', 0 ); 

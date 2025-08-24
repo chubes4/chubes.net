@@ -9,7 +9,7 @@
                 if (is_home() && !is_front_page()) {
                     // This is the blog posts index
                     echo '<h1>Blog</h1>';
-                    echo '<p>Digital entrepreneurship, WordPress development, SEO, AI tools, automation. No courses. No fluff. Just straight facts.</p>';
+                    echo '<p>Digital entrepreneurship, WordPress development, SEO, AI tools, automation.</p>';
                 } elseif (is_search()) {
                     echo '<h1><span class="archive-type">Search Results</span>' . get_search_query() . '</h1>';
                     echo '<p>Showing results for your search query</p>';

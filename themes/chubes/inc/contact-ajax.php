@@ -1,7 +1,4 @@
 <?php
-// contact-ajax.php
-
-// Conditionally enqueue CSS and JS only on the Contact page.
 function contact_enqueue_assets() {
     if ( is_page('contact') ) {
         $theme_dir  = get_template_directory_uri();

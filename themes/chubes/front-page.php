@@ -4,8 +4,8 @@
     <!-- Hero Section -->
     <section class="hero reveal">
         <div class="container">
-            <h1>AI-First WordPress Developer & Music Journalist</h1>
-            <p>Former sailboat captain turned creative entrepreneur. I build AI-powered WordPress systems, automate content workflows, and cover the music scene through Extra Chill—bridging technical precision with creative expertise.</p>
+            <h1>WordPress Developer & Music Journalist</h1>
+            <p>Former sailboat captain turned creative entrepreneur. I build WordPress automation systems, scale content workflows, and merge technology with music journalism through Extra Chill.</p>
             <div class="contact-button">
                 <a href="/portfolio" class="btn">Explore My Work</a>
             </div>       
@@ -18,87 +18,85 @@
         <h2>What I Create</h2>
 
         <div class="project-category reveal">
-            <h3>Production AI Content Systems</h3>
-            <p>AI-powered WordPress systems proven at commercial scale. My Data Machine plugin currently powers Festival Wire's automated content processing across 48+ festivals with daily updates—demonstrating AI workflows that enhance editorial productivity.</p>
+            <h3>WordPress Automation Systems</h3>
+            <p>My plugins are designed to make automation easy. I specialize in building tools that empower editors, publishers, and small business owners to automate repetitive tasks, streamline workflows, and unlock new creative possibilities within WordPress.</p>
             <a href="/plugins" class="btn secondary">Browse Plugins</a>
         </div>
 
         <div class="project-category reveal">
             <h3>Extra Chill Music Platform</h3>
-            <p>Scaled Extra Chill to 300k+ monthly visitors through strategic content and smart automation. A music journalism platform covering festivals, interviews, and industry insights.</p>
+            <p>Founded in 2011, Extra Chill is my passion project that has grown into a respected journalistic platform. Through Extra Chill, I've not only taught myself WordPress development, but also scaled the platform to 300k+ monthly visitors through strategic SEO and smart automation.</p>
             <a href="https://extrachill.com" class="btn secondary" target="_blank">Visit Extra Chill</a>
         </div>
 
         <div class="project-category reveal">
-            <h3>Content Automation Systems</h3>
-            <p>Cross-platform publishing workflows, social media automation, and browser extensions that streamline content creation. Built from real-world experience scaling creative platforms.</p>
+            <h3>Websites, Bots, and Social Media</h3>
+            <p>I create unique websites with innovative features for both clients and myself. From experimental content automation, to Discord bots and Chrome Extensions. If I have an idea, I'll build it. Check out my portfolio for a curated selection of my work.</p>
             <a href="/portfolio" class="btn secondary">View Portfolio</a>
         </div>
     </div>
 </section>
 
-<!-- About Section -->
-<section class="about-section">
-    <div class="container">
-        <div class="about-inner">
-            <div class="about-image">
-                <img src="<?php echo get_theme_mod('why_choose_me_image', get_template_directory_uri() . '/images/default-image.jpg'); ?>" alt="Chris Huber - Developer & Music Journalist">
-            </div>
-            <div class="about-content">
-                <h2>The Journey</h2>
-                <p>Former 100-Ton Master Captain who traded the open sea for open source. Over 13 years, I've built Extra Chill into a comprehensive media platform with 444+ community members, established industry relationships, and multi-domain technical architecture spanning content, commerce, and community.</p>
-                <p>Based in Austin, TX, I combine technical precision with creative insight gained from operating AI content systems in production. My Data Machine plugin currently powers Festival Wire's automated processing of 48+ festivals—proving that AI-first WordPress development can enhance editorial workflows at commercial scale.</p>
-                <p>This real-world operational experience drives my development approach: I build AI systems that solve actual problems because I've lived those problems while scaling content platforms and managing editorial workflows.</p>
-             <a href="/about" class="btn">More About My Story</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-
-    <section class="portfolio reveal">
-    <div class="container">
-        <h2>Featured Work</h2>
-        <div class="portfolio-grid">
-            <?php
-            $portfolio = new WP_Query(array(
-                'post_type'      => 'portfolio',
-                'posts_per_page' => 6,
-                'orderby'        => 'menu_order', 
-                'order'          => 'ASC'
-            ));
-
-            if ($portfolio->have_posts()) :
-                while ($portfolio->have_posts()) : $portfolio->the_post(); ?>
-                    <div class="portfolio-item reveal">
-                        <a href="<?php the_permalink(); ?>">
-                            <?php if (has_post_thumbnail()) : ?>
-                                <img src="<?php the_post_thumbnail_url('large'); ?>" alt="<?php the_title(); ?>">
-                            <?php endif; ?>
-                            <div class="portfolio-overlay">
-                                <h3><?php the_title(); ?></h3>
-                                <p><?php the_excerpt(); ?></p>
-                            </div>
-                        </a>
+    <!-- Docs + Blog Two-Column Section -->
+    <section class="docs-blog reveal">
+        <div class="container">
+            <h2>Latest Docs & Articles</h2>
+            <div class="docs-blog-grid">
+                <!-- Plugin Documentation List -->
+                <div class="docs-list">
+                    <h3>Plugin Documentation</h3>
+                    <ul class="item-list">
+                    <?php
+                    $docs_query = new WP_Query(array(
+                        'post_type'      => 'documentation',
+                        'posts_per_page' => 5,
+                        'post_status'    => 'publish'
+                    ));
+                    if ($docs_query->have_posts()) :
+                        while ($docs_query->have_posts()) : $docs_query->the_post(); ?>
+                            <li>
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <div class="meta"><small><?php echo get_the_date(); ?></small></div>
+                            </li>
+                        <?php endwhile; wp_reset_postdata();
+                    else : ?>
+                        <li>No documentation yet.</li>
+                    <?php endif; ?>
+                    </ul>
+                    <div class="list-cta">
+                        <a class="btn secondary" href="<?php echo esc_url( get_post_type_archive_link('documentation') ); ?>">View all Docs</a>
                     </div>
-            <?php endwhile;
-            wp_reset_postdata();
-            endif; ?>
+                </div>
+
+                <!-- Blog Posts List -->
+                <div class="blog-list">
+                    <h3>From the Blog</h3>
+                    <ul class="item-list">
+                    <?php
+                    $blog_query = new WP_Query(array(
+                        'post_type'      => 'post',
+                        'posts_per_page' => 5,
+                        'post_status'    => 'publish'
+                    ));
+                    if ($blog_query->have_posts()) :
+                        while ($blog_query->have_posts()) : $blog_query->the_post(); ?>
+                            <li>
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <div class="meta"><small><?php echo get_the_date(); ?></small></div>
+                            </li>
+                        <?php endwhile; wp_reset_postdata();
+                    else : ?>
+                        <li>No blog posts yet.</li>
+                    <?php endif; ?>
+                    </ul>
+                    <div class="list-cta">
+                        <?php $blog_link = get_permalink( get_option('page_for_posts') ); ?>
+                        <a class="btn secondary" href="<?php echo esc_url( $blog_link ? $blog_link : home_url('/blog') ); ?>">View all Posts</a>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- View Full Portfolio Button -->
-        <div class="portfolio-button">
-            <a href="/portfolio" class="btn">View Full Portfolio</a>
-        </div>
-    </div>
-</section>
-
-
-
-
+    </section>
 
 </main>
 

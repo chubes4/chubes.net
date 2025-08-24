@@ -1,22 +1,10 @@
 <?php
-/**
- * Breadcrumbs functionality for the theme
- * 
- * This file defines breadcrumb functionality that shows the page hierarchy
- * to help with navigation and SEO.
- */
 
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Display breadcrumbs based on current page hierarchy
- * 
- * @param array $args Optional arguments to customize the breadcrumbs display
- * @return void
- */
 function chubes_breadcrumbs($args = []) {
     // Default arguments
     $defaults = [
@@ -153,6 +141,23 @@ function chubes_breadcrumbs($args = []) {
                 echo $args['separator'];
                 echo $args['before_current'] . get_the_title() . $args['after_current'];
             }
+        } elseif (get_post_type() === 'documentation') {
+            // Documentation single
+            echo $args['separator'];
+            echo '<a href="' . esc_url(get_post_type_archive_link('documentation')) . '">Documentation</a>';
+            
+            // Get plugin taxonomy terms
+            $plugin_terms = get_the_terms(get_the_ID(), 'plugin');
+            if ($plugin_terms && !is_wp_error($plugin_terms)) {
+                echo $args['separator'];
+                $plugin_term = $plugin_terms[0]; // Use first plugin term
+                echo '<a href="' . esc_url(get_term_link($plugin_term)) . '">' . esc_html($plugin_term->name) . '</a>';
+            }
+            
+            if ($args['show_current']) {
+                echo $args['separator'];
+                echo $args['before_current'] . get_the_title() . $args['after_current'];
+            }
         } else {
             // Other custom post types
             $post_type = get_post_type_object(get_post_type());
@@ -179,6 +184,16 @@ function chubes_breadcrumbs($args = []) {
                 echo $args['separator'];
                 echo $args['before_current'] . esc_html($post_type->labels->name) . $args['after_current'];
             }
+        }
+    } elseif (is_tax('plugin')) {
+        // Plugin taxonomy archive
+        echo $args['separator'];
+        echo '<a href="' . esc_url(get_post_type_archive_link('documentation')) . '">Documentation</a>';
+        
+        if ($args['show_current']) {
+            $term = get_queried_object();
+            echo $args['separator'];
+            echo $args['before_current'] . esc_html($term->name) . $args['after_current'];
         }
     } elseif (is_page() && !$post->post_parent) {
         // Page with no parent
@@ -252,31 +267,4 @@ function chubes_add_breadcrumbs() {
 // Depending on your theme, you may need to adjust this hook
 add_action('chubes_before_main_content', 'chubes_add_breadcrumbs');
 
-/**
- * Register 'chubes_before_main_content' hook if it doesn't exist
- */
-function chubes_add_content_hooks() {
-    // Only add this filter if not already added by the theme
-    if (!has_action('chubes_before_main_content')) {
-        add_action('the_content', 'chubes_maybe_add_breadcrumbs_to_content', 1);
-    }
-}
-add_action('template_redirect', 'chubes_add_content_hooks');
-
-/**
- * Conditionally add breadcrumbs to content if hooks aren't used
- * 
- * @param string $content The post content
- * @return string Modified content with breadcrumbs if needed
- */
-function chubes_maybe_add_breadcrumbs_to_content($content) {
-    // Only add to main content on singular pages
-    if (is_singular() && in_the_loop() && is_main_query()) {
-        ob_start();
-        chubes_breadcrumbs();
-        $breadcrumbs = ob_get_clean();
-        $content = $breadcrumbs . $content;
-    }
-    
-    return $content;
-} 
+ 

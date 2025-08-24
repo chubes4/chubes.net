@@ -1,10 +1,4 @@
 <?php
-/**
- * Adds custom meta fields for the Plugin post type: GitHub URL and WordPress URL.
- *
- * @author Chris Huber
- * @link https://chubes.net
- */
 
 // Add meta box to Plugin post type
 function chubes_add_plugin_meta_box() {

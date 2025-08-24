@@ -27,6 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     portfolioContainer.appendChild(newItems.firstChild);
                 }
 
+                // Check for hide button flag
+                if (newItems.querySelector('[data-hide-load-more="true"]')) {
+                    loadMoreBtn.style.display = "none";
+                }
+
                 if (page >= maxPage) {
                     loadMoreBtn.style.display = "none";
                 }

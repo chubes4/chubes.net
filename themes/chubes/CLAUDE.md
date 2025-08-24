@@ -31,15 +31,22 @@ This theme uses traditional WordPress development without build tools:
 ├── Template files:
 │   ├── 404.php - Custom 404 error page
 │   ├── archive.php - Generic archive template with dynamic headers
+│   ├── archive-journal.php - Journal archive
+│   ├── archive-portfolio.php - Portfolio archive
 │   ├── front-page.php - Homepage template
-│   ├── page-*.php - Specialized page templates
-│   └── single*.php - Post type templates
+│   ├── page-contact.php - Contact page template
+│   ├── single-portfolio.php - Portfolio single view
+│   ├── index.php - Default template
+│   └── single.php - Default single post template
 ├── /assets/
 │   ├── /css/ - Page-specific stylesheets
 │   ├── /js/ - JavaScript for AJAX, animations, interactions  
 │   └── /fonts/ - Custom fonts (Inter, Space Grotesk) + SVG icons
 ├── /inc/ - Modular PHP functionality:
+│   ├── breadcrumbs.php - Navigation breadcrumb system
 │   ├── contact-ajax.php - Contact form implementation
+│   ├── custom-post-types.php - Portfolio, Journal, Game, Plugin CPTs
+│   ├── customizer.php - Theme customizer settings
 │   ├── /portfolio/ - Portfolio custom fields & image overlays
 │   ├── /plugins/ - Plugin install tracking system
 │   └── /utils/ - Load more, Instagram embeds
@@ -83,15 +90,15 @@ PHP to JS data uses `wp_localize_script` with naming pattern:
 ### Custom Post Types
 - **Portfolio** (`/portfolio`) - Project showcases
 - **Journal** (`/journal`) - Blog-style content
-- **Game** (`/game`) - Game hosting/showcase (new)
-- **Plugin** (`/plugin`) - Plugin distribution (new)
+- **Game** (`/game`) - Interactive game hosting
+- **Plugin** (`/plugins`) - Plugin distribution and documentation
 
 ### Navigation System
-Advanced parent page navigation implemented in `functions.php:70-138`:
-- **Dynamic breadcrumb generation** for all post types and archives
+Advanced parent page navigation with dynamic breadcrumb support:
 - **Context-aware back navigation** (Blog posts → Blog, Portfolio → Portfolio, etc.)
 - **Hierarchical page support** with ancestor detection
 - **Custom post type archive detection**
+- Breadcrumb functionality in `/inc/breadcrumbs.php`
 
 ## Recent Major Changes
 

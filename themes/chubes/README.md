@@ -29,15 +29,18 @@ register_post_type('game', $args);
 register_post_type('plugin', $args);
 ```
 
-### Service Contact System
-Multiple specialized contact forms with AJAX submission:
-- AI Integration Services (`ai-integration-contact-form.php`)
-- WordPress Customization (`wordpress-customization-contact.php`)
-- Web Development (`web-development-contact.php`) 
-- Boat Website Development (`boat-website-contact.php`)
-- SEO Audits (`free-local-seo-audits.php`)
+### Contact System
+Unified contact form with specialized styling:
+- Main contact form in `page-contact.php` with comprehensive spam protection
+- AJAX submission handled by `/inc/contact-ajax.php`
+- Service-specific CSS/JS assets for different contexts:
+  - `ai-integration-contact.css/.js` - AI integration services
+  - `wordpress-customization-contact.css/.js` - WordPress customization
+  - `web-dev-contact.css/.js` - Web development services
+  - `boat-contact-modal.css/.js` - Marine industry websites
+  - `free-local-seo-audits.css` and `seo-audit.js` - SEO audits
 
-Each form includes:
+Form features:
 - Honeypot and timestamp spam protection
 - AJAX submission with user feedback
 - Admin and user notification emails
@@ -70,16 +73,24 @@ chubes_get_parent_page();
 /chubes/
 ├── Template Files
 │   ├── 404.php                    # Custom error page
-│   ├── archive.php                # Dynamic archive headers
+│   ├── archive.php                # Generic archive with dynamic headers
+│   ├── archive-journal.php        # Journal archive
+│   ├── archive-portfolio.php      # Portfolio archive
 │   ├── front-page.php             # Homepage
+│   ├── home.php                   # Blog home template
+│   ├── index.php                  # Default template
 │   ├── page-contact.php           # Contact page
-│   └── single-portfolio.php       # Portfolio single view
+│   ├── single-portfolio.php       # Portfolio single view
+│   └── single.php                 # Default single post
 ├── /assets/
 │   ├── /css/                     # Page-specific stylesheets
 │   ├── /js/                      # AJAX, animations, interactions
 │   └── /fonts/                   # Inter, Space Grotesk + SVG icons
 ├── /inc/
+│   ├── breadcrumbs.php          # Navigation breadcrumb system
 │   ├── contact-ajax.php         # Contact form implementation
+│   ├── custom-post-types.php    # Portfolio, Journal, Game, Plugin CPTs
+│   ├── customizer.php           # Theme customizer settings
 │   ├── /portfolio/              # Portfolio custom fields & overlays
 │   ├── /plugins/                # Plugin tracking system
 │   └── /utils/                  # Load more, Instagram embeds
@@ -93,12 +104,17 @@ Conditional loading based on page context:
 ```php
 // Homepage specific styles
 if (is_front_page()) {
-    wp_enqueue_style('home-style', '...home.css');
+    wp_enqueue_style('home-style', get_template_directory_uri() . '/assets/css/home.css', array(), filemtime(get_template_directory() . '/assets/css/home.css'));
 }
 
 // Portfolio archive load-more functionality  
 if (is_post_type_archive('portfolio')) {
-    wp_enqueue_script('load-more', '...load-more.js');
+    wp_enqueue_script('load-more', get_template_directory_uri() . '/assets/js/load-more.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/load-more.js'), true);
+    wp_localize_script('load-more', 'loadmore_params', array(
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'current_page' => max(1, get_query_var('paged')),
+        'max_page' => $wp_query->max_num_pages
+    ));
 }
 ```
 
@@ -130,9 +146,9 @@ WordPress.org Plugin API:
 - Admin interface for manual updates
 - Install aggregation across all plugins
 
-## Contact Forms
+## Contact Form Implementation
 
-All forms follow the same pattern:
+The contact form follows this secure pattern:
 1. Honeypot field for spam detection
 2. Timestamp verification
 3. WordPress nonce security
@@ -143,7 +159,7 @@ All forms follow the same pattern:
 Example implementation:
 ```php
 // Nonce verification
-if (!wp_verify_nonce($_POST['nonce'], 'service_contact_nonce')) {
+if (!wp_verify_nonce($_POST['nonce'], 'contact_nonce')) {
     wp_die('Security check failed');
 }
 
