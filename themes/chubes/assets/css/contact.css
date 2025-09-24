@@ -106,3 +106,15 @@
 .post-body{
     text-align: center;
 }
+
+/* Honeypot spam protection field */
+.contact-honeypot {
+    display: none !important;
+}
+
+/* Contact form help text */
+.contact-help-text {
+    display: block !important;
+    color: #888 !important;
+    margin: 5px 0 !important;
+}

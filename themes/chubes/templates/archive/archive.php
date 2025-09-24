@@ -1,4 +1,12 @@
-<?php get_header(); ?>
+<?php 
+/**
+ * Generic Archive Template with Dynamic Headers
+ * 
+ * Part of organized template hierarchy in /templates/archive/ directory.
+ * Handles category, tag, author, and date archives with context-specific 
+ * headers and descriptions. Uses chubes_get_parent_page() for navigation.
+ */
+get_header(); ?>
 
 <main class="site-main archive-blog">
     <section class="archive-header enhanced">

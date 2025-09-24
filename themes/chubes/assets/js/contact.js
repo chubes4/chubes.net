@@ -1,3 +1,10 @@
+/**
+ * Contact Form AJAX Handler
+ * 
+ * Handles form submission via AJAX with nonce security.
+ * Uses chubes_contact_params object localized from PHP with ajax_url and nonce.
+ * Displays success/error messages and resets form on successful submission.
+ */
 jQuery(document).ready(function($){
     $('#contactForm').on('submit', function(e) {
         e.preventDefault();
@@ -9,10 +16,10 @@ jQuery(document).ready(function($){
         $form.find('.contact-error, .contact-success').hide().text('');
         
         $.ajax({
-            url: contact_params.ajax_url,
+            url: chubes_contact_params.ajax_url,
             type: 'POST',
             dataType: 'json',
-            data: formData + '&action=process_contact_form&nonce=' + contact_params.nonce,
+            data: formData + '&action=process_contact_form&nonce=' + chubes_contact_params.nonce,
             success: function(response) {
                 if(response.success) {
                     $form.find('.contact-success').text(response.data.message).show();

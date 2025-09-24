@@ -1,17 +1,20 @@
 <?php
+/**
+ * Contact Form AJAX Handler
+ * 
+ * Secure AJAX contact form with spam protection.
+ */
+
 function contact_enqueue_assets() {
-    if ( is_page('contact') ) {
+    if ( is_page('contact') || is_page_template('page-contact.php') ) {
         $theme_dir  = get_template_directory_uri();
         $theme_path = get_template_directory();
         
-        // Enqueue the CSS file with filemtime for cache busting.
         wp_enqueue_style( 'contact-css', $theme_dir . '/assets/css/contact.css', array(), filemtime( $theme_path . '/assets/css/contact.css' ) );
-        
-        // Enqueue the JS file with filemtime for cache busting.
         wp_enqueue_script( 'contact-js', $theme_dir . '/assets/js/contact.js', array('jquery'), filemtime( $theme_path . '/assets/js/contact.js' ), true );
         
         // Localize the script with the AJAX URL and a security nonce.
-        wp_localize_script( 'contact-js', 'contact_params', array(
+        wp_localize_script( 'contact-js', 'chubes_contact_params', array(
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'nonce'    => wp_create_nonce( 'contact_nonce' ),
         ));
@@ -19,9 +22,7 @@ function contact_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'contact_enqueue_assets' );
 
-// AJAX handler for processing the contact form submission.
 function process_contact_form() {
-    // Verify nonce for security.
     check_ajax_referer( 'contact_nonce', 'nonce' );
     
     // Honeypot spam check.
@@ -31,13 +32,12 @@ function process_contact_form() {
     }
     
     // Check that the form wasn't submitted too quickly.
-    $submitted_time = isset( $_POST['contact_timestamp'] ) ? intval( $_POST['contact_timestamp'] ) : 0;
+    $submitted_time = intval($_POST['contact_timestamp'] ?? 0);
     if ( ( time() - $submitted_time ) < 5 ) {
         wp_send_json_error( array( 'message' => 'Form submitted too quickly. Please try again.' ) );
         wp_die();
     }
     
-    // Sanitize and process the form data.
     $name    = sanitize_text_field( wp_unslash( $_POST['contactName'] ) );
     $email   = sanitize_email( wp_unslash( $_POST['contactEmail'] ) );
     $website = sanitize_text_field( wp_unslash( $_POST['contactWebsite'] ) );
@@ -69,9 +69,10 @@ function process_contact_form() {
     $user_body .= "Thank you for reaching out. I've received your message and will get back to you as soon as possible.\n\n";
     $user_body .= "In the meantime, feel free to check out my work:\n";
     $user_body .= "- WordPress plugins: https://chubes.net/plugins\n";
-    $user_body .= "- Portfolio: https://chubes.net/portfolio\n";
+    $user_body .= "- Documentation: https://chubes.net/docs\n";
     $user_body .= "- Extra Chill music platform: https://extrachill.com\n";
-    $user_body .= "- Blog: https://chubes.net/blog\n\n";
+    $user_body .= "- Blog: https://chubes.net/blog\n";
+    $user_body .= "- Games: https://chubes.net/game\n\n";
     $user_body .= "Best regards,\nChris Huber";
     
     $user_sent = wp_mail( $email, $user_subject, $user_body, $headers );

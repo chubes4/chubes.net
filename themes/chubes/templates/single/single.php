@@ -1,10 +1,23 @@
-<?php get_header(); ?>
+<?php 
+/**
+ * Default Single Post Template
+ * 
+ * Part of organized template hierarchy in /templates/single/ directory.
+ * Displays blog posts with publication date and context-aware navigation
+ * back to blog using chubes_get_parent_page() from functions.php.
+ */
+get_header(); ?>
 
 <main class="site-main single-post">
     <section class="post-content">
         <div class="container">
             <!-- Post Title -->
             <h1><?php the_title(); ?></h1>
+
+            <!-- Post Meta -->
+            <div class="post-meta">
+                <p>Published on <?php echo get_the_date(); ?></p>
+            </div>
 
             <!-- Featured Image -->
             <?php if (has_post_thumbnail()) : ?>

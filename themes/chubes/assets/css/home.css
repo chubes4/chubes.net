@@ -4,7 +4,6 @@
 .home section .container ul {
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 0;
 }
 
@@ -17,7 +16,7 @@
     border-bottom: none;
 }
 
-.service-category p, .home section .container p {
+.home section .container p {
     color: #ddd;
     text-align: center;
 }
@@ -31,7 +30,6 @@
 @media (max-width: 425px) {
     .home section .container ul, .journal-list {
         flex-direction: column;
-        align-items: center;
         padding: 0;
     }
 }
@@ -41,28 +39,14 @@
     padding: 40px 0;
     position: relative;
     overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(0, 194, 255, 0.03) 0%, rgba(0, 0, 0, 0) 100%);
-    z-index: -1;
+    text-align: center;
 }
 
 .hero h1 {
     font-size: 42px;
     line-height: 1.2;
     margin-bottom: 25px;
-    background: linear-gradient(45deg, #fff, #00e0ff);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
 }
 
 .hero p {
@@ -74,12 +58,6 @@
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-}
-
-.hero .contact-button {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
 }
 
 .hero .btn {
@@ -103,226 +81,42 @@
     }
 }
 
-/* Featured Projects Section */
-.featured-projects {
-    padding: 20px 0;
+/* Three-Column Content Section */
+.docs-blog-journal {
+    padding: 0px 0 10px;
 }
 
-.featured-projects h2 {
-    margin-bottom: 30px;
-}
-
-/* Project Category Styles */
-.project-category {
-    background: rgba(34, 34, 34, 0.95);
-    border: 1px solid rgba(68, 68, 68, 0.6);
-    border-radius: 8px;
-    padding: 25px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.project-category:hover {
-    background: rgba(0, 194, 255, 0.06);
-    border-color: rgba(0, 194, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.project-category h3 {
-    margin-bottom: 15px;
-    color: #fff;
-}
-
-.project-category p {
-    margin-bottom: 20px;
-    color: #ddd;
-}
-
-.project-category .btn {
-    margin: 20px auto 0;
-    display: block;
-    width: fit-content;
-}
-
-/* Featured Projects Section Enhancement */
-.featured-projects .container {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-
-/* Make featured projects section responsive */
-@media (min-width: 768px) {
-    .featured-projects .container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-    
-    .featured-projects h2 {
-        grid-column: 1 / -1;
-    }
-}
-
-/* Enhance button hover state */
-.featured-projects .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.2);
-}
-
-/* Add subtle animation to project categories */
-.project-category.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.project-category.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* Tech Cloud Styles */
-.tech-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    perspective: 1000px;
-    margin-top: 30px;
-}
-
-.tech-item {
-    background: rgba(0, 194, 255, 0.1);
-    color: #ddd;
-    padding: 10px 18px;
-    border-radius: 20px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    cursor: default;
-    border: 1px solid rgba(0, 194, 255, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Category-specific variations */
-.tech-item[data-category="web"] {
-    background: rgba(0, 194, 255, 0.08);
-    border-color: rgba(0, 194, 255, 0.25);
-}
-
-.tech-item[data-category="seo"] {
-    background: rgba(0, 224, 255, 0.06);
-    border-color: rgba(0, 224, 255, 0.2);
-}
-
-.tech-item[data-category="api"] {
-    background: rgba(0, 255, 194, 0.06);
-    border-color: rgba(0, 255, 194, 0.2);
-}
-
-.tech-item[data-category="ai"] {
-    background: rgba(194, 0, 255, 0.06);
-    border-color: rgba(194, 0, 255, 0.2);
-}
-
-.tech-item[data-category="marketing"] {
-    background: rgba(255, 194, 0, 0.06);
-    border-color: rgba(255, 194, 0, 0.2);
-}
-
-/* Enhanced hover effects */
-.tech-item:hover {
-    transform: translateY(-3px) scale(1.05);
-    background: rgba(0, 194, 255, 0.15);
-    border-color: rgba(0, 194, 255, 0.4);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
-}
-
-.tech-item[data-category="seo"]:hover {
-    background: rgba(0, 224, 255, 0.15);
-    border-color: rgba(0, 224, 255, 0.4);
-    box-shadow: 0 4px 12px rgba(0, 224, 255, 0.15);
-}
-
-.tech-item[data-category="api"]:hover {
-    background: rgba(0, 255, 194, 0.15);
-    border-color: rgba(0, 255, 194, 0.4);
-    box-shadow: 0 4px 12px rgba(0, 255, 194, 0.15);
-}
-
-.tech-item[data-category="ai"]:hover {
-    background: rgba(194, 0, 255, 0.15);
-    border-color: rgba(194, 0, 255, 0.4);
-    box-shadow: 0 4px 12px rgba(194, 0, 255, 0.15);
-}
-
-.tech-item[data-category="marketing"]:hover {
-    background: rgba(255, 194, 0, 0.15);
-    border-color: rgba(255, 194, 0, 0.4);
-    box-shadow: 0 4px 12px rgba(255, 194, 0, 0.15);
-}
-
-/* Add subtle glow effect on hover */
-.tech-item::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at center, rgba(0, 194, 255, 0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.tech-item:hover::after {
-    opacity: 1;
-}
-
-/* Reveal animation enhancement for tech cloud */
-.tech-cloud.reveal {
-    transform: translateY(30px) scale(0.95);
-}
-
-.tech-cloud.reveal.active {
-    transform: translateY(0) scale(1);
-}
-
-/* Docs + Blog Section */
-.docs-blog {
-    padding: 20px 0 10px;
-}
-
-.docs-blog h2 {
-    margin-bottom: 20px;
-}
-
-.docs-blog-grid {
+.content-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px;
 }
 
-.docs-list, .blog-list {
+.docs-list, .blog-list, .journal-list {
     background: rgba(34, 34, 34, 0.95);
     border: 1px solid rgba(68, 68, 68, 0.6);
     border-radius: 8px;
     padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.item-list {
+.docs-list .item-list,
+.blog-list .item-list,
+.journal-list .item-list {
     list-style: none;
     padding: 0;
     margin: 10px 0 0;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .item-list li {
     padding: 10px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .item-list li:last-child { border-bottom: none; }
@@ -335,73 +129,21 @@
 
 .list-cta { margin-top: 14px; text-align: center; }
 
-@media (min-width: 768px) {
-    .docs-blog-grid {
+/* Tablet: 2 columns */
+@media (min-width: 640px) and (max-width: 767px) {
+    .content-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .tech-cloud {
-        gap: 8px;
-    }
-    
-    .tech-item {
-        font-size: 13px;
-        padding: 6px 12px;
+/* Desktop: 3 columns */
+@media (min-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
+
 
 /* About/Journey section removed on redesign */
 
-/* Trust Logos in Tech Stack Section */
-.tech-stack .trust-logos-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    max-width: 600px;
-    margin: 3rem auto 0;
-    padding-top: 2rem;
-    border-top: 1px solid #444;
-}
-
-.trust-logo {
-    height: 48px;
-    width: auto;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-    filter: grayscale(30%);
-}
-
-.trust-logo:hover {
-    opacity: 1;
-    filter: grayscale(0%);
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    .tech-stack .trust-logos-container {
-        gap: 1.5rem;
-        margin-top: 2rem;
-        padding-top: 1.5rem;
-    }
-    
-    .trust-logo {
-        height: 36px;
-    }
-}
-
-@media (max-width: 480px) {
-    .tech-stack .trust-logos-container {
-        gap: 1rem;
-        margin-top: 1.5rem;
-        padding-top: 1rem;
-    }
-    
-    .trust-logo {
-        height: 28px;
-    }
-} 
+ 

@@ -20,7 +20,6 @@ function chubes_breadcrumbs($args = []) {
     // Parse the args with defaults
     $args = wp_parse_args($args, $defaults);
 
-    // Get global variables
     global $post, $wp_query;
 
     // Don't display on the homepage if show_on_home is false
@@ -121,7 +120,6 @@ function chubes_breadcrumbs($args = []) {
             echo $args['separator'];
             echo '<a href="' . esc_url(get_permalink(get_option('page_for_posts'))) . '">Blog</a>';
             
-            // Get post categories
             $cats = get_the_category();
             if ($cats) {
                 echo $args['separator'];
@@ -132,10 +130,10 @@ function chubes_breadcrumbs($args = []) {
                 echo $args['separator'];
                 echo $args['before_current'] . get_the_title() . $args['after_current'];
             }
-        } elseif (get_post_type() === 'portfolio') {
-            // Portfolio single
+        } elseif (get_post_type() === 'game') {
+            // Game single
             echo $args['separator'];
-            echo '<a href="' . esc_url(get_post_type_archive_link('portfolio')) . '">Portfolio</a>';
+            echo '<a href="' . esc_url(get_post_type_archive_link('game')) . '">Games</a>';
             
             if ($args['show_current']) {
                 echo $args['separator'];
@@ -146,12 +144,11 @@ function chubes_breadcrumbs($args = []) {
             echo $args['separator'];
             echo '<a href="' . esc_url(get_post_type_archive_link('documentation')) . '">Documentation</a>';
             
-            // Get plugin taxonomy terms
-            $plugin_terms = get_the_terms(get_the_ID(), 'plugin');
-            if ($plugin_terms && !is_wp_error($plugin_terms)) {
+            $codebase_terms = get_the_terms(get_the_ID(), 'codebase');
+            if ($codebase_terms && !is_wp_error($codebase_terms)) {
                 echo $args['separator'];
-                $plugin_term = $plugin_terms[0]; // Use first plugin term
-                echo '<a href="' . esc_url(get_term_link($plugin_term)) . '">' . esc_html($plugin_term->name) . '</a>';
+                $codebase_term = $codebase_terms[0]; // Use first codebase term
+                echo '<a href="' . esc_url(get_term_link($codebase_term)) . '">' . esc_html($codebase_term->name) . '</a>';
             }
             
             if ($args['show_current']) {
@@ -185,8 +182,8 @@ function chubes_breadcrumbs($args = []) {
                 echo $args['before_current'] . esc_html($post_type->labels->name) . $args['after_current'];
             }
         }
-    } elseif (is_tax('plugin')) {
-        // Plugin taxonomy archive
+    } elseif (is_tax('codebase')) {
+        // Codebase taxonomy archive
         echo $args['separator'];
         echo '<a href="' . esc_url(get_post_type_archive_link('documentation')) . '">Documentation</a>';
         
@@ -213,7 +210,6 @@ function chubes_breadcrumbs($args = []) {
             $parent_id = $page->post_parent;
         }
         
-        // Display parent pages (in reverse order)
         $breadcrumbs = array_reverse($breadcrumbs);
         foreach ($breadcrumbs as $crumb) {
             echo $args['separator'];
@@ -259,7 +255,6 @@ function chubes_add_breadcrumbs() {
         return;
     }
     
-    // Display breadcrumbs
     chubes_breadcrumbs();
 }
 

@@ -41,6 +41,14 @@
         'container' => false,
     ));
     ?>
+    
+    <!-- Search Form -->
+    <form class="search-form" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
+        <input type="search" class="search-input" placeholder="Search site..." value="<?php echo get_search_query(); ?>" name="s" />
+        <button type="submit" class="search-submit">
+            <span class="search-text">Search</span>
+        </button>
+    </form>
   </nav>
 </div>
 </header>

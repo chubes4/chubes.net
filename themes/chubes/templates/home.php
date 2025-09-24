@@ -1,4 +1,12 @@
-<?php get_header(); ?>
+<?php 
+/**
+ * Blog Posts Index Template
+ * 
+ * Part of organized template hierarchy in /templates/ directory.
+ * Displays blog post archive with context-aware navigation using 
+ * chubes_get_parent_page() function from functions.php.
+ */
+get_header(); ?>
 
 <main class="site-main archive-blog">
     <section class="archive-header enhanced">

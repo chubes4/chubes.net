@@ -1,5 +1,11 @@
 <?php
-// Theme setup function
+/**
+ * Chubes Theme Functions
+ * 
+ * Core theme functionality including asset loading, custom post types,
+ * navigation system, and performance optimizations.
+ */
+
 function chubes_theme_setup() {
     // Add support for various features
     add_theme_support('title-tag');
@@ -16,7 +22,6 @@ function chubes_theme_setup() {
 }
 add_action('after_setup_theme', 'chubes_theme_setup');
 
-// Enqueue styles and scripts
 function chubes_enqueue_scripts() {
     // Enqueue main stylesheet with dynamic versioning
     wp_enqueue_style('chubes-style', get_stylesheet_uri(), array(), filemtime(get_template_directory() . '/style.css'));
@@ -26,36 +31,64 @@ function chubes_enqueue_scripts() {
         wp_enqueue_style('home-style', get_template_directory_uri() . '/assets/css/home.css', array(), filemtime(get_template_directory() . '/assets/css/home.css'));
     }
     
-    // Enqueue page-specific assets
-    
-    if (is_post_type_archive('portfolio')) {
-        // Enqueue load-more.js only on portfolio archive pages
-        wp_enqueue_script('load-more', get_template_directory_uri() . '/assets/js/load-more.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/load-more.js'), true);
-        
-        global $wp_query;
-        wp_localize_script('load-more', 'chubes_params', array(
-            'ajaxurl'      => admin_url('admin-ajax.php'),
-            'current_page' => max(1, get_query_var('paged')),
-            'max_page'     => $wp_query->max_num_pages
-        ));
+    // Enqueue documentation CSS on documentation posts
+    if (is_singular('documentation')) {
+        wp_enqueue_style('documentation-style', get_template_directory_uri() . '/assets/css/documentation.css', array(), filemtime(get_template_directory() . '/assets/css/documentation.css'));
     }
     
-        wp_enqueue_script('reveal', get_template_directory_uri() . '/assets/js/reveal.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/reveal.js'), true);
+    // Enqueue archives CSS on archive pages and taxonomy pages
+    // Also handle custom archive routes that use query vars set by rewrite rules
+    $has_custom_archives = (
+        get_query_var('docs_category_archive') ||
+        get_query_var('docs_project_archive') ||
+        get_query_var('codebase_archive') ||
+        get_query_var('codebase_project')
+    );
+    if (
+        is_post_type_archive() ||
+        is_tax('codebase') ||
+        is_post_type_archive('documentation') ||
+        is_category() ||
+        is_tag() ||
+        is_tax() ||
+        $has_custom_archives
+    ) {
+        wp_enqueue_style('archives-style', get_template_directory_uri() . '/assets/css/archives.css', array(), filemtime(get_template_directory() . '/assets/css/archives.css'));
+    }
+    
+    
+    // Mobile navigation functionality
+    wp_enqueue_script('navigation', get_template_directory_uri() . '/assets/js/navigation.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/navigation.js'), true);
 }
 add_action('wp_enqueue_scripts', 'chubes_enqueue_scripts');
 
-// Remove WordPress version for security
+/**
+ * Security: Remove WordPress version from meta generator
+ * 
+ * @return string Empty string to hide WordPress version
+ */
 function chubes_remove_wp_version() {
     return '';
 }
 add_filter('the_generator', 'chubes_remove_wp_version');
 
-// Disable WordPress emoji scripts for performance
+/**
+ * Performance: Disable WordPress emoji scripts
+ * Removes emoji detection script and styles to reduce HTTP requests
+ */
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_print_styles', 'print_emoji_styles');
 
 /**
- * Get parent page information for navigation
+ * Get parent page information for context-aware navigation
+ * 
+ * Provides intelligent back navigation based on content type:
+ * - Blog posts → Blog page
+ * - Custom post types → Archive page  
+ * - Pages with parents → Immediate parent page
+ * - Archive pages → Blog or homepage
+ * 
+ * @return array Parent page data with 'url' and 'title' keys
  */
 function chubes_get_parent_page() {
     global $post;
@@ -106,7 +139,7 @@ function chubes_get_parent_page() {
             'title' => 'Blog'
         );
     }
-    // For post type archives (like Portfolio or Journal)
+    // For post type archives (like Journal or Game)
     elseif (is_post_type_archive()) {
         // These should go back to the homepage
         $parent = array(
@@ -118,16 +151,197 @@ function chubes_get_parent_page() {
     return $parent;
 }
 
+/**
+ * Get documentation items for homepage display
+ * 
+ * Retrieves projects from codebase taxonomy that have documentation posts
+ * and formats them for display on the homepage.
+ * 
+ * @return array Array of documentation items with name, type, count, and URL
+ */
+function chubes_get_homepage_documentation_items() {
+    $doc_items = array();
+    
+    // Get parent categories (plugins, themes, apps, tools)
+    $parent_categories = get_terms(array(
+        'taxonomy'   => 'codebase',
+        'hide_empty' => false,
+        'parent'     => 0, // Top-level categories
+        'orderby'    => 'name',
+        'order'      => 'ASC'
+    ));
+    
+    if ($parent_categories && !is_wp_error($parent_categories)) {
+        foreach ($parent_categories as $parent_category) {
+            // Get child projects under each parent category
+            $child_projects = get_terms(array(
+                'taxonomy'   => 'codebase',
+                'hide_empty' => false,
+                'parent'     => $parent_category->term_id,
+                'orderby'    => 'name',
+                'order'      => 'ASC'
+            ));
+            
+            if ($child_projects && !is_wp_error($child_projects)) {
+                foreach ($child_projects as $project) {
+                    // Check if this project has documentation
+                    $docs_count = new WP_Query(array(
+                        'post_type' => 'documentation',
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'codebase',
+                                'field'    => 'term_id',
+                                'terms'    => $project->term_id,
+                                'include_children' => true,
+                            ),
+                        ),
+                        'posts_per_page' => 1,
+                        'post_status' => 'publish'
+                    ));
+                    
+                    if ($docs_count->found_posts > 0) {
+                        $doc_items[] = array(
+                            'name' => $project->name,
+                            'type' => rtrim($parent_category->name, 's'), // "Plugins" -> "Plugin"
+                            'count' => $docs_count->found_posts,
+                            'url' => home_url('/docs/' . strtolower($parent_category->slug) . '/' . $project->slug . '/')
+                        );
+                    }
+                    wp_reset_postdata();
+                }
+            }
+        }
+        
+        // Sort by project name for consistent display
+        usort($doc_items, function($a, $b) {
+            return strcmp($a['name'], $b['name']);
+        });
+    }
+    
+    return $doc_items;
+}
 
+/**
+ * Generate URL for viewing content of specific type for a codebase project
+ * 
+ * @param string $post_type The post type
+ * @param WP_Term $term The project term
+ * @return string The URL to view this content type for this project
+ */
+function chubes_generate_content_type_url($post_type, $term) {
+    // For documentation, use docs archive with hierarchical project structure
+    if ($post_type === 'documentation') {
+        // Find the parent category (plugins, themes, apps, tools)
+        $parent_category = null;
+        if ($term->parent != 0) {
+            // This is a project term, find its parent category
+            $parent_term = get_term($term->parent, 'codebase');
+            if ($parent_term && !is_wp_error($parent_term) && in_array($parent_term->slug, ['plugins', 'themes', 'apps', 'tools'])) {
+                $parent_category = $parent_term;
+            }
+        } else if (in_array($term->slug, ['plugins', 'themes', 'apps', 'tools'])) {
+            // This is already a parent category, not a project
+            return home_url('/docs/' . $term->slug . '/');
+        }
+        
+        if ($parent_category) {
+            return home_url('/docs/' . $parent_category->slug . '/' . $term->slug . '/');
+        }
+    }
+    
+    // For other post types, use post type archive with taxonomy filter
+    $archive_url = get_post_type_archive_link($post_type);
+    if ($archive_url) {
+        return add_query_arg('codebase', $term->slug, $archive_url);
+    }
+    
+    // Fallback to project taxonomy page
+    return get_term_link($term);
+}
 
-// Include theme functionality
-require_once get_template_directory() . '/inc/custom-post-types.php';
-require_once get_template_directory() . '/inc/custom-taxonomies.php';
-require_once get_template_directory() . '/inc/breadcrumbs.php';
+/**
+ * Load theme functionality modules
+ * 
+ * Modular architecture with single responsibility principle:
+ * - Core: CPTs, taxonomies, URL rewrite rules, related posts system, template filters
+ * - Contact: AJAX form processing with spam protection
+ * - Plugins: Codebase taxonomy fields with repository tracking and install counts
+ */
+require_once get_template_directory() . '/inc/core/custom-post-types.php';
+require_once get_template_directory() . '/inc/core/custom-taxonomies.php';
+require_once get_template_directory() . '/inc/core/rewrite-rules.php';
+require_once get_template_directory() . '/inc/core/filters.php';
+require_once get_template_directory() . '/inc/core/related-posts.php';
 require_once get_template_directory() . '/inc/contact-ajax.php';
-require_once get_template_directory() . '/inc/portfolio/portfolio-custom-fields.php';
-require_once get_template_directory() . '/inc/portfolio/portfolio-image-overlay.php';
-require_once get_template_directory() . '/inc/utils/load-more.php';
-require_once get_template_directory() . '/inc/utils/instagram-embeds.php';
-require_once get_template_directory() . '/inc/plugins/plugin-custom-fields.php';
-require_once get_template_directory() . '/inc/plugins/track-plugin-installs.php';
+require_once get_template_directory() . '/inc/plugins/codebase-repository-info-fields.php';
+require_once get_template_directory() . '/inc/plugins/track-codebase-installs.php';
+
+/**
+ * Extend WordPress search to include custom post types
+ * 
+ * Includes Journal, Documentation, and Game post types in search results
+ * for more comprehensive site-wide search functionality.
+ * 
+ * @param WP_Query $query The WordPress query object
+ */
+function chubes_extend_search_post_types($query) {
+    // Only modify search queries on the frontend
+    if (!is_admin() && $query->is_main_query() && $query->is_search()) {
+        $query->set('post_type', array(
+            'post',         // Default posts
+            'journal',      // Journal entries
+            'documentation', // Documentation posts
+            'game'          // Games
+        ));
+    }
+}
+add_action('pre_get_posts', 'chubes_extend_search_post_types');
+
+/**
+ * Customizer Settings for Homepage
+ * 
+ * Adds customizer section for managing content below the latest content section
+ * on the homepage, supporting Gutenberg blocks.
+ * 
+ * @param WP_Customize_Manager $wp_customize
+ */
+function chubes_customize_register($wp_customize) {
+    // Add Homepage section
+    $wp_customize->add_section('chubes_homepage', array(
+        'title'    => __('Homepage Settings', 'chubes-theme'),
+        'priority' => 30,
+    ));
+
+    // Add setting for custom content section
+    $wp_customize->add_setting('chubes_homepage_custom_content', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post', // Allow HTML but sanitize
+        'transport'         => 'refresh',
+    ));
+
+    // Add control for custom content section
+    $wp_customize->add_control('chubes_homepage_custom_content', array(
+        'label'    => __('Custom Content Section', 'chubes-theme'),
+        'description' => __('Add content below the latest content section. You can use Gutenberg blocks by copying them from the block editor.', 'chubes-theme'),
+        'section'  => 'chubes_homepage',
+        'type'     => 'textarea',
+        'input_attrs' => array(
+            'placeholder' => __('Enter HTML or Gutenberg block markup here...', 'chubes-theme'),
+            'rows' => 8,
+        ),
+    ));
+
+    // Add setting for section visibility
+    $wp_customize->add_setting('chubes_homepage_custom_content_enabled', array(
+        'default'   => false,
+        'transport' => 'refresh',
+    ));
+
+    // Add control for section visibility
+    $wp_customize->add_control('chubes_homepage_custom_content_enabled', array(
+        'label'    => __('Enable Custom Content Section', 'chubes-theme'),
+        'section'  => 'chubes_homepage',
+        'type'     => 'checkbox',
+    ));
+}
+add_action('customize_register', 'chubes_customize_register');

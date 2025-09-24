@@ -3,10 +3,10 @@
         <div class="footer-nav">
             <ul>
                 <li><a href="<?php echo home_url('/about'); ?>">About</a></li>
-                <li><a href="<?php echo home_url('/portfolio'); ?>">Portfolio</a></li>
-                <li><a href="<?php echo home_url('/plugins'); ?>">Plugins</a></li>
+                <li><a href="<?php echo home_url('/docs'); ?>">Documentation</a></li>
                 <li><a href="<?php echo home_url('/blog'); ?>">Blog</a></li>
                 <li><a href="<?php echo home_url('/journal'); ?>">Journal</a></li>
+                <li><a href="<?php echo home_url('/game'); ?>">Games</a></li>
             </ul>
         </div>
 
@@ -14,7 +14,6 @@
 
 
         <div class="footer-info">
-            <p>WordPress developer, music journalist, and creative engineer.</p>
             <p><a href="mailto:chubes@chubes.net" class="footer-cta">chubes@chubes.net</a></p>
             <?php 
 // Build the sprite URL with versioning based on file modification time.

@@ -1,7 +1,12 @@
 <?php
-/*
-Template Name: Contact
-*/
+/**
+ * Contact Page Template with AJAX Form
+ * 
+ * Part of organized template hierarchy in /templates/page/ directory.
+ * Features contact form with honeypot and timestamp spam protection.
+ * AJAX form processing handled in /inc/contact-ajax.php.
+ * Contact assets loaded separately in contact-ajax.php for this page.
+ */
 get_header(); ?>
 
 <main class="site-main contact-page">
@@ -18,7 +23,7 @@ get_header(); ?>
             <form id="contactForm" class="contact-form" method="post">
                 <h2>Supercharge Your Project</h2>
                 <!-- Honeypot Field for Spam Protection -->
-                <div style="display: none;">
+                <div class="contact-honeypot">
                     <label for="contact_honeypot">Leave this field empty</label>
                     <input type="text" id="contact_honeypot" name="contact_honeypot" value="">
                 </div>
@@ -36,7 +41,7 @@ get_header(); ?>
                 <input type="text" id="contactWebsite" name="contactWebsite" placeholder="https://example.com">
                 
                 <label for="contactMessage">Tell Me About Your Project</label>
-                <small style="display:block; color:#888; margin:5px 0;">
+                <small class="contact-help-text">
                 Share your ideas, goals, or questions—I'll get back to you soon!
                 </small>
 
@@ -45,8 +50,8 @@ get_header(); ?>
                 <button type="submit" class="btn">Get My Expertise Today</button>
                 
                 <!-- Error & Success Message Containers --> 
-                <p class="contact-error" style="display:none; color:red; text-align:center; margin-top:10px;"></p>
-                <p class="contact-success" style="display:none; text-align:center; margin-top:10px;"></p>
+                <p class="contact-error"></p>
+                <p class="contact-success"></p>
             </form>
         </div>
     </section>

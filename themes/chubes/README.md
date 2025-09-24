@@ -1,62 +1,66 @@
 # Chubes Theme
 
-Custom WordPress theme for [https://chubes.net](https://chubes.net) - Chris Huber's professional portfolio and service showcase.
+Custom WordPress theme for [https://chubes.net](https://chubes.net) - Chris Huber's showcase platform for WordPress development, music journalism, and digital tools.
 
 ## Overview
 
-This theme serves as a portfolio website and showcase platform for WordPress development, music journalism, and digital tools. Built with performance and modularity in mind.
+This theme serves as a showcase and informational platform for WordPress development, music journalism, and digital tools. Built with performance and modularity in mind, featuring comprehensive plugin documentation and tracking systems.
 
 ## Architecture
 
 ### Development Approach
-- **Traditional WordPress** - No build tools or package.json
+- **Traditional WordPress** - Bash build script for production, no Node.js tooling
 - **Modular PHP structure** - Organized by feature in `/inc/` directory
+- **Organized template system** - Templates in `/templates/` subdirectories with hierarchy filters
 - **Dynamic asset loading** - Conditional CSS/JS with cache-busting via `filemtime()`
 - **Security-focused** - Version hiding, nonce verification, honeypot protection
+- **Production build system** - `build.sh` creates optimized theme packages
 
-### Custom Post Types
+### Custom Post Types & Taxonomy
 ```php
-// Portfolio - Project showcases
-register_post_type('portfolio', $args);
-
 // Journal - Personal blog content  
 register_post_type('journal', $args);
 
 // Game - Interactive content hosting
 register_post_type('game', $args);
 
-// Plugin - WordPress plugin distribution
-register_post_type('plugin', $args);
+// Documentation - Plugin guides and tutorials
+register_post_type('documentation', $args);
+
+// Codebase taxonomy - Unified hierarchical organization for all projects
+register_taxonomy('codebase', array('documentation', 'journal', 'game'), $args);
 ```
 
 ### Contact System
-Unified contact form with specialized styling:
+Simple, unified contact form:
 - Main contact form in `page-contact.php` with comprehensive spam protection
 - AJAX submission handled by `/inc/contact-ajax.php`
-- Service-specific CSS/JS assets for different contexts:
-  - `ai-integration-contact.css/.js` - AI integration services
-  - `wordpress-customization-contact.css/.js` - WordPress customization
-  - `web-dev-contact.css/.js` - Web development services
-  - `boat-contact-modal.css/.js` - Marine industry websites
-  - `free-local-seo-audits.css` and `seo-audit.js` - SEO audits
+- Contact assets (`contact.css`, `contact.js`) exist but are not currently enqueued in functions.php
 
 Form features:
 - Honeypot and timestamp spam protection
 - AJAX submission with user feedback
 - Admin and user notification emails
-- WordPress nonce security
+- WordPress nonce security and input sanitization
 
-### Plugin Tracking System
-Automated WordPress.org API integration:
+### Codebase Documentation & Tracking System
+Unified project management system with WordPress.org API integration:
 ```php
-// Fetch plugin install counts
-chubes_fetch_plugin_data($plugin_slug);
+// Unified codebase taxonomy with custom fields
+update_term_meta($term_id, 'codebase_github_url', $github_url);
+update_term_meta($term_id, 'codebase_wp_url', $wp_url);
+update_term_meta($term_id, 'codebase_install_count', $install_count);
 
-// Update all plugins daily via cron
-wp_schedule_event(time(), 'daily', 'chubes_update_plugin_installs');
+// Fetch repository information
+$repo_info = chubes_get_repository_info($term);
 
-// Get total installs across all plugins
-chubes_get_total_plugin_installs();
+// Helper functions for codebase projects
+chubes_get_codebase_wp_url($term_id);
+chubes_get_codebase_github_url($term_id);
+chubes_get_codebase_installs($term_id);
+
+// Project type detection
+$project_type = chubes_get_codebase_project_type($term);
 ```
 
 ### Navigation System
@@ -71,17 +75,24 @@ chubes_get_parent_page();
 
 ```
 /chubes/
-├── Template Files
-│   ├── 404.php                    # Custom error page
-│   ├── archive.php                # Generic archive with dynamic headers
-│   ├── archive-journal.php        # Journal archive
-│   ├── archive-portfolio.php      # Portfolio archive
-│   ├── front-page.php             # Homepage
-│   ├── home.php                   # Blog home template
-│   ├── index.php                  # Default template
-│   ├── page-contact.php           # Contact page
-│   ├── single-portfolio.php       # Portfolio single view
-│   └── single.php                 # Default single post
+├── /templates/ - Organized template files with hierarchy filters:
+│   ├── /archive/ - All archive templates
+│   │   ├── archive.php - Generic archive template with dynamic headers
+│   │   ├── archive-journal.php - Journal archive
+│   │   ├── archive-codebase.php - Codebase taxonomy archive
+│   │   └── archive-documentation.php - Documentation archive
+│   ├── /single/ - All single post templates
+│   │   └── single.php - Default single post template
+│   ├── /page/ - All page templates
+│   │   ├── page.php - Default page template
+│   │   └── page-contact.php - Contact page template
+│   ├── /taxonomy/ - All taxonomy templates
+│   │   └── taxonomy-codebase.php - Individual codebase project pages
+│   ├── /parts/ - Template parts organized by functionality
+│   ├── 404.php - Custom 404 error page
+│   ├── front-page.php - Homepage template
+│   ├── home.php - Blog posts index template
+│   └── index.php - Default template
 ├── /assets/
 │   ├── /css/                     # Page-specific stylesheets
 │   ├── /js/                      # AJAX, animations, interactions
@@ -89,11 +100,14 @@ chubes_get_parent_page();
 ├── /inc/
 │   ├── breadcrumbs.php          # Navigation breadcrumb system
 │   ├── contact-ajax.php         # Contact form implementation
-│   ├── custom-post-types.php    # Portfolio, Journal, Game, Plugin CPTs
-│   ├── customizer.php           # Theme customizer settings
-│   ├── /portfolio/              # Portfolio custom fields & overlays
-│   ├── /plugins/                # Plugin tracking system
-│   └── /utils/                  # Load more, Instagram embeds
+│   ├── /core/                   # Core WordPress functionality
+│   │   ├── custom-post-types.php    # Journal, Game, Documentation CPTs
+│   │   ├── custom-taxonomies.php    # Plugin taxonomy registration
+│   │   ├── rewrite-rules.php        # Custom URL rewrite rules for documentation
+│   │   └── filters.php              # Template hierarchy filters for organized template loading
+│   ├── /plugins/                # Codebase tracking & taxonomy fields
+│   └── /utils/                  # Instagram embeds
+├── /dist/                       # Production build directory
 └── functions.php                # Theme setup & asset management
 ```
 
@@ -107,15 +121,42 @@ if (is_front_page()) {
     wp_enqueue_style('home-style', get_template_directory_uri() . '/assets/css/home.css', array(), filemtime(get_template_directory() . '/assets/css/home.css'));
 }
 
-// Portfolio archive load-more functionality  
-if (is_post_type_archive('portfolio')) {
-    wp_enqueue_script('load-more', get_template_directory_uri() . '/assets/js/load-more.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/load-more.js'), true);
-    wp_localize_script('load-more', 'loadmore_params', array(
-        'ajaxurl' => admin_url('admin-ajax.php'),
-        'current_page' => max(1, get_query_var('paged')),
-        'max_page' => $wp_query->max_num_pages
-    ));
+// Documentation specific styles
+if (is_singular('documentation')) {
+    wp_enqueue_style('documentation-style', get_template_directory_uri() . '/assets/css/documentation.css', array(), filemtime(get_template_directory() . '/assets/css/documentation.css'));
 }
+
+// Archives styles on archive and taxonomy pages
+if (is_post_type_archive() || is_tax('codebase') || is_post_type_archive('documentation') || is_category() || is_tag() || is_tax()) {
+    wp_enqueue_style('archives-style', get_template_directory_uri() . '/assets/css/archives.css', array(), filemtime(get_template_directory() . '/assets/css/archives.css'));
+}
+
+// Global mobile navigation
+wp_enqueue_script('navigation', get_template_directory_uri() . '/assets/js/navigation.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/navigation.js'), true);
+```
+
+*Note: Contact page assets exist (`/assets/css/contact.css`, `/assets/js/contact.js`) but are not currently enqueued conditionally in functions.php.*
+
+### Template Hierarchy System
+WordPress template lookups are redirected to organized subdirectories via `/inc/core/filters.php`:
+```php
+// Archive templates → /templates/archive/
+add_filter('archive_template_hierarchy', 'chubes_archive_template_hierarchy');
+
+// Single post templates → /templates/single/  
+add_filter('single_template_hierarchy', 'chubes_single_template_hierarchy');
+
+// Page templates → /templates/page/
+add_filter('page_template_hierarchy', 'chubes_page_template_hierarchy');
+
+// Taxonomy templates → /templates/taxonomy/
+add_filter('taxonomy_template_hierarchy', 'chubes_taxonomy_template_hierarchy');
+
+// Root-level templates → /templates/
+add_filter('frontpage_template_hierarchy', 'chubes_frontpage_template_hierarchy');
+add_filter('index_template_hierarchy', 'chubes_index_template_hierarchy');
+add_filter('404_template_hierarchy', 'chubes_404_template_hierarchy');
+add_filter('home_template_hierarchy', 'chubes_home_template_hierarchy');
 ```
 
 ### Performance Optimizations
@@ -133,18 +174,31 @@ if (is_post_type_archive('portfolio')) {
 ## Local Development
 
 This theme runs on Local Sites (WordPress local development):
-- No build process required
-- Direct file editing
+- Build system available via `build.sh` for production deployment
+- Direct file editing for development
 - Manual testing workflow
 - Git-based version control
 
+### Production Build
+```bash
+# Create optimized theme package
+./build.sh
+
+# Creates:
+# /dist/chubes.zip    - WordPress admin upload
+# /dist/chubes/       - FTP deployment directory
+```
+
 ## API Integration
 
-WordPress.org Plugin API:
-- Real-time install count tracking
-- Daily automated updates via cron
-- Admin interface for manual updates
-- Install aggregation across all plugins
+WordPress.org Plugin API & Unified Codebase System:
+- Real-time install count tracking for codebase taxonomy terms
+- Unified repository information system for all project types
+- Repository metadata with GitHub and WordPress.org URL fields
+- Admin interface with custom columns showing full taxonomy hierarchy
+- Card-based public archives with dynamic content type buttons
+- Documentation filtering by hierarchical codebase taxonomy
+- Project type detection (plugin, theme, app, tool) based on taxonomy hierarchy
 
 ## Contact Form Implementation
 

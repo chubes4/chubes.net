@@ -1,4 +1,12 @@
-<?php get_header(); ?>
+<?php 
+/**
+ * Journal Archive Template
+ * 
+ * Part of organized template hierarchy in /templates/archive/ directory.
+ * Displays journal custom post type entries in a simple list format
+ * with context-aware navigation using chubes_get_parent_page().
+ */
+get_header(); ?>
 
 <main class="site-main archive-journal">
     <section class="archive-header enhanced">

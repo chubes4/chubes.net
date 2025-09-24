@@ -4,54 +4,94 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Chubes Theme** is a custom WordPress theme for https://chubes.net, serving as a personal/professional portfolio and showcase for Chris Huber's AI-first WordPress development, music journalism, and content automation systems.
-
-*For detailed context about Chris's background, expertise, and strategic positioning, see `who-is-chubes.md` (private developer reference, gitignored).*
+**Chubes Theme** is a custom WordPress theme for https://chubes.net, serving as Chris Huber's showcase for AI-first WordPress development, music journalism, and content automation systems.
 
 ## Development Commands
 
-This theme uses traditional WordPress development without build tools:
+This theme uses traditional WordPress development with automated build system:
 
-- **No package.json or build process** - Direct CSS/JS editing
+- **Bash build script** - `build.sh` creates production WordPress theme packages
+- **No package.json** - Direct CSS/JS editing without Node.js tooling
 - **Asset cache busting** - Uses `filemtime()` for dynamic versioning
 - **Local development** - Uses Local Sites environment
 - **No automated testing** - Manual testing required
+
+### Build Process
+```bash
+# Create production theme package
+./build.sh
+
+# Outputs:
+# /dist/chubes.zip - For WordPress admin upload
+# /dist/chubes/ - For FTP deployment
+```
 
 ## Architecture Overview
 
 ### Core Structure
 - **Traditional WordPress theme** with modular PHP organization
-- **Custom post types**: Portfolio, Journal, Game, Plugin
+- **Custom post types**: Journal, Game, Documentation
+- **Codebase taxonomy**: Hierarchical organization for documentation
 - **Contact form system** with anti-spam protection
 - **Manual asset management** with conditional loading
 
 ### Directory Structure
 ```
 /chubes/
-├── Template files:
+├── /templates/ - Organized template files by type:
+│   ├── /parts/ - Template parts organized by functionality
+│   │   └── /codebase/ - Codebase-specific components
+│   │       └── codebase-card.php - Individual codebase item display
+│   ├── /archive/ - All archive templates
+│   │   ├── archive.php - Generic archive template with dynamic headers
+│   │   ├── archive-journal.php - Journal archive
+│   │   ├── archive-codebase.php - Codebase taxonomy archive
+│   │   ├── archive-documentation.php - Documentation archive
+│   │   ├── archive-docs-category.php - Documentation category archive
+│   │   ├── archive-docs-taxonomy.php - Documentation taxonomy archive
+│   │   └── search.php - Search results template
+│   ├── /single/ - All single post templates
+│   │   ├── single.php - Default single post template
+│   │   └── single-documentation.php - Documentation single view
+│   ├── /page/ - All page templates
+│   │   ├── page.php - Default page template
+│   │   └── page-contact.php - Contact page template
+│   ├── /taxonomy/ - All taxonomy templates
+│   │   └── taxonomy-codebase.php - Individual codebase taxonomy pages
 │   ├── 404.php - Custom 404 error page
-│   ├── archive.php - Generic archive template with dynamic headers
-│   ├── archive-journal.php - Journal archive
-│   ├── archive-portfolio.php - Portfolio archive
 │   ├── front-page.php - Homepage template
-│   ├── page-contact.php - Contact page template
-│   ├── single-portfolio.php - Portfolio single view
-│   ├── index.php - Default template
-│   └── single.php - Default single post template
+│   ├── home.php - Blog posts index template
+│   └── index.php - Default template
 ├── /assets/
 │   ├── /css/ - Page-specific stylesheets
-│   ├── /js/ - JavaScript for AJAX, animations, interactions  
+│   ├── /js/ - JavaScript for navigation and interactions  
 │   └── /fonts/ - Custom fonts (Inter, Space Grotesk) + SVG icons
 ├── /inc/ - Modular PHP functionality:
 │   ├── breadcrumbs.php - Navigation breadcrumb system
 │   ├── contact-ajax.php - Contact form implementation
-│   ├── custom-post-types.php - Portfolio, Journal, Game, Plugin CPTs
-│   ├── customizer.php - Theme customizer settings
-│   ├── /portfolio/ - Portfolio custom fields & image overlays
-│   ├── /plugins/ - Plugin install tracking system
-│   └── /utils/ - Load more, Instagram embeds
+│   ├── /core/ - Core WordPress functionality:
+│   │   ├── custom-post-types.php - Journal, Game, Documentation CPTs
+│   │   ├── custom-taxonomies.php - Codebase taxonomy registration
+│   │   ├── rewrite-rules.php - Custom URL rewrite rules for documentation
+│   │   ├── filters.php - Template hierarchy filters for organized template loading
+│   │   └── related-posts.php - Related posts functionality
+│   ├── /plugins/ - Codebase tracking system with taxonomy fields
+│   └── /utils/ - Instagram embeds
+├── /dist/ - Production build directory with optimized theme files
 └── functions.php - Theme setup, navigation, & asset loading
 ```
+
+### Template Hierarchy System
+
+The theme uses WordPress template hierarchy filters to organize templates into logical subdirectories within `/templates/`. All template lookups are redirected via `/inc/core/filters.php`:
+
+- **Archive templates** → `/templates/archive/` (archive.php, archive-journal.php, etc.)
+- **Single post templates** → `/templates/single/` (single.php, single-documentation.php)  
+- **Page templates** → `/templates/page/` (page.php, page-contact.php)
+- **Taxonomy templates** → `/templates/taxonomy/` (taxonomy-codebase.php)
+- **Root-level templates** → `/templates/` (404.php, front-page.php, home.php, index.php)
+
+This system maintains WordPress template hierarchy while enabling organized file structure.
 
 ### Key Systems
 
@@ -62,52 +102,60 @@ Simple, secure contact form system:
 - Sends both admin and user notification emails
 - WordPress nonce security and input sanitization
 
-#### Portfolio System
-- Grid display with hover overlays (`/inc/portfolio/`)
-- Custom fields: `project_url`, `tech_stack`
-- AJAX load-more functionality
-- Image overlay with "Visit Live Site" buttons
-
-#### Plugin Distribution System
-- **Full WordPress.org API integration** for real-time install tracking
-- **Automated daily cron updates** via `wp_schedule_event()`
-- **Admin interface** with manual update controls (`/inc/plugins/`)
-- **Install count aggregation** across all plugins
-- **Auto-updates on post save** for immediate data refresh
+#### Codebase Documentation & Tracking System
+- **Documentation CPT** with codebase taxonomy organization
+- **Unified codebase taxonomy** (replaces separate plugin/theme taxonomies)
+- **Hierarchical project structure** (plugins → project-name → categories)
+- **Repository information tracking** for GitHub and WordPress.org projects
+- **Install count tracking** for WordPress plugins and themes
+- **Admin interface** with manual update controls and statistics
+- **Custom admin columns** showing full taxonomy hierarchy path
+- **Card-based public archive** with dynamic content type buttons
+- **Public codebase archive** with project information and statistics
 
 ### Asset Loading Patterns
 
 CSS/JS conditionally loaded in `functions.php`:
 - **Front page**: `home.css`
-- **Contact page**: `contact.css` + `contact.js`
-- **Portfolio archive**: `load-more.js` with localized AJAX params
-- **Global**: `reveal.js` for scroll animations
+- **Documentation posts**: `documentation.css` for single documentation view
+- **Archive pages**: `archives.css` for all archive and taxonomy pages
+- **Global**: `navigation.js` for mobile menu functionality
+
+*Note: Contact assets (`contact.css`, `contact.js`) exist but are not currently enqueued in functions.php - they would need to be manually included or the enqueue system updated to load them conditionally for contact pages.*
 
 ### Data Passing Convention
 PHP to JS data uses `wp_localize_script` with naming pattern:
-- `*_params` or `*_vars` (e.g., `loadmore_params`, `chubes_vars`)
+- `*_params` or `*_vars` (e.g., `chubes_vars`)
 
-### Custom Post Types
-- **Portfolio** (`/portfolio`) - Project showcases
+### Custom Post Types & Taxonomy
 - **Journal** (`/journal`) - Blog-style content
 - **Game** (`/game`) - Interactive game hosting
-- **Plugin** (`/plugins`) - Plugin distribution and documentation
+- **Documentation** (`/docs`) - Plugin guides and tutorials
+- **Codebase taxonomy** (`/codebase`) - Hierarchical organization for documentation
 
 ### Navigation System
 Advanced parent page navigation with dynamic breadcrumb support:
-- **Context-aware back navigation** (Blog posts → Blog, Portfolio → Portfolio, etc.)
+- **Context-aware back navigation** (Blog posts → Blog, Documentation → Docs, etc.)
 - **Hierarchical page support** with ancestor detection
 - **Custom post type archive detection**
 - Breadcrumb functionality in `/inc/breadcrumbs.php`
 
 ## Recent Major Changes
 
-Based on git history:
+Based on git history and current implementation:
 - **Theme restructuring** (removed old PHP directory/autoloader)
 - **Asset reorganization** (moved CSS/fonts from root to `/assets/`)
-- **New template additions** (`404.php`, `archive.php` with dynamic headers)
-- **Enhanced plugin tracking system** (full API integration, admin interface)
+- **Template system reorganization** (moved templates to `/templates/` with hierarchy filters)
+- **New template additions** (organized in subdirectories with dynamic headers)
+- **Codebase system expansion** (Documentation CPT, unified Codebase taxonomy, repository tracking)
+- **New archive templates** (`archive-codebase.php`, `archive-documentation.php`, `taxonomy-codebase.php`)
+- **Enhanced codebase tracking** (repository integration, admin interface, taxonomy fields)
 - **Advanced navigation system** (parent page detection, dynamic breadcrumbs)
+- **Template hierarchy filters** (organized template loading via `/inc/core/filters.php`)
+- **Documentation admin columns** (full taxonomy hierarchy display instead of simple terms)
+- **Card-based archive layouts** (using `codebase-card.php` template part with dynamic content buttons)
+- **CSS enqueuing fixes** (archives.css properly loads on taxonomy pages)
+- **Build system** (comprehensive production packaging via `build.sh`)
 
 ## Development Guidelines
 
@@ -117,16 +165,20 @@ Project documentation is maintained in:
 - `README.md` - Developer setup and overview
 
 ### Code Conventions
-- **No build tools** - direct file editing
+- **Build system available** - `build.sh` for production deployment
+- **Direct file editing** - no Node.js build pipeline
 - **Modular PHP** - organized by feature in `/inc/`
 - **Security practices** - honeypot protection, nonce verification
 - **Performance optimizations** - disabled emojis, removed WP version
 
 ### Common Development Tasks
+- **Template modifications**: Edit files in `/templates/` subdirectories, organized by type
+- **Template hierarchy changes**: Modify `/inc/core/filters.php` for new template organization
 - **Contact form modifications**: Update `/inc/contact-ajax.php` and contact page assets
-- **Portfolio modifications**: Work with `/inc/portfolio/` files
-- **Asset changes**: Edit directly in `/assets/`, cache-busting automatic
-- **Custom post type changes**: Modify `/inc/custom-post-types.php`
+- **Asset changes**: Edit directly in `/assets/`, cache-busting automatic via `filemtime()`
+- **Custom post type changes**: Modify `/inc/core/custom-post-types.php` and `/inc/core/custom-taxonomies.php`
+- **Codebase system changes**: Work with `/inc/plugins/codebase-repository-info-fields.php` and `/inc/plugins/track-codebase-installs.php` for unified tracking system
+- **Admin column customization**: Modify hierarchy display functions in `/inc/core/custom-taxonomies.php`
 
 ## Important Notes
 

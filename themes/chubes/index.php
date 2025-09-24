@@ -1,6 +1,10 @@
 <?php
 /**
- * The main template file
+ * Default Template Fallback
+ * 
+ * WordPress required fallback template in theme root directory.
+ * Ultimate fallback when no specific template matches.
+ * Required by WordPress for theme validation during installation.
  */
 get_header(); ?>
 

@@ -1,7 +1,10 @@
 <?php
-/*
-Template Name: 404 Page
-*/
+/**
+ * Custom 404 Error Page Template
+ * 
+ * Part of organized template hierarchy system in /templates/ directory.
+ * Displays user-friendly error message with navigation options.
+ */
 get_header();
 ?>
 
