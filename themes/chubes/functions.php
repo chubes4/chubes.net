@@ -22,46 +22,6 @@ function chubes_theme_setup() {
 }
 add_action('after_setup_theme', 'chubes_theme_setup');
 
-function chubes_enqueue_scripts() {
-    // Enqueue main stylesheet with dynamic versioning
-    wp_enqueue_style('chubes-style', get_stylesheet_uri(), array(), filemtime(get_template_directory() . '/style.css'));
-    
-    // Enqueue home page CSS on front page
-    if (is_front_page()) {
-        wp_enqueue_style('home-style', get_template_directory_uri() . '/assets/css/home.css', array(), filemtime(get_template_directory() . '/assets/css/home.css'));
-    }
-    
-    // Enqueue documentation CSS on documentation posts
-    if (is_singular('documentation')) {
-        wp_enqueue_style('documentation-style', get_template_directory_uri() . '/assets/css/documentation.css', array(), filemtime(get_template_directory() . '/assets/css/documentation.css'));
-    }
-    
-    // Enqueue archives CSS on archive pages and taxonomy pages
-    // Also handle custom archive routes that use query vars set by rewrite rules
-    $has_custom_archives = (
-        get_query_var('docs_category_archive') ||
-        get_query_var('docs_project_archive') ||
-        get_query_var('codebase_archive') ||
-        get_query_var('codebase_project')
-    );
-    if (
-        is_post_type_archive() ||
-        is_tax('codebase') ||
-        is_post_type_archive('documentation') ||
-        is_category() ||
-        is_tag() ||
-        is_tax() ||
-        $has_custom_archives
-    ) {
-        wp_enqueue_style('archives-style', get_template_directory_uri() . '/assets/css/archives.css', array(), filemtime(get_template_directory() . '/assets/css/archives.css'));
-    }
-    
-    
-    // Mobile navigation functionality
-    wp_enqueue_script('navigation', get_template_directory_uri() . '/assets/js/navigation.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/navigation.js'), true);
-}
-add_action('wp_enqueue_scripts', 'chubes_enqueue_scripts');
-
 /**
  * Security: Remove WordPress version from meta generator
  * 
@@ -263,16 +223,17 @@ function chubes_generate_content_type_url($post_type, $term) {
  * Load theme functionality modules
  * 
  * Modular architecture with single responsibility principle:
- * - Core: CPTs, taxonomies, URL rewrite rules, related posts system, template filters
- * - Contact: AJAX form processing with spam protection
+ * - Core: Assets, CPTs, taxonomies, URL rewrite rules, related posts system, template filters
+ * - Contact: REST API for form processing with spam protection
  * - Plugins: Codebase taxonomy fields with repository tracking and install counts
  */
+require_once get_template_directory() . '/inc/core/assets.php';
 require_once get_template_directory() . '/inc/core/custom-post-types.php';
 require_once get_template_directory() . '/inc/core/custom-taxonomies.php';
 require_once get_template_directory() . '/inc/core/rewrite-rules.php';
 require_once get_template_directory() . '/inc/core/filters.php';
 require_once get_template_directory() . '/inc/core/related-posts.php';
-require_once get_template_directory() . '/inc/contact-ajax.php';
+require_once get_template_directory() . '/inc/contact-rest-api.php';
 require_once get_template_directory() . '/inc/plugins/codebase-repository-info-fields.php';
 require_once get_template_directory() . '/inc/plugins/track-codebase-installs.php';
 

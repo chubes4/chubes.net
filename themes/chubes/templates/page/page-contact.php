@@ -1,11 +1,12 @@
 <?php
 /**
- * Contact Page Template with AJAX Form
+ * Contact Page Template with REST API Form
  * 
  * Part of organized template hierarchy in /templates/page/ directory.
  * Features contact form with honeypot and timestamp spam protection.
- * AJAX form processing handled in /inc/contact-ajax.php.
- * Contact assets loaded separately in contact-ajax.php for this page.
+ * Form submits via REST API to /wp-json/chubes/v1/contact
+ * REST endpoint handler in /inc/contact-rest-api.php
+ * Contact assets (CSS/JS) loaded via /inc/core/assets.php
  */
 get_header(); ?>
 

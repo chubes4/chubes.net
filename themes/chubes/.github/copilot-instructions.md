@@ -12,7 +12,8 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 ## Critical Files (Read First)
 - **`functions.php`** — Theme setup, asset enqueuing with `filemtime()` versioning, parent page detection
 - **`inc/core/`** — Post types, taxonomies, template hierarchy filters, rewrite rules for clean URLs
-- **`inc/contact-ajax.php`** + **`templates/page/page-contact.php`** — Contact form flow: nonce verification → honeypot → timestamp check → dual emails
+- **`inc/core/assets.php`** — Centralized asset enqueuing for all theme CSS/JS
+- **`inc/contact-rest-api.php`** + **`templates/page/page-contact.php`** — Contact form: REST API endpoint at `/wp-json/chubes/v1/contact` with nonce verification, honeypot, and timestamp checks
 - **`inc/plugins/track-codebase-installs.php`** — WordPress.org API integration for install count tracking
 - **`inc/breadcrumbs.php`** — Context-aware navigation for back links
 
@@ -30,12 +31,12 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
    - Always sanitize input (`sanitize_text_field()`, `sanitize_email()`) and escape output (`esc_html()`, `esc_url()`, `esc_attr()`)
 
 ## Data Flows
-1. **Contact form**: `page-contact.php` (form HTML) → `assets/js/contact.js` (AJAX POST) → `admin-ajax.php` → `inc/contact-ajax.php` (validate/sanitize) → emails sent (admin + user). Requires nonce, passes honeypot & timestamp checks.
+1. **Contact form**: `page-contact.php` (form HTML) → `assets/js/contact.js` (REST POST) → `/wp-json/chubes/v1/contact` → `inc/contact-rest-api.php` (validate/sanitize) → emails sent (admin + user). Requires nonce, passes honeypot & timestamp checks.
 2. **Documentation archives**: URL `/docs/{category}/{project}/` → rewrite rule sets query var → `inc/core/rewrite-rules.php` handler → template resolved via hierarchy filter → `templates/archive/archive-documentation.php` renders posts with codebase taxonomy filtering.
 3. **Install tracking**: WordPress.org API call (`chubes_fetch_codebase_data()`) → `term_meta` storage (unified key: `codebase_install_count`) → rendered in admin UI via custom columns in `inc/core/custom-taxonomies.php`.
 
 ## Common Tasks & File Locations
-- **Update contact form UI/behavior**: Edit `templates/page/page-contact.php` (HTML/form), `assets/js/contact.js` (client logic), `inc/contact-ajax.php` (server-side). Preserve nonce/honeypot/timestamp checks.
+- **Update contact form UI/behavior**: Edit `templates/page/page-contact.php` (HTML/form), `assets/js/contact.js` (client logic), `inc/contact-rest-api.php` (REST endpoint). Preserve nonce/honeypot/timestamp checks. Assets managed by `inc/core/assets.php`.
 - **Add/modify custom post type**: Edit `inc/core/custom-post-types.php` (registration), then update templates in `/templates/{single,archive}/`.
 - **Modify codebase taxonomy display**: Edit `inc/core/custom-taxonomies.php` (field registration, admin columns), then update `templates/taxonomy/taxonomy-codebase.php` (frontend).
 - **Change asset loading rules**: Edit `functions.php` enqueue section. Use conditionals like `is_front_page()`, `is_singular('documentation')`, `is_post_type_archive()`.
@@ -65,7 +66,8 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 | `inc/core/custom-taxonomies.php` | Codebase taxonomy, term meta fields, admin columns |
 | `inc/core/filters.php` | Template hierarchy filters for organized `/templates/` subdirs |
 | `inc/core/rewrite-rules.php` | Clean URLs for projects and documentation |
-| `inc/contact-ajax.php` | AJAX contact form handler with spam checks |
+| `inc/core/assets.php` | Centralized CSS/JS enqueuing for all theme assets |
+| `inc/contact-rest-api.php` | REST API endpoint for contact form submissions |
 | `inc/plugins/track-codebase-installs.php` | WordPress.org API integration for install counts |
 | `inc/breadcrumbs.php` | Context-aware navigation links |
 | `templates/` | Organized by type: `/archive/`, `/single/`, `/page/`, `/taxonomy/` |

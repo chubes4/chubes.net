@@ -68,8 +68,9 @@ This theme uses traditional WordPress development with automated build system:
 │   └── /fonts/ - Custom fonts (Inter, Space Grotesk) + SVG icons
 ├── /inc/ - Modular PHP functionality:
 │   ├── breadcrumbs.php - Navigation breadcrumb system
-│   ├── contact-ajax.php - Contact form implementation
+│   ├── contact-rest-api.php - Contact form REST API endpoint
 │   ├── /core/ - Core WordPress functionality:
+│   │   ├── assets.php - Centralized asset enqueuing (CSS/JS)
 │   │   ├── custom-post-types.php - Journal, Game, Documentation CPTs
 │   │   ├── custom-taxonomies.php - Codebase taxonomy registration
 │   │   ├── rewrite-rules.php - Custom URL rewrite rules for documentation
@@ -96,9 +97,11 @@ This system maintains WordPress template hierarchy while enabling organized file
 ### Key Systems
 
 #### Contact System
-Simple, secure contact form system:
+Simple, secure contact form system using REST API:
 - Single contact form with honeypot/timestamp spam protection
-- AJAX submission with user feedback
+- REST API submission to `/wp-json/chubes/v1/contact`
+- Assets and nonce managed in `/inc/core/assets.php`
+- REST endpoint handler in `/inc/contact-rest-api.php`
 - Sends both admin and user notification emails
 - WordPress nonce security and input sanitization
 
@@ -182,7 +185,7 @@ Project documentation is maintained in:
 ### Common Development Tasks
 - **Template modifications**: Edit files in `/templates/` subdirectories, organized by type
 - **Template hierarchy changes**: Modify `/inc/core/filters.php` for new template organization
-- **Contact form modifications**: Update `/inc/contact-ajax.php` and contact page assets
+- **Contact form modifications**: Update `/templates/page/page-contact.php` (form HTML), `/assets/js/contact.js` (client logic), and `/inc/contact-rest-api.php` (REST endpoint handler). Assets enqueued via `/inc/core/assets.php`.
 - **Asset changes**: Edit directly in `/assets/`, cache-busting automatic via `filemtime()`
 - **Custom post type changes**: Modify `/inc/core/custom-post-types.php` and `/inc/core/custom-taxonomies.php`
 - **Codebase system changes**: Work with `/inc/plugins/codebase-repository-info-fields.php` and `/inc/plugins/track-codebase-installs.php` for unified tracking system

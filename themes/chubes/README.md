@@ -33,14 +33,14 @@ register_taxonomy('codebase', array('documentation', 'journal', 'game'), $args);
 ```
 
 ### Contact System
-Simple, unified contact form:
+Simple, unified contact form using REST API:
 - Main contact form in `page-contact.php` with comprehensive spam protection
-- AJAX submission handled by `/inc/contact-ajax.php`
-- Contact assets (`contact.css`, `contact.js`) exist but are not currently enqueued in functions.php
+- REST API endpoint at `/wp-json/chubes/v1/contact` handled by `/inc/contact-rest-api.php`
+- Contact assets (`contact.css`, `contact.js`) enqueued via `/inc/core/assets.php`
 
 Form features:
 - Honeypot and timestamp spam protection
-- AJAX submission with user feedback
+- REST API submission with user feedback
 - Admin and user notification emails
 - WordPress nonce security and input sanitization
 
@@ -100,8 +100,9 @@ chubes_get_parent_page();
 │   └── /fonts/                   # Inter, Space Grotesk + SVG icons
 ├── /inc/
 │   ├── breadcrumbs.php          # Navigation breadcrumb system
-│   ├── contact-ajax.php         # Contact form implementation
+│   ├── contact-rest-api.php     # Contact form REST API endpoint
 │   ├── /core/                   # Core WordPress functionality
+│   │   ├── assets.php               # Centralized asset enqueuing
 │   │   ├── custom-post-types.php    # Journal, Game, Documentation CPTs
 │   │   ├── custom-taxonomies.php    # Codebase taxonomy registration
 │   │   ├── rewrite-rules.php        # Custom URL rewrite rules for documentation
@@ -115,28 +116,36 @@ chubes_get_parent_page();
 ## Key Features
 
 ### Asset Loading
-Conditional loading based on page context:
+Centralized asset loading via `/inc/core/assets.php` with conditional loading based on page context:
 ```php
 // Homepage specific styles
 if (is_front_page()) {
-    wp_enqueue_style('home-style', get_template_directory_uri() . '/assets/css/home.css', array(), filemtime(get_template_directory() . '/assets/css/home.css'));
+    wp_enqueue_style('home-style', $theme_dir . '/assets/css/home.css', array(), filemtime($theme_path . '/assets/css/home.css'));
 }
 
 // Documentation specific styles
 if (is_singular('documentation')) {
-    wp_enqueue_style('documentation-style', get_template_directory_uri() . '/assets/css/documentation.css', array(), filemtime(get_template_directory() . '/assets/css/documentation.css'));
+    wp_enqueue_style('documentation-style', $theme_dir . '/assets/css/documentation.css', array(), filemtime($theme_path . '/assets/css/documentation.css'));
 }
 
 // Archives styles on archive and taxonomy pages
 if (is_post_type_archive() || is_tax('codebase') || is_post_type_archive('documentation') || is_category() || is_tag() || is_tax()) {
-    wp_enqueue_style('archives-style', get_template_directory_uri() . '/assets/css/archives.css', array(), filemtime(get_template_directory() . '/assets/css/archives.css'));
+    wp_enqueue_style('archives-style', $theme_dir . '/assets/css/archives.css', array(), filemtime($theme_path . '/assets/css/archives.css'));
+}
+
+// Contact form assets (CSS & JS + localized nonce & REST URL)
+if (is_page('contact') || is_page_template('page-contact.php')) {
+    wp_enqueue_style('contact-css', $theme_dir . '/assets/css/contact.css', array(), filemtime($theme_path . '/assets/css/contact.css'));
+    wp_enqueue_script('contact-js', $theme_dir . '/assets/js/contact.js', array('jquery'), filemtime($theme_path . '/assets/js/contact.js'), true);
+    wp_localize_script('contact-js', 'chubes_contact_params', array(
+        'rest_url' => rest_url('chubes/v1/contact'),
+        'nonce' => wp_create_nonce('contact_nonce'),
+    ));
 }
 
 // Global mobile navigation
-wp_enqueue_script('navigation', get_template_directory_uri() . '/assets/js/navigation.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/navigation.js'), true);
+wp_enqueue_script('navigation', $theme_dir . '/assets/js/navigation.js', array('jquery'), filemtime($theme_path . '/assets/js/navigation.js'), true);
 ```
-
-*Note: Contact page assets exist (`/assets/css/contact.css`, `/assets/js/contact.js`) but are not currently enqueued conditionally in functions.php.*
 
 ### Template Hierarchy System
 WordPress template lookups are redirected to organized subdirectories via `/inc/core/filters.php`:
