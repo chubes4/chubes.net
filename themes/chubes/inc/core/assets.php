@@ -74,7 +74,7 @@ function chubes_enqueue_assets() {
         wp_enqueue_script(
             'contact-js',
             $theme_dir . '/assets/js/contact.js',
-            array( 'jquery' ),
+            array(),
             filemtime( $theme_path . '/assets/js/contact.js' ),
             true
         );
@@ -90,7 +90,7 @@ function chubes_enqueue_assets() {
     wp_enqueue_script(
         'navigation',
         $theme_dir . '/assets/js/navigation.js',
-        array( 'jquery' ),
+        array(),
         filemtime( $theme_path . '/assets/js/navigation.js' ),
         true
     );

@@ -136,7 +136,7 @@ if (is_post_type_archive() || is_tax('codebase') || is_post_type_archive('docume
 // Contact form assets (CSS & JS + localized nonce & REST URL)
 if (is_page('contact') || is_page_template('page-contact.php')) {
     wp_enqueue_style('contact-css', $theme_dir . '/assets/css/contact.css', array(), filemtime($theme_path . '/assets/css/contact.css'));
-    wp_enqueue_script('contact-js', $theme_dir . '/assets/js/contact.js', array('jquery'), filemtime($theme_path . '/assets/js/contact.js'), true);
+    wp_enqueue_script('contact-js', $theme_dir . '/assets/js/contact.js', array(), filemtime($theme_path . '/assets/js/contact.js'), true);
     wp_localize_script('contact-js', 'chubes_contact_params', array(
         'rest_url' => rest_url('chubes/v1/contact'),
         'nonce' => wp_create_nonce('contact_nonce'),
@@ -144,7 +144,7 @@ if (is_page('contact') || is_page_template('page-contact.php')) {
 }
 
 // Global mobile navigation
-wp_enqueue_script('navigation', $theme_dir . '/assets/js/navigation.js', array('jquery'), filemtime($theme_path . '/assets/js/navigation.js'), true);
+wp_enqueue_script('navigation', $theme_dir . '/assets/js/navigation.js', array(), filemtime($theme_path . '/assets/js/navigation.js'), true);
 ```
 
 ### Template Hierarchy System
@@ -243,20 +243,20 @@ The contact form follows this secure pattern:
 1. Honeypot field for spam detection
 2. Timestamp verification
 3. WordPress nonce security
-4. AJAX submission with jQuery
+4. REST API submission with Fetch API
 5. Dual notification emails (admin + user)
 6. Success/error feedback to user
 
 Example implementation:
 ```php
 // Nonce verification
-if (!wp_verify_nonce($_POST['nonce'], 'contact_nonce')) {
-    wp_die('Security check failed');
+if (!wp_verify_nonce($nonce, 'contact_nonce')) {
+    return new WP_Error('invalid_nonce', 'Security check failed.', array('status' => 403));
 }
 
 // Sanitize inputs
-$name = sanitize_text_field(wp_unslash($_POST['name']));
-$email = sanitize_email(wp_unslash($_POST['email']));
+$name = sanitize_text_field($request->get_param('contactName'));
+$email = sanitize_email($request->get_param('contactEmail'));
 ```
 
 Built by [Chris Huber](https://chubes.net) • Custom WordPress Development
