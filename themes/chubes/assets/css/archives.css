@@ -73,19 +73,19 @@
 }
 
 /* Project Type Colors */
-.codebase-card[data-project-type="plugin"] {
+.codebase-card[data-project-type="wordpress-plugin"] {
     border-left: 4px solid #00e0ff;
 }
 
-.codebase-card[data-project-type="theme"] {
+.codebase-card[data-project-type="wordpress-theme"] {
     border-left: 4px solid #ff6b6b;
 }
 
-.codebase-card[data-project-type="app"] {
+.codebase-card[data-project-type="discord-bot"] {
     border-left: 4px solid #4ecdc4;
 }
 
-.codebase-card[data-project-type="tool"] {
+.codebase-card[data-project-type="php-library"] {
     border-left: 4px solid #45b7d1;
 }
 

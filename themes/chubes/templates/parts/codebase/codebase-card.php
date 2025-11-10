@@ -1,41 +1,35 @@
-<?php 
+<?php
 /**
  * Dynamic Codebase Project Card Template Part
- * 
+ *
  * Displays a project card with dynamically generated content type buttons.
  * Shows buttons for ANY post type on the site that has content associated with this project.
- * Used by codebase archive pages (/plugins, /themes, etc.)
- * 
+ * Used by codebase archive pages (/wordpress-plugins, /wordpress-themes, /discord-bots, /php-libraries)
+ *
  * Expected variables:
  * @var WP_Term $term The codebase taxonomy term for this project
  * @var array $repo_info Repository information from chubes_get_repository_info()
- * @var string $project_type The project type (plugin, theme, app, tool)
+ * @var string $project_type The project type (wordpress-plugin, wordpress-theme, discord-bot, php-library)
  */
 
 if (!isset($term) || !isset($repo_info)) {
     return;
 }
 
-// Get all public post types that support the codebase taxonomy
 $all_post_types = get_post_types(['public' => true], 'objects');
 $content_buttons = [];
 $total_content = 0;
 
-// Check each post type for content associated with this project
 foreach ($all_post_types as $post_type_obj) {
     $post_type = $post_type_obj->name;
-    
-    // Skip attachment and page post types
+
     if (in_array($post_type, ['attachment', 'page'])) {
         continue;
     }
-    
-    // Check if this post type supports the codebase taxonomy
+
     if (!is_object_in_taxonomy($post_type, 'codebase')) {
         continue;
     }
-    
-    // Query for content of this type associated with this project
     $query = new WP_Query([
         'post_type' => $post_type,
         'tax_query' => [
@@ -47,12 +41,12 @@ foreach ($all_post_types as $post_type_obj) {
         ],
         'posts_per_page' => 1,
         'post_status' => 'publish',
-        'fields' => 'ids' // Only get IDs for performance
+        'fields' => 'ids'
     ]);
-    
+
     $count = $query->found_posts;
     wp_reset_postdata();
-    
+
     if ($count > 0) {
         $content_buttons[] = [
             'type' => $post_type,
@@ -64,15 +58,13 @@ foreach ($all_post_types as $post_type_obj) {
         $total_content += $count;
     }
 }
-
-// Project type configuration for external buttons
 $type_config = [
-    'plugin' => ['type_name' => 'Plugin', 'download_text' => 'Download Plugin'],
-    'theme' => ['type_name' => 'Theme', 'download_text' => 'Download Theme'],
-    'app' => ['type_name' => 'App', 'download_text' => 'Launch App'],
-    'tool' => ['type_name' => 'Tool', 'download_text' => 'Download Tool']
+    'wordpress-plugin' => ['type_name' => 'WordPress Plugin', 'download_text' => 'Download Plugin'],
+    'wordpress-theme' => ['type_name' => 'WordPress Theme', 'download_text' => 'Download Theme'],
+    'discord-bot' => ['type_name' => 'Discord Bot', 'download_text' => 'View Bot'],
+    'php-library' => ['type_name' => 'PHP Library', 'download_text' => 'View Library']
 ];
-$current_config = $type_config[$project_type] ?? $type_config['plugin'];
+$current_config = $type_config[$project_type] ?? $type_config['wordpress-plugin'];
 ?>
 
 <div class="codebase-card" data-project-type="<?php echo esc_attr($project_type); ?>">

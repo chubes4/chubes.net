@@ -1,42 +1,42 @@
-<?php 
+<?php
 /**
  * Documentation Category Archive Template
- * 
- * Displays documentation cards for all projects within a category (plugins, themes, apps, tools).
- * Handles URLs like /docs/plugins/, /docs/themes/, etc.
+ *
+ * Displays documentation cards for all projects within a category.
+ * Handles URLs like /docs/wordpress-plugins/, /docs/wordpress-themes/, /docs/discord-bots/, /docs/php-libraries/
  * Shows cards linking to individual project documentation archives.
  */
 get_header(); 
 
 // Get the category type from global set by rewrite rules
 global $chubes_docs_category_type;
-$category_type = $chubes_docs_category_type ?? 'plugins'; // Default fallback
+$category_type = $chubes_docs_category_type ?? 'wordpress-plugins'; // Default fallback
 
 // Configure display based on category type
 $config = [
-    'plugins' => [
-        'title' => 'Plugin Documentation',
+    'wordpress-plugins' => [
+        'title' => 'WordPress Plugin Documentation',
         'description' => 'Comprehensive guides and documentation for WordPress plugins that streamline workflows and unlock creative possibilities.',
-        'singular' => 'Plugin'
+        'singular' => 'WordPress Plugin'
     ],
-    'themes' => [
-        'title' => 'Theme Documentation', 
+    'wordpress-themes' => [
+        'title' => 'WordPress Theme Documentation',
         'description' => 'Complete guides and customization documentation for WordPress themes and design frameworks.',
-        'singular' => 'Theme'
+        'singular' => 'WordPress Theme'
     ],
-    'apps' => [
-        'title' => 'Application Documentation',
-        'description' => 'User guides and technical documentation for web applications and software tools.',
-        'singular' => 'App'
+    'discord-bots' => [
+        'title' => 'Discord Bot Documentation',
+        'description' => 'Setup guides and API documentation for Discord bot development and deployment.',
+        'singular' => 'Discord Bot'
     ],
-    'tools' => [
-        'title' => 'Tool Documentation',
-        'description' => 'Documentation for command-line tools, utilities, and development scripts.',
-        'singular' => 'Tool'
+    'php-libraries' => [
+        'title' => 'PHP Library Documentation',
+        'description' => 'API references and integration guides for PHP libraries and packages.',
+        'singular' => 'PHP Library'
     ]
 ];
 
-$current_config = $config[$category_type] ?? $config['plugins'];
+$current_config = $config[$category_type] ?? $config['wordpress-plugins'];
 ?>
 
 <main class="site-main">

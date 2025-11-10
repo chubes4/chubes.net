@@ -1,10 +1,9 @@
-<?php 
+<?php
 /**
  * Individual Codebase Project Taxonomy Page Template
- * 
- * Unified taxonomy template for all codebase projects (plugins, themes, apps, tools).
- * Replaces the previous separate taxonomy-plugin.php and taxonomy-theme.php templates.
- * Displays individual project pages with download statistics, GitHub/WordPress.org links, 
+ *
+ * Unified taxonomy template for all codebase projects.
+ * Displays individual project pages with download statistics, GitHub/WordPress.org links,
  * and associated documentation. Uses automatic project type detection.
  */
 get_header(); 
@@ -17,25 +16,25 @@ $project_type = $repo_info['project_type'] ?? 'project';
 
 // Configure display based on project type
 $type_config = [
-    'plugin' => [
-        'type_name' => 'Plugin',
+    'wordpress-plugin' => [
+        'type_name' => 'WordPress Plugin',
         'download_text' => 'Download Plugin'
     ],
-    'theme' => [
-        'type_name' => 'Theme', 
+    'wordpress-theme' => [
+        'type_name' => 'WordPress Theme',
         'download_text' => 'Download Theme'
     ],
-    'app' => [
-        'type_name' => 'App',
-        'download_text' => 'Launch App'
+    'discord-bot' => [
+        'type_name' => 'Discord Bot',
+        'download_text' => 'View Bot'
     ],
-    'tool' => [
-        'type_name' => 'Tool',
-        'download_text' => 'Download Tool'
+    'php-library' => [
+        'type_name' => 'PHP Library',
+        'download_text' => 'View Library'
     ]
 ];
 
-$current_config = $type_config[$project_type] ?? $type_config['plugin'];
+$current_config = $type_config[$project_type] ?? $type_config['wordpress-plugin'];
 ?>
 
 <main class="site-main">

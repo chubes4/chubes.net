@@ -54,10 +54,11 @@ function process_contact_form() {
     }
     $email_body .= "Message:\n{$message}\n";
     
-    // Set custom headers: send from chubes@chubes.net.
+    // Set custom headers: send from chubes@chubes.net, with reply-to as submitter's email.
     $headers = array(
         'Content-Type: text/plain; charset=UTF-8',
-        'From: Chris Huber <chubes@chubes.net>'
+        'From: Chris Huber <chubes@chubes.net>',
+        'Reply-To: ' . $email
     );
     
     // Send email to admin.

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # WordPress Theme Build Script
-# Creates both zip file and directory for WordPress theme installation
+# Creates both zip file and directory for WordPress theme installation in /dist/
 
 THEME_NAME="chubes"
 BUILD_DIR="build"
@@ -14,7 +14,7 @@ echo "Building WordPress theme: $THEME_NAME"
 # Create dist directory
 mkdir -p "$DIST_DIR"
 
-# Clean up previous builds
+# Clean up previous temporary build directory
 if [ -d "$BUILD_DIR" ]; then
     rm -rf "$BUILD_DIR"
 fi
@@ -27,10 +27,10 @@ if [ -d "$DIST_DIR/$THEME_DIR" ]; then
     rm -rf "$DIST_DIR/$THEME_DIR"
 fi
 
-# Create build directory
+# Create temporary build directory
 mkdir -p "$BUILD_DIR/$THEME_NAME"
 
-# Copy theme files (exclude development/git files)
+# Copy theme files to temporary build directory (exclude development/git files)
 rsync -av --progress . "$BUILD_DIR/$THEME_NAME/" \
     --exclude='.git*' \
     --exclude='.DS_Store' \
@@ -42,20 +42,13 @@ rsync -av --progress . "$BUILD_DIR/$THEME_NAME/" \
     --exclude='README.md' \
     --exclude='*.zip'
 
-# Create zip file
+# Create zip file in /dist/ from temporary build directory
 cd "$BUILD_DIR"
 zip -r "../$DIST_DIR/$ZIP_NAME" "$THEME_NAME/"
 cd ..
 
-# Copy theme directory to dist for FTP upload
-cp -r "$BUILD_DIR/$THEME_NAME" "$DIST_DIR/"
-
-# Clean up build directory
+# Clean up temporary build directory
 rm -rf "$BUILD_DIR"
 
 echo "✅ Theme packaged successfully:"
-echo "   📁 Directory: $DIST_DIR/$THEME_DIR (for FTP upload)"
-echo "   📦 Zip file: $DIST_DIR/$ZIP_NAME (for WordPress admin)"
-echo ""
-echo "🚀 FTP Upload Instructions:"
-echo "   Upload contents of $DIST_DIR/$THEME_DIR/ to /wp-content/themes/$THEME_NAME/"
+echo "    Zip file: $DIST_DIR/$ZIP_NAME (for WordPress admin or FTP upload)"

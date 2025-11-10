@@ -27,7 +27,8 @@ register_post_type('game', $args);
 // Documentation - Plugin guides and tutorials
 register_post_type('documentation', $args);
 
-// Codebase taxonomy - Unified hierarchical organization for all projects
+// Codebase taxonomy - Unified hierarchical organization with four categories:
+// wordpress-plugins, wordpress-themes, discord-bots, php-libraries
 register_taxonomy('codebase', array('documentation', 'journal', 'game'), $args);
 ```
 
@@ -59,7 +60,7 @@ chubes_get_codebase_wp_url($term_id);
 chubes_get_codebase_github_url($term_id);
 chubes_get_codebase_installs($term_id);
 
-// Project type detection
+// Project type detection (returns: wordpress-plugin, wordpress-theme, discord-bot, php-library)
 $project_type = chubes_get_codebase_project_type($term);
 ```
 
@@ -102,7 +103,7 @@ chubes_get_parent_page();
 │   ├── contact-ajax.php         # Contact form implementation
 │   ├── /core/                   # Core WordPress functionality
 │   │   ├── custom-post-types.php    # Journal, Game, Documentation CPTs
-│   │   ├── custom-taxonomies.php    # Plugin taxonomy registration
+│   │   ├── custom-taxonomies.php    # Codebase taxonomy registration
 │   │   ├── rewrite-rules.php        # Custom URL rewrite rules for documentation
 │   │   └── filters.php              # Template hierarchy filters for organized template loading
 │   ├── /plugins/                # Codebase tracking & taxonomy fields
@@ -198,7 +199,34 @@ WordPress.org Plugin API & Unified Codebase System:
 - Admin interface with custom columns showing full taxonomy hierarchy
 - Card-based public archives with dynamic content type buttons
 - Documentation filtering by hierarchical codebase taxonomy
-- Project type detection (plugin, theme, app, tool) based on taxonomy hierarchy
+- Project type detection returns standardized values: `wordpress-plugin`, `wordpress-theme`, `discord-bot`, `php-library`
+
+## URL Structure
+
+Clean URL architecture for codebase projects and documentation:
+
+### Project Archives
+- `/wordpress-plugins/` - Archive of WordPress plugin projects
+- `/wordpress-themes/` - Archive of WordPress theme projects
+- `/discord-bots/` - Archive of Discord bot projects
+- `/php-libraries/` - Archive of PHP library projects
+
+### Individual Projects
+- `/wordpress-plugins/project-name/` - Individual plugin project page
+- `/wordpress-themes/project-name/` - Individual theme project page
+- `/discord-bots/project-name/` - Individual bot project page
+- `/php-libraries/project-name/` - Individual library project page
+
+### Documentation Archives
+- `/docs/wordpress-plugins/` - All WordPress plugin documentation
+- `/docs/wordpress-themes/` - All WordPress theme documentation
+- `/docs/discord-bots/` - All Discord bot documentation
+- `/docs/php-libraries/` - All PHP library documentation
+
+### Project Documentation
+- `/docs/wordpress-plugins/project-name/` - Project-specific documentation archive
+- `/docs/wordpress-plugins/project-name/doc-slug/` - Individual documentation post
+- `/docs/wordpress-plugins/project-name/category/doc-slug/` - Hierarchical documentation URLs
 
 ## Contact Form Implementation
 

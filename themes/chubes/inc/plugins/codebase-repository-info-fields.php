@@ -1,10 +1,9 @@
 <?php
 /**
  * Codebase Taxonomy Repository Info Fields
- * 
- * Unified custom fields system for codebase taxonomy terms (plugins, themes, apps, tools).
+ *
+ * Unified custom fields system for codebase taxonomy terms.
  * Adds GitHub URL and WordPress.org URL fields with install statistics display.
- * Replaces separate plugin-taxonomy-fields.php and theme-taxonomy-fields.php files.
  * Integrates with unified install tracking system in track-codebase-installs.php.
  */
 

@@ -123,10 +123,10 @@ $taxonomy = $chubes_docs_taxonomy;
                     <?php 
                     // Project type configuration for external buttons
                     $type_config = [
-                        'plugin' => ['download_text' => 'Download Plugin'],
-                        'theme' => ['download_text' => 'Download Theme'],
-                        'app' => ['download_text' => 'Launch App'],
-                        'tool' => ['download_text' => 'Download Tool']
+                        'wordpress-plugin' => ['download_text' => 'Download Plugin'],
+                        'wordpress-theme' => ['download_text' => 'Download Theme'],
+                        'discord-bot' => ['download_text' => 'View Bot'],
+                        'php-library' => ['download_text' => 'View Library']
                     ];
                     $current_config = $type_config[$project_type] ?? ['download_text' => 'Download'];
                     

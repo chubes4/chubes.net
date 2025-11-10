@@ -1,50 +1,72 @@
 ## Purpose
-Short, actionable guidance for AI coding agents working on the Chubes WordPress theme.
+Guidance for AI coding agents contributing to the Chubes WordPress theme—a custom WordPress theme showcasing documentation, portfolio, and content management systems.
 
-## Quick context (big picture)
-- This is a traditional WordPress theme (no build tools). Core PHP is organized in `functions.php` and `/inc/` feature folders.
-- Major systems: contact form (AJAX + honeypot), portfolio (custom post type + AJAX load-more), and plugin install tracking (WP.org API + cron).
+## Architecture Overview (Big Picture)
+**Chubes** is a **traditional WordPress theme** (no Node.js build pipeline) with:
+- **Custom post types**: Journal (blog), Game (interactive), Documentation (guides)
+- **Unified codebase taxonomy**: Hierarchical organization for 4 project types (wordpress-plugins, wordpress-themes, discord-bots, php-libraries)
+- **Three core systems**: Contact form (AJAX + security), Documentation + Install tracking (WordPress.org API), Navigation (context-aware breadcrumbs)
+- **Template hierarchy system**: Organized subdirectories (`/templates/{archive,single,page,taxonomy}/`) via filters in `inc/core/filters.php`
+- **Build pipeline**: `build.sh` creates `/dist/` packages for production deployment
 
-## Hotspots (files to read first)
-- `functions.php` — theme setup, conditional asset enqueues (look for `filemtime()` usage and `wp_enqueue_*`).
-- `inc/contact-ajax.php` and `page-contact.php` — contact form flow and server-side handling.
-- `inc/portfolio/` (especially `portfolio-custom-fields.php` and `portfolio-image-overlay.php`) and `template-parts/portfolio-item.php` — portfolio CPT and presentation.
-- `inc/plugins/track-plugin-installs.php` and `inc/plugins/plugin-custom-fields.php` — plugin tracking API and cron scheduling.
-- `inc/breadcrumbs.php` — navigation/parent-page detection logic used across templates.
+## Critical Files (Read First)
+- **`functions.php`** — Theme setup, asset enqueuing with `filemtime()` versioning, parent page detection
+- **`inc/core/`** — Post types, taxonomies, template hierarchy filters, rewrite rules for clean URLs
+- **`inc/contact-ajax.php`** + **`templates/page/page-contact.php`** — Contact form flow: nonce verification → honeypot → timestamp check → dual emails
+- **`inc/plugins/track-codebase-installs.php`** — WordPress.org API integration for install count tracking
+- **`inc/breadcrumbs.php`** — Context-aware navigation for back links
 
-## Concrete conventions & patterns (do not invent alternatives)
-- No package.json / no build step: edit files directly under `/assets/` and PHP files.
-- Asset versioning uses filemtime(): when you change CSS/JS, the theme uses the file's mtime as the version. Example pattern is in `functions.php`.
-- JS data is passed from PHP using `wp_localize_script()` and naming patterns like `*_params` or `*_vars` (e.g., `loadmore_params`).
-- Security pattern: always verify nonces, use honeypot + timestamp checks in contact flow, sanitize inputs with `sanitize_text_field()` / `sanitize_email()` and escape outputs with `esc_html()`, `esc_url()`, `esc_attr()`.
-- Procedural/module style: add feature code under `/inc/` and register hooks in `functions.php` rather than using classes or namespacing.
+## Project-Specific Conventions
+1. **No build step**: Edit files directly. CSS/JS changes immediately reflected (see next point).
+2. **Asset versioning via `filemtime()`**: Each CSS/JS file uses file modification time as version in `wp_enqueue_*()`. Changing file contents auto-busts cache.
+3. **Template organization**: Use `/inc/core/filters.php` hierarchy filters to redirect lookups. Example: single posts → `/templates/single/`, archives → `/templates/archive/`.
+4. **Clean URLs via rewrite rules**: `/wordpress-plugins/{project}/`, `/docs/{category}/{project}/{doc}/` — see `inc/core/rewrite-rules.php`.
+5. **Data passing pattern**: PHP → JS uses `wp_localize_script('script-handle', 'object_name', $array)`. Follow naming: `*_params` or `*_vars`.
+6. **Procedural, modular PHP**: Add new features in `/inc/{category}/` files and hook registration in `functions.php`. No classes or namespacing.
+7. **Security: Nonce + Honeypot + Timestamp**:
+   - All AJAX handlers verify nonces: `check_ajax_referer('action_nonce', 'nonce_field')`
+   - Contact form includes hidden honeypot field (must be empty)
+   - Timestamp check ensures submission wasn't too fast (5 second minimum)
+   - Always sanitize input (`sanitize_text_field()`, `sanitize_email()`) and escape output (`esc_html()`, `esc_url()`, `esc_attr()`)
 
-## Data flows to know
-- Contact form: browser → AJAX (`admin-ajax.php`) → `inc/contact-ajax.php` → validation/sanitization → emails (admin + user). Check `assets/js/contact.js` for the client-side flow.
-- Portfolio load-more: archive page → `assets/js/load-more.js` (localized `loadmore_params`) → `admin-ajax.php` handler (see `inc/utils/load-more.php`).
-- Plugin installs: scheduled via `wp_schedule_event()` (daily) → `inc/plugins/track-plugin-installs.php` fetches WordPress.org API → stored/aggregated for admin UI.
+## Data Flows
+1. **Contact form**: `page-contact.php` (form HTML) → `assets/js/contact.js` (AJAX POST) → `admin-ajax.php` → `inc/contact-ajax.php` (validate/sanitize) → emails sent (admin + user). Requires nonce, passes honeypot & timestamp checks.
+2. **Documentation archives**: URL `/docs/{category}/{project}/` → rewrite rule sets query var → `inc/core/rewrite-rules.php` handler → template resolved via hierarchy filter → `templates/archive/archive-documentation.php` renders posts with codebase taxonomy filtering.
+3. **Install tracking**: WordPress.org API call (`chubes_fetch_codebase_data()`) → `term_meta` storage (unified key: `codebase_install_count`) → rendered in admin UI via custom columns in `inc/core/custom-taxonomies.php`.
 
-## Common tasks and where to change things
-- Update contact form behavior: edit `page-contact.php`, `assets/js/contact.js`, and `inc/contact-ajax.php` (follow existing nonce & honeypot checks).
-- Add portfolio custom field: add to `inc/portfolio/portfolio-custom-fields.php` and update `template-parts/portfolio-item.php` to render it.
-- Change asset loading rules: modify enqueue logic in `functions.php` (use `is_front_page()`, `is_post_type_archive('portfolio')`, etc.).
+## Common Tasks & File Locations
+- **Update contact form UI/behavior**: Edit `templates/page/page-contact.php` (HTML/form), `assets/js/contact.js` (client logic), `inc/contact-ajax.php` (server-side). Preserve nonce/honeypot/timestamp checks.
+- **Add/modify custom post type**: Edit `inc/core/custom-post-types.php` (registration), then update templates in `/templates/{single,archive}/`.
+- **Modify codebase taxonomy display**: Edit `inc/core/custom-taxonomies.php` (field registration, admin columns), then update `templates/taxonomy/taxonomy-codebase.php` (frontend).
+- **Change asset loading rules**: Edit `functions.php` enqueue section. Use conditionals like `is_front_page()`, `is_singular('documentation')`, `is_post_type_archive()`.
+- **Add new template type**: Create file in `/templates/{type}/`, then add corresponding hierarchy filter to `inc/core/filters.php`.
+- **Add install tracking to new project type**: Use existing `chubes_fetch_codebase_data($slug, $project_type)` and `chubes_update_codebase_installs($term_id, $wp_url)` functions.
 
-## Debugging and testing tips
-- Local dev: run the site in Local (LocalWP) or any WordPress stack — there is no build step.
-- Enable WP debug in `wp-config.php` (WP_DEBUG, WP_DEBUG_LOG) to surface PHP errors.
-- For AJAX issues, inspect network → `admin-ajax.php` and check server response and PHP error log.
-- After changing CSS/JS, the theme uses file mtime for cache-busting; touching the file or changing its contents updates the served version.
+## Development Workflow
+- **Local setup**: Use Local (LocalWP) or any WordPress environment. No build step needed during development.
+- **Enable debugging**: In `wp-config.php`, set `WP_DEBUG = true` and `WP_DEBUG_LOG = true` for error logging.
+- **Test AJAX**: Inspect Network tab in browser DevTools. Check request to `admin-ajax.php` and PHP error log.
+- **Cache-bust CSS/JS**: Modify file or touch it; `filemtime()` will detect change and update version hash.
+- **Build for production**: Run `./build.sh` → creates `/dist/chubes.zip` (for WordPress admin) and `/dist/chubes/` (for FTP). Excludes `.git`, `build/`, `dist/`, dev docs.
 
-## Quick rules for automated edits
-- Preserve existing nonce/honeypot/timestamp checks when touching contact code.
-- When adding JS that needs server data, use `wp_localize_script()` and follow existing naming conventions (`*_params`/`*_vars`).
-- Keep PHP edits modular under `/inc/` and register functionality via hooks in `functions.php`.
+## Quick Rules for AI Edits
+- Always preserve security checks (nonce, honeypot, timestamp, sanitization) when modifying contact or AJAX code.
+- When adding PHP → JS data, use `wp_localize_script()` with `*_params` or `*_vars` naming.
+- Keep feature code modular: one feature per `/inc/{category}/` file, hook registration in `functions.php`.
+- For new rewrite rules, add to `inc/core/rewrite-rules.php` and flush rewrite rules via admin interface or `wp_cache_flush()`.
+- Respect template hierarchy: never hardcode template paths; leverage filters in `inc/core/filters.php`.
+- When working with codebase taxonomy, use unified term meta keys: `codebase_github_url`, `codebase_wp_url`, `codebase_install_count`.
 
-## Useful references in this repo
-- `functions.php` — asset loading, theme setup
-- `page-contact.php` + `inc/contact-ajax.php` — contact form
-- `assets/js/load-more.js` + `inc/utils/load-more.php` — portfolio load-more
-- `inc/plugins/track-plugin-installs.php` — plugin API integration & cron
-- `inc/breadcrumbs.php` — navigation logic
-
-If any section is unclear or you'd like the file to include additional example snippets, tell me which area to expand and I'll iterate.
+## Key Files at a Glance
+| File | Purpose |
+|------|---------|
+| `functions.php` | Asset loading, theme setup, parent page detection |
+| `inc/core/custom-post-types.php` | Journal, Game, Documentation CPT registration |
+| `inc/core/custom-taxonomies.php` | Codebase taxonomy, term meta fields, admin columns |
+| `inc/core/filters.php` | Template hierarchy filters for organized `/templates/` subdirs |
+| `inc/core/rewrite-rules.php` | Clean URLs for projects and documentation |
+| `inc/contact-ajax.php` | AJAX contact form handler with spam checks |
+| `inc/plugins/track-codebase-installs.php` | WordPress.org API integration for install counts |
+| `inc/breadcrumbs.php` | Context-aware navigation links |
+| `templates/` | Organized by type: `/archive/`, `/single/`, `/page/`, `/taxonomy/` |
+| `assets/css/`, `assets/js/` | Conditionally enqueued stylesheets and scripts |

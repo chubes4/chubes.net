@@ -1,46 +1,45 @@
-<?php 
+<?php
 /**
  * Codebase Archive Template with Install Tracking
- * 
- * Unified archive template for all codebase taxonomy categories (plugins, themes, apps, tools).
- * Replaces the previous separate archive-plugin.php and archive-theme.php templates.
+ *
+ * Unified archive template for all codebase taxonomy categories.
  * Displays projects with download counts, documentation links, and repository integration.
- * Uses conditional logic based on category type (plugins, themes, etc.).
+ * Uses conditional logic based on category type (wordpress-plugins, wordpress-themes, discord-bots, php-libraries).
  */
 get_header(); 
 
 // Determine the archive type from the global set by rewrite rules
 global $chubes_codebase_archive_type;
-$archive_type = $chubes_codebase_archive_type ?? 'plugins'; // Default fallback
+$archive_type = $chubes_codebase_archive_type ?? 'wordpress-plugins'; // Default fallback
 
 // Get the appropriate parent term
 $parent_term = get_term_by('slug', $archive_type, 'codebase');
 
 // Configure display based on archive type
 $config = [
-    'plugins' => [
+    'wordpress-plugins' => [
         'title' => 'WordPress Plugins',
         'description' => 'Automation tools designed to streamline workflows and unlock creative possibilities within WordPress.',
-        'singular' => 'Plugin'
+        'singular' => 'WordPress Plugin'
     ],
-    'themes' => [
-        'title' => 'WordPress Themes', 
+    'wordpress-themes' => [
+        'title' => 'WordPress Themes',
         'description' => 'Beautiful, functional themes designed to elevate WordPress websites with elegant design and powerful features.',
-        'singular' => 'Theme'
+        'singular' => 'WordPress Theme'
     ],
-    'apps' => [
-        'title' => 'Web Applications',
-        'description' => 'Full-featured web applications and software tools for various purposes.',
-        'singular' => 'App'
+    'discord-bots' => [
+        'title' => 'Discord Bots',
+        'description' => 'Automated Discord bots for community management, moderation, and engagement.',
+        'singular' => 'Discord Bot'
     ],
-    'tools' => [
-        'title' => 'Development Tools',
-        'description' => 'Command-line tools, utilities, and scripts for developers and automation.',
-        'singular' => 'Tool'
+    'php-libraries' => [
+        'title' => 'PHP Libraries',
+        'description' => 'Reusable PHP libraries and packages for modern application development.',
+        'singular' => 'PHP Library'
     ]
 ];
 
-$current_config = $config[$archive_type] ?? $config['plugins'];
+$current_config = $config[$archive_type] ?? $config['wordpress-plugins'];
 ?>
 
 <main class="site-main">

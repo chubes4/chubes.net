@@ -1,10 +1,9 @@
 <?php
 /**
  * Codebase Install Tracking System
- * 
+ *
  * Unified WordPress.org API integration for tracking downloads and statistics
- * across all codebase projects (plugins, themes, apps, tools).
- * Replaces separate track-plugin-installs.php and track-theme-installs.php files.
+ * across all codebase projects (wordpress-plugins, wordpress-themes, discord-bots, php-libraries).
  * Includes automated cron updates and admin interface for manual control.
  */
 

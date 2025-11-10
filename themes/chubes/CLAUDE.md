@@ -104,14 +104,14 @@ Simple, secure contact form system:
 
 #### Codebase Documentation & Tracking System
 - **Documentation CPT** with codebase taxonomy organization
-- **Unified codebase taxonomy** (replaces separate plugin/theme taxonomies)
-- **Hierarchical project structure** (plugins → project-name → categories)
+- **Unified codebase taxonomy** with four top-level categories: `wordpress-plugins`, `wordpress-themes`, `discord-bots`, `php-libraries`
+- **Hierarchical project structure** (category → project-name → subcategories)
 - **Repository information tracking** for GitHub and WordPress.org projects
-- **Install count tracking** for WordPress plugins and themes
+- **Install count tracking** for WordPress plugins and themes via WordPress.org API
 - **Admin interface** with manual update controls and statistics
 - **Custom admin columns** showing full taxonomy hierarchy path
 - **Card-based public archive** with dynamic content type buttons
-- **Public codebase archive** with project information and statistics
+- **Project type detection** returns standardized values: `wordpress-plugin`, `wordpress-theme`, `discord-bot`, `php-library`
 
 ### Asset Loading Patterns
 
@@ -131,7 +131,22 @@ PHP to JS data uses `wp_localize_script` with naming pattern:
 - **Journal** (`/journal`) - Blog-style content
 - **Game** (`/game`) - Interactive game hosting
 - **Documentation** (`/docs`) - Plugin guides and tutorials
-- **Codebase taxonomy** (`/codebase`) - Hierarchical organization for documentation
+- **Codebase taxonomy** - Hierarchical organization with four categories:
+  - `wordpress-plugins` - WordPress plugin projects
+  - `wordpress-themes` - WordPress theme projects
+  - `discord-bots` - Discord bot projects
+  - `php-libraries` - PHP library projects
+
+### URL Architecture
+Clean URL structure for codebase projects and documentation:
+- `/wordpress-plugins/` - Archive of WordPress plugin projects
+- `/wordpress-themes/` - Archive of WordPress theme projects
+- `/discord-bots/` - Archive of Discord bot projects
+- `/php-libraries/` - Archive of PHP library projects
+- `/wordpress-plugins/project-name/` - Individual project page
+- `/docs/wordpress-plugins/` - Documentation category archive
+- `/docs/wordpress-plugins/project-name/` - Project-specific documentation archive
+- `/docs/wordpress-plugins/project-name/doc-slug/` - Individual documentation post
 
 ### Navigation System
 Advanced parent page navigation with dynamic breadcrumb support:
@@ -143,19 +158,12 @@ Advanced parent page navigation with dynamic breadcrumb support:
 ## Recent Major Changes
 
 Based on git history and current implementation:
-- **Theme restructuring** (removed old PHP directory/autoloader)
-- **Asset reorganization** (moved CSS/fonts from root to `/assets/`)
-- **Template system reorganization** (moved templates to `/templates/` with hierarchy filters)
-- **New template additions** (organized in subdirectories with dynamic headers)
-- **Codebase system expansion** (Documentation CPT, unified Codebase taxonomy, repository tracking)
-- **New archive templates** (`archive-codebase.php`, `archive-documentation.php`, `taxonomy-codebase.php`)
-- **Enhanced codebase tracking** (repository integration, admin interface, taxonomy fields)
-- **Advanced navigation system** (parent page detection, dynamic breadcrumbs)
-- **Template hierarchy filters** (organized template loading via `/inc/core/filters.php`)
-- **Documentation admin columns** (full taxonomy hierarchy display instead of simple terms)
-- **Card-based archive layouts** (using `codebase-card.php` template part with dynamic content buttons)
-- **CSS enqueuing fixes** (archives.css properly loads on taxonomy pages)
-- **Build system** (comprehensive production packaging via `build.sh`)
+- **Project type standardization** (unified values: `wordpress-plugin`, `wordpress-theme`, `discord-bot`, `php-library`)
+- **Template config array updates** (codebase-card.php, taxonomy-codebase.php, archive-docs-taxonomy.php use new project type values)
+- **CSS selector updates** (project type data attributes updated for styling consistency)
+- **Four-category codebase system** (wordpress-plugins, wordpress-themes, discord-bots, php-libraries)
+- **Clean URL architecture** (custom rewrites for category archives and project pages)
+- **Build directory migration** (moved from `/build/` to `/dist/` for production output)
 
 ## Development Guidelines
 
