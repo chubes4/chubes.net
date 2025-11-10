@@ -79,7 +79,7 @@ This theme uses traditional WordPress development with automated build system:
 │   ├── /plugins/ - Codebase tracking system with taxonomy fields
 │   └── /utils/ - Instagram embeds
 ├── /dist/ - Production build directory with optimized theme files
-└── functions.php - Theme setup, navigation, & asset loading
+└── functions.php - Theme setup, navigation, & module includes
 ```
 
 ### Template Hierarchy System
@@ -118,13 +118,12 @@ Simple, secure contact form system using REST API:
 
 ### Asset Loading Patterns
 
-CSS/JS conditionally loaded in `functions.php`:
+All CSS/JS conditionally loaded in `/inc/core/assets.php`:
 - **Front page**: `home.css`
 - **Documentation posts**: `documentation.css` for single documentation view
-- **Archive pages**: `archives.css` for all archive and taxonomy pages
+- **Archive pages**: `archives.css` for all archive pages and taxonomy pages
+- **Contact page**: `contact.css` and `contact.js` for contact form (with REST API)
 - **Global**: `navigation.js` for mobile menu functionality
-
-*Note: Contact assets (`contact.css`, `contact.js`) exist but are not currently enqueued in functions.php - they would need to be manually included or the enqueue system updated to load them conditionally for contact pages.*
 
 ### Data Passing Convention
 PHP to JS data uses `wp_localize_script` with naming pattern:
@@ -132,7 +131,7 @@ PHP to JS data uses `wp_localize_script` with naming pattern:
 
 ### Custom Post Types & Taxonomy
 - **Journal** (`/journal`) - Blog-style content
-- **Game** (`/game`) - Interactive game hosting
+- **Game** (`/games`) - Gutenberg block-based games
 - **Documentation** (`/docs`) - Plugin guides and tutorials
 - **Codebase taxonomy** - Hierarchical organization with four categories:
   - `wordpress-plugins` - WordPress plugin projects

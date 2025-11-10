@@ -31,8 +31,8 @@ add_action('init', 'chubes_register_journal_cpt');
 /**
  * Register Game Post Type
  * 
- * Interactive content hosting for games and interactive experiences.
- * Public archives available at /game with Gutenberg support.
+ * Gutenberg block-based games and interactive experiences.
+ * Public archives available at /games with Gutenberg support.
  */
 function chubes_register_game_post_type() {
     $labels = array(
@@ -79,12 +79,12 @@ function chubes_register_game_post_type() {
         'show_in_admin_bar'     => true,
         'show_in_nav_menus'     => true,
         'can_export'            => true,
-        'has_archive'           => 'game',
+        'has_archive'           => 'games',
         'exclude_from_search'   => false,
         'publicly_queryable'    => true,
         'capability_type'       => 'post',
         'show_in_rest'          => true,
-        'rewrite'               => array('slug' => 'game'),
+        'rewrite'               => array('slug' => 'games'),
     );
     register_post_type( 'game', $args );
 }

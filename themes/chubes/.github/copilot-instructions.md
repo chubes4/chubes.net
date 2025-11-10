@@ -5,13 +5,13 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 **Chubes** is a **traditional WordPress theme** (no Node.js build pipeline) with:
 - **Custom post types**: Journal (blog), Game (interactive), Documentation (guides)
 - **Unified codebase taxonomy**: Hierarchical organization for 4 project types (wordpress-plugins, wordpress-themes, discord-bots, php-libraries)
-- **Three core systems**: Contact form (AJAX + security), Documentation + Install tracking (WordPress.org API), Navigation (context-aware breadcrumbs)
+- **Three core systems**: Contact form (REST API + security), Documentation + Install tracking (WordPress.org API), Navigation (context-aware breadcrumbs)
 - **Template hierarchy system**: Organized subdirectories (`/templates/{archive,single,page,taxonomy}/`) via filters in `inc/core/filters.php`
 - **Build pipeline**: `build.sh` creates `/dist/` packages for production deployment
 
 ## Critical Files (Read First)
-- **`functions.php`** — Theme setup, asset enqueuing with `filemtime()` versioning, parent page detection
-- **`inc/core/`** — Post types, taxonomies, template hierarchy filters, rewrite rules for clean URLs
+- **`functions.php`** — Theme setup, parent page detection, module includes
+- **`inc/core/assets.php`** — Centralized asset enqueuing for all theme CSS/JS with conditional loading
 - **`inc/core/assets.php`** — Centralized asset enqueuing for all theme CSS/JS
 - **`inc/contact-rest-api.php`** + **`templates/page/page-contact.php`** — Contact form: REST API endpoint at `/wp-json/chubes/v1/contact` with nonce verification, honeypot, and timestamp checks
 - **`inc/plugins/track-codebase-installs.php`** — WordPress.org API integration for install count tracking
@@ -25,10 +25,10 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 5. **Data passing pattern**: PHP → JS uses `wp_localize_script('script-handle', 'object_name', $array)`. Follow naming: `*_params` or `*_vars`.
 6. **Procedural, modular PHP**: Add new features in `/inc/{category}/` files and hook registration in `functions.php`. No classes or namespacing.
 7. **Security: Nonce + Honeypot + Timestamp**:
-   - All AJAX handlers verify nonces: `check_ajax_referer('action_nonce', 'nonce_field')`
+   - All REST endpoints verify nonces: `wp_verify_nonce($nonce, 'contact_nonce')`
    - Contact form includes hidden honeypot field (must be empty)
    - Timestamp check ensures submission wasn't too fast (5 second minimum)
-   - Always sanitize input (`sanitize_text_field()`, `sanitize_email()`) and escape output (`esc_html()`, `esc_url()`, `esc_attr()`)
+   - Always sanitize input (`sanitize_text_field()`, `sanitize_email()`, `sanitize_textarea_field()`) and escape output (`esc_html()`, `esc_url()`, `esc_attr()`)
 
 ## Data Flows
 1. **Contact form**: `page-contact.php` (form HTML) → `assets/js/contact.js` (REST POST) → `/wp-json/chubes/v1/contact` → `inc/contact-rest-api.php` (validate/sanitize) → emails sent (admin + user). Requires nonce, passes honeypot & timestamp checks.
@@ -36,27 +36,28 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 3. **Install tracking**: WordPress.org API call (`chubes_fetch_codebase_data()`) → `term_meta` storage (unified key: `codebase_install_count`) → rendered in admin UI via custom columns in `inc/core/custom-taxonomies.php`.
 
 ## Common Tasks & File Locations
-- **Update contact form UI/behavior**: Edit `templates/page/page-contact.php` (HTML/form), `assets/js/contact.js` (client logic), `inc/contact-rest-api.php` (REST endpoint). Preserve nonce/honeypot/timestamp checks. Assets managed by `inc/core/assets.php`.
+- **Update contact form UI/behavior**: Edit `templates/page/page-contact.php` (HTML/form), `assets/js/contact.js` (client logic with Fetch API), `inc/contact-rest-api.php` (REST endpoint). Preserve nonce/honeypot/timestamp checks. Assets managed by `inc/core/assets.php`.
 - **Add/modify custom post type**: Edit `inc/core/custom-post-types.php` (registration), then update templates in `/templates/{single,archive}/`.
 - **Modify codebase taxonomy display**: Edit `inc/core/custom-taxonomies.php` (field registration, admin columns), then update `templates/taxonomy/taxonomy-codebase.php` (frontend).
-- **Change asset loading rules**: Edit `functions.php` enqueue section. Use conditionals like `is_front_page()`, `is_singular('documentation')`, `is_post_type_archive()`.
+- **Change asset loading rules**: Edit `inc/core/assets.php` enqueue section. Use conditionals like `is_front_page()`, `is_singular('documentation')`, `is_post_type_archive()`.
 - **Add new template type**: Create file in `/templates/{type}/`, then add corresponding hierarchy filter to `inc/core/filters.php`.
 - **Add install tracking to new project type**: Use existing `chubes_fetch_codebase_data($slug, $project_type)` and `chubes_update_codebase_installs($term_id, $wp_url)` functions.
 
 ## Development Workflow
 - **Local setup**: Use Local (LocalWP) or any WordPress environment. No build step needed during development.
 - **Enable debugging**: In `wp-config.php`, set `WP_DEBUG = true` and `WP_DEBUG_LOG = true` for error logging.
-- **Test AJAX**: Inspect Network tab in browser DevTools. Check request to `admin-ajax.php` and PHP error log.
+- **Test REST API**: Inspect Network tab in browser DevTools. Check requests to `/wp-json/chubes/v1/contact` endpoint and PHP error log.
 - **Cache-bust CSS/JS**: Modify file or touch it; `filemtime()` will detect change and update version hash.
 - **Build for production**: Run `./build.sh` → creates `/dist/chubes.zip` (for WordPress admin) and `/dist/chubes/` (for FTP). Excludes `.git`, `build/`, `dist/`, dev docs.
 
 ## Quick Rules for AI Edits
-- Always preserve security checks (nonce, honeypot, timestamp, sanitization) when modifying contact or AJAX code.
+- Always preserve security checks (nonce, honeypot, timestamp, sanitization) when modifying contact or REST API code.
 - When adding PHP → JS data, use `wp_localize_script()` with `*_params` or `*_vars` naming.
 - Keep feature code modular: one feature per `/inc/{category}/` file, hook registration in `functions.php`.
 - For new rewrite rules, add to `inc/core/rewrite-rules.php` and flush rewrite rules via admin interface or `wp_cache_flush()`.
 - Respect template hierarchy: never hardcode template paths; leverage filters in `inc/core/filters.php`.
 - When working with codebase taxonomy, use unified term meta keys: `codebase_github_url`, `codebase_wp_url`, `codebase_install_count`.
+- Use vanilla JavaScript (Fetch API) for client-side logic; no jQuery dependencies.
 
 ## Key Files at a Glance
 | File | Purpose |

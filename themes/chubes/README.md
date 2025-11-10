@@ -96,13 +96,13 @@ chubes_get_parent_page();
 │   └── index.php - Default template
 ├── /assets/
 │   ├── /css/                     # Page-specific stylesheets
-│   ├── /js/                      # AJAX, animations, interactions
+│   ├── /js/                      # Navigation, contact form, interactions
 │   └── /fonts/                   # Inter, Space Grotesk + SVG icons
 ├── /inc/
 │   ├── breadcrumbs.php          # Navigation breadcrumb system
 │   ├── contact-rest-api.php     # Contact form REST API endpoint
 │   ├── /core/                   # Core WordPress functionality
-│   │   ├── assets.php               # Centralized asset enqueuing
+│   │   ├── assets.php               # Centralized CSS/JS enqueuing
 │   │   ├── custom-post-types.php    # Journal, Game, Documentation CPTs
 │   │   ├── custom-taxonomies.php    # Codebase taxonomy registration
 │   │   ├── rewrite-rules.php        # Custom URL rewrite rules for documentation
@@ -110,7 +110,7 @@ chubes_get_parent_page();
 │   ├── /plugins/                # Codebase tracking & taxonomy fields
 │   └── /utils/                  # Instagram embeds
 ├── /dist/                       # Production build directory
-└── functions.php                # Theme setup & asset management
+└── functions.php                # Theme setup & module includes
 ```
 
 ## Key Features

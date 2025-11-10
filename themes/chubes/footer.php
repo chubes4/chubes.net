@@ -6,7 +6,7 @@
                 <li><a href="<?php echo home_url('/docs'); ?>">Documentation</a></li>
                 <li><a href="<?php echo home_url('/blog'); ?>">Blog</a></li>
                 <li><a href="<?php echo home_url('/journal'); ?>">Journal</a></li>
-                <li><a href="<?php echo home_url('/game'); ?>">Games</a></li>
+                <li><a href="<?php echo home_url('/games'); ?>">Games</a></li>
             </ul>
         </div>
 
