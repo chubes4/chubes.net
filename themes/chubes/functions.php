@@ -176,6 +176,9 @@ function chubes_get_homepage_documentation_items() {
         usort($doc_items, function($a, $b) {
             return strcmp($a['name'], $b['name']);
         });
+        
+        // Limit to 3 items to match other homepage sections
+        $doc_items = array_slice($doc_items, 0, 3);
     }
     
     return $doc_items;
