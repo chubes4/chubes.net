@@ -40,7 +40,8 @@ rsync -av --progress . "$BUILD_DIR/$THEME_NAME/" \
     --exclude='who-is-chubes.md' \
     --exclude='CLAUDE.md' \
     --exclude='README.md' \
-    --exclude='*.zip'
+    --exclude='*.zip' \
+    --exclude='assets/fonts/*.ttf'
 
 # Create zip file in /dist/ from temporary build directory
 cd "$BUILD_DIR"
