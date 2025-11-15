@@ -20,34 +20,32 @@ get_header(); ?>
                 // Display codebase project taxonomy
                 $codebase_terms = get_the_terms(get_the_ID(), 'codebase');
                 
-                if ($codebase_terms && !is_wp_error($codebase_terms)) : ?>
+                if ($codebase_terms && !is_wp_error($codebase_terms)) :
+                    $project_term = chubes_get_codebase_project_term_from_terms($codebase_terms);
+                    $category_term = chubes_get_codebase_top_level_term_from_terms($codebase_terms);
+                    ?>
                     <p class="doc-taxonomy">
-                        <?php foreach ($codebase_terms as $term) : 
-                            // Get project type and display appropriate project term
-                            $project_type = chubes_get_codebase_project_type($term);
-                            
-                            // Find the actual project term (not the parent category)
-                            $project_term = $term;
-                            if (in_array($term->slug, ['plugins', 'themes', 'apps', 'tools'])) {
-                                // This is a parent category, skip it
-                                continue;
-                            }
-                            
-                            // If this is a subcategory, find the project root
-                            while ($project_term->parent != 0) {
-                                $parent = get_term($project_term->parent, 'codebase');
-                                // Stop if we reach a top-level category (plugins, themes, etc.)
-                                if ($parent && !in_array($parent->slug, ['plugins', 'themes', 'apps', 'tools'])) {
-                                    $project_term = $parent;
-                                } else {
-                                    break;
-                                }
-                            }
+                        <?php if ($project_term) :
+                            $project_url = $category_term
+                                ? home_url('/docs/' . $category_term->slug . '/' . $project_term->slug . '/')
+                                : get_term_link($project_term);
                             ?>
-                            <a href="<?php echo esc_url(get_term_link($project_term)); ?>" class="taxonomy-link">
+                            <span class="doc-tax-label">Project:</span>
+                            <a href="<?php echo esc_url($project_url); ?>" class="taxonomy-link project-link">
                                 <?php echo esc_html($project_term->name); ?>
                             </a>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php if ($category_term && (!$project_term || $category_term->term_id !== $project_term->term_id)) :
+                            $category_url = home_url('/docs/' . $category_term->slug . '/');
+                            if ($project_term) : ?>
+                                <span class="doc-tax-sep">•</span>
+                            <?php endif; ?>
+                            <span class="doc-tax-label">Category:</span>
+                            <a href="<?php echo esc_url($category_url); ?>" class="taxonomy-link category-link">
+                                <?php echo esc_html($category_term->name); ?>
+                            </a>
+                        <?php endif; ?>
                     </p>
                 <?php endif; ?>
                 
@@ -103,25 +101,9 @@ get_header(); ?>
                                     $related_codebase_terms = get_the_terms($related_post->ID, 'codebase');
                                     
                                     if ($related_codebase_terms && !is_wp_error($related_codebase_terms)) {
-                                        foreach ($related_codebase_terms as $related_term) {
-                                            // Skip parent categories (plugins, themes, etc.)
-                                            if (in_array($related_term->slug, ['plugins', 'themes', 'apps', 'tools'])) {
-                                                continue;
-                                            }
-                                            
-                                            // Find the project root term
-                                            $related_project_term = $related_term;
-                                            while ($related_project_term->parent != 0) {
-                                                $parent = get_term($related_project_term->parent, 'codebase');
-                                                if ($parent && !in_array($parent->slug, ['plugins', 'themes', 'apps', 'tools'])) {
-                                                    $related_project_term = $parent;
-                                                } else {
-                                                    break;
-                                                }
-                                            }
-                                            
+                                        $related_project_term = chubes_get_codebase_project_term_from_terms($related_codebase_terms);
+                                        if ($related_project_term) {
                                             echo '<small>' . esc_html($related_project_term->name) . '</small>';
-                                            break; // Only show first project
                                         }
                                     }
                                     ?>

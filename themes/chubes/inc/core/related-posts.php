@@ -253,60 +253,21 @@ function chubes_get_fallback_related_documentation($post_id, $limit = 3) {
  * @return array Archive link data with 'url', 'title', and 'taxonomy'
  */
 function chubes_get_documentation_archive_link($post_id) {
-    // Use the EXACT SAME PATTERN as homepage function (functions.php:147-206)
-    // Get parent categories (plugins, themes, apps, tools)
-    $parent_categories = get_terms(array(
-        'taxonomy'   => 'codebase',
-        'hide_empty' => false,
-        'parent'     => 0, // Top-level categories
-        'orderby'    => 'name',
-        'order'      => 'ASC'
-    ));
+    $terms = get_the_terms($post_id, 'codebase');
 
-    if ($parent_categories && !is_wp_error($parent_categories)) {
-        foreach ($parent_categories as $parent_category) {
-            // Get child projects under each parent category
-            $child_projects = get_terms(array(
-                'taxonomy'   => 'codebase',
-                'hide_empty' => false,
-                'parent'     => $parent_category->term_id,
-                'orderby'    => 'name',
-                'order'      => 'ASC'
-            ));
+    if ($terms && !is_wp_error($terms)) {
+        $project_term = chubes_get_codebase_project_term_from_terms($terms);
+        $category_term = chubes_get_codebase_top_level_term_from_terms($terms);
 
-            if ($child_projects && !is_wp_error($child_projects)) {
-                foreach ($child_projects as $project) {
-                    // Check if current post belongs to this project
-                    $post_in_project = new WP_Query(array(
-                        'post_type' => 'documentation',
-                        'p' => $post_id,
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'codebase',
-                                'field'    => 'term_id',
-                                'terms'    => $project->term_id,
-                                'include_children' => true,
-                            ),
-                        ),
-                        'posts_per_page' => 1,
-                        'post_status' => 'publish'
-                    ));
-
-                    if ($post_in_project->found_posts > 0) {
-                        // Found the project! Build URL using homepage pattern
-                        return [
-                            'url' => home_url('/docs/' . strtolower($parent_category->slug) . '/' . $project->slug . '/'),
-                            'title' => $project->name . ' Documentation',
-                            'taxonomy' => 'codebase'
-                        ];
-                    }
-                    wp_reset_postdata();
-                }
-            }
+        if ($project_term && $category_term) {
+            return [
+                'url' => home_url('/docs/' . $category_term->slug . '/' . $project_term->slug . '/'),
+                'title' => $project_term->name . ' Documentation',
+                'taxonomy' => 'codebase'
+            ];
         }
     }
 
-    // Fallback to documentation archive
     return [
         'url' => home_url('/docs/'),
         'title' => 'Documentation',

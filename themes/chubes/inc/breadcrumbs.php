@@ -5,6 +5,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Generate and Display Breadcrumb Navigation
+ *
+ * Creates context-aware breadcrumb navigation with customizable styling and behavior.
+ * Automatically detects content type and generates appropriate breadcrumb trails.
+ *
+ * @param array $args Configuration options for breadcrumb display
+ * @return void Outputs breadcrumb HTML directly
+ */
 function chubes_breadcrumbs($args = []) {
     // Default arguments
     $defaults = [
@@ -146,9 +155,24 @@ function chubes_breadcrumbs($args = []) {
             
             $codebase_terms = get_the_terms(get_the_ID(), 'codebase');
             if ($codebase_terms && !is_wp_error($codebase_terms)) {
-                echo $args['separator'];
-                $codebase_term = $codebase_terms[0]; // Use first codebase term
-                echo '<a href="' . esc_url(get_term_link($codebase_term)) . '">' . esc_html($codebase_term->name) . '</a>';
+                $top_level_term = chubes_get_codebase_top_level_term_from_terms($codebase_terms);
+                $project_term = chubes_get_codebase_project_term_from_terms($codebase_terms);
+
+                if ($top_level_term) {
+                    echo $args['separator'];
+                    $docs_category_url = home_url('/docs/' . $top_level_term->slug . '/');
+                    echo '<a href="' . esc_url($docs_category_url) . '">' . esc_html($top_level_term->name) . '</a>';
+                }
+
+                if ($project_term && (!$top_level_term || $project_term->term_id !== $top_level_term->term_id)) {
+                    echo $args['separator'];
+                    if ($top_level_term) {
+                        $project_url = home_url('/docs/' . $top_level_term->slug . '/' . $project_term->slug . '/');
+                    } else {
+                        $project_url = get_term_link($project_term);
+                    }
+                    echo '<a href="' . esc_url($project_url) . '">' . esc_html($project_term->name) . '</a>';
+                }
             }
             
             if ($args['show_current']) {

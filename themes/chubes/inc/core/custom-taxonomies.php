@@ -49,6 +49,128 @@ function chubes_register_codebase_taxonomy() {
 add_action( 'init', 'chubes_register_codebase_taxonomy', 0 );
 
 /**
+ * Get the list of top-level codebase slugs used throughout the theme.
+ *
+ * @return array
+ */
+function chubes_get_codebase_top_level_slugs() {
+    return ['wordpress-plugins', 'wordpress-themes', 'discord-bots', 'php-libraries'];
+}
+
+/**
+ * Check whether a term is one of the known top-level codebase categories.
+ *
+ * @param WP_Term $term
+ * @return bool
+ */
+function chubes_is_codebase_top_level_term($term) {
+    if (!$term || !($term instanceof WP_Term) || $term->taxonomy !== 'codebase') {
+        return false;
+    }
+
+    return in_array($term->slug, chubes_get_codebase_top_level_slugs(), true);
+}
+
+/**
+ * Walk up the hierarchy to find the top-level codebase term for a given term.
+ *
+ * @param WP_Term $term
+ * @return WP_Term|null
+ */
+function chubes_get_codebase_top_level_term($term) {
+    if (!$term || !($term instanceof WP_Term) || $term->taxonomy !== 'codebase') {
+        return null;
+    }
+
+    $current = $term;
+
+    while ($current->parent !== 0) {
+        $parent = get_term($current->parent, 'codebase');
+        if ($parent && !is_wp_error($parent)) {
+            $current = $parent;
+        } else {
+            break;
+        }
+    }
+
+    return $current;
+}
+
+/**
+ * Return the deepest term (primary term) from a list of codebase terms.
+ *
+ * @param array $terms
+ * @return WP_Term|null
+ */
+function chubes_get_codebase_primary_term($terms) {
+    if (empty($terms) || is_wp_error($terms)) {
+        return null;
+    }
+
+    $sorted_terms = chubes_sort_terms_by_hierarchy($terms);
+    return $sorted_terms[0] ?? null;
+}
+
+/**
+ * Given any codebase term, return the project-level term (child of a top-level category).
+ *
+ * @param WP_Term $term
+ * @return WP_Term|null
+ */
+function chubes_get_codebase_project_term_from_term($term) {
+    if (!$term || !($term instanceof WP_Term) || $term->taxonomy !== 'codebase') {
+        return null;
+    }
+
+    $current = $term;
+
+    while ($current->parent !== 0) {
+        $parent = get_term($current->parent, 'codebase');
+        if (!$parent || is_wp_error($parent)) {
+            return $current;
+        }
+
+        if (chubes_is_codebase_top_level_term($parent)) {
+            return $current;
+        }
+
+        $current = $parent;
+    }
+
+    return $current;
+}
+
+/**
+ * Resolve the project-level term using the current post's assigned codebase terms.
+ *
+ * @param array $terms
+ * @return WP_Term|null
+ */
+function chubes_get_codebase_project_term_from_terms($terms) {
+    $primary_term = chubes_get_codebase_primary_term($terms);
+    if (!$primary_term) {
+        return null;
+    }
+
+    return chubes_get_codebase_project_term_from_term($primary_term);
+}
+
+/**
+ * Resolve the top-level term for a set of assigned codebase terms.
+ *
+ * @param array $terms
+ * @return WP_Term|null
+ */
+function chubes_get_codebase_top_level_term_from_terms($terms) {
+    $primary_term = chubes_get_codebase_primary_term($terms);
+    if (!$primary_term) {
+        return null;
+    }
+
+    return chubes_get_codebase_top_level_term($primary_term);
+}
+
+/**
  * Get comprehensive repository information for codebase projects
  *
  * Centralized function that retrieves repository-related metadata for a codebase taxonomy term including
@@ -127,35 +249,21 @@ function chubes_get_codebase_project_type($term) {
     if (!$term || $term->taxonomy !== 'codebase') {
         return '';
     }
-    
-    if ($term->parent == 0) {
-        $category_slugs = ['wordpress-plugins', 'wordpress-themes', 'discord-bots', 'php-libraries'];
-        if (in_array($term->slug, $category_slugs)) {
-            return rtrim($term->slug, 's');
-        }
-        return '';
-    }
-    $current_term = $term;
-    while ($current_term->parent != 0) {
-        $parent_term = get_term($current_term->parent, 'codebase');
-        if ($parent_term && !is_wp_error($parent_term)) {
-            $current_term = $parent_term;
-        } else {
-            break;
-        }
 
-        if ($current_term->term_id === $term->term_id) {
-            break;
-        }
-    }
     $category_mapping = [
         'wordpress-plugins' => 'wordpress-plugin',
         'wordpress-themes' => 'wordpress-theme',
         'discord-bots' => 'discord-bot',
         'php-libraries' => 'php-library'
     ];
-    
-    return $category_mapping[$current_term->slug] ?? '';
+
+    $top_level_term = chubes_get_codebase_top_level_term($term);
+
+    if ($top_level_term && isset($category_mapping[$top_level_term->slug])) {
+        return $category_mapping[$top_level_term->slug];
+    }
+
+    return '';
 }
 
 /**

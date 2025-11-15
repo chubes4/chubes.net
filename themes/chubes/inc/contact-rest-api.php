@@ -6,6 +6,13 @@
  * Endpoint: POST /wp-json/chubes/v1/contact
  */
 
+/**
+ * Register Contact Form REST API Endpoint
+ *
+ * Creates the REST API endpoint for secure contact form submissions.
+ * Endpoint: POST /wp-json/chubes/v1/contact
+ * Includes comprehensive validation rules for all form fields.
+ */
 function register_contact_rest_endpoint() {
     register_rest_route( 'chubes/v1', '/contact', array(
         'methods'             => 'POST',
@@ -46,6 +53,16 @@ function register_contact_rest_endpoint() {
 }
 add_action( 'rest_api_init', 'register_contact_rest_endpoint' );
 
+/**
+ * Handle Contact Form REST API Submission
+ *
+ * Processes contact form submissions with comprehensive security checks including
+ * nonce verification, honeypot spam protection, and timing validation.
+ * Sends notification emails to both admin and user.
+ *
+ * @param WP_REST_Request $request The REST API request object
+ * @return WP_REST_Response|WP_Error Success response or error object
+ */
 function handle_contact_form_rest( $request ) {
     // Verify nonce.
     $nonce = $request->get_param( 'nonce' );

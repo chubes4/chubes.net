@@ -7,7 +7,12 @@
  * Integrates with unified install tracking system in track-codebase-installs.php.
  */
 
-// Add custom fields to codebase taxonomy add form
+/**
+ * Add Custom Fields to Codebase Taxonomy Add Form
+ *
+ * Adds GitHub URL and WordPress.org URL input fields to the
+ * "Add New Codebase Project" taxonomy form.
+ */
 function chubes_codebase_taxonomy_add_fields() {
     ?>
     <div class="form-field term-github-url-wrap">
@@ -26,7 +31,14 @@ function chubes_codebase_taxonomy_add_fields() {
 }
 add_action('codebase_add_form_fields', 'chubes_codebase_taxonomy_add_fields');
 
-// Add custom fields to codebase taxonomy edit form
+/**
+ * Add Custom Fields to Codebase Taxonomy Edit Form
+ *
+ * Displays GitHub URL and WordPress.org URL input fields on the
+ * taxonomy term edit page with existing values populated.
+ *
+ * @param WP_Term $term The taxonomy term being edited
+ */
 function chubes_codebase_taxonomy_edit_fields($term) {
     $github_url = get_term_meta($term->term_id, 'codebase_github_url', true);
     $wp_url = get_term_meta($term->term_id, 'codebase_wp_url', true);
@@ -65,7 +77,14 @@ function chubes_codebase_taxonomy_edit_fields($term) {
 }
 add_action('codebase_edit_form_fields', 'chubes_codebase_taxonomy_edit_fields');
 
-// Save custom fields
+/**
+ * Save Custom Fields for Codebase Taxonomy Terms
+ *
+ * Processes and sanitizes GitHub URL and WordPress.org URL fields
+ * when creating or editing codebase taxonomy terms.
+ *
+ * @param int $term_id The taxonomy term ID being saved
+ */
 function chubes_save_codebase_taxonomy_fields($term_id) {
     if (isset($_POST['github_url'])) {
         update_term_meta($term_id, 'codebase_github_url', esc_url($_POST['github_url']));
@@ -82,14 +101,33 @@ add_action('edited_codebase', 'chubes_save_codebase_taxonomy_fields');
  * Helper functions for accessing codebase taxonomy field data
  * Used by templates and repository info functions
  */
+
+/**
+ * Get GitHub URL for a codebase taxonomy term
+ *
+ * @param int $term_id The taxonomy term ID
+ * @return string The GitHub URL or empty string if not set
+ */
 function chubes_get_codebase_github_url($term_id) {
     return get_term_meta($term_id, 'codebase_github_url', true);
 }
 
+/**
+ * Get WordPress.org URL for a codebase taxonomy term
+ *
+ * @param int $term_id The taxonomy term ID
+ * @return string The WordPress.org URL or empty string if not set
+ */
 function chubes_get_codebase_wp_url($term_id) {
     return get_term_meta($term_id, 'codebase_wp_url', true);
 }
 
+/**
+ * Get install count for a codebase taxonomy term
+ *
+ * @param int $term_id The taxonomy term ID
+ * @return string The install count or empty string if not tracked
+ */
 function chubes_get_codebase_installs($term_id) {
     return get_term_meta($term_id, 'codebase_install_count', true);
 }

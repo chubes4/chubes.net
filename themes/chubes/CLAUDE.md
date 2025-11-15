@@ -23,7 +23,7 @@ This theme uses traditional WordPress development with automated build system:
 
 # Outputs:
 # /dist/chubes.zip - For WordPress admin upload
-# /dist/chubes/ - For FTP deployment
+# /dist/chubes/ - Unzipped directory for FTP deployment
 ```
 
 ## Architecture Overview
@@ -115,6 +115,11 @@ Simple, secure contact form system using REST API:
 - **Custom admin columns** showing full taxonomy hierarchy path
 - **Card-based public archive** with dynamic content type buttons
 - **Project type detection** returns standardized values: `wordpress-plugin`, `wordpress-theme`, `discord-bot`, `php-library`
+- **Hierarchy helpers** in `inc/core/custom-taxonomies.php`:
+  - `chubes_get_codebase_primary_term($terms)` – pick the deepest assigned term.
+  - `chubes_get_codebase_project_term_from_terms($terms)` – derive project-level term (child of top-level category).
+  - `chubes_get_codebase_top_level_term_from_terms($terms)` – resolve parent category term (`wordpress-plugins`, etc.).
+  - Always prefer these helpers when building URLs or breadcrumbs instead of walking parents manually.
 
 ### Asset Loading Patterns
 
@@ -156,6 +161,14 @@ Advanced parent page navigation with dynamic breadcrumb support:
 - **Hierarchical page support** with ancestor detection
 - **Custom post type archive detection**
 - Breadcrumb functionality in `/inc/breadcrumbs.php`
+
+Documentation breadcrumbs now mirror the `/docs/{category}/{project}/` routes. They leverage the
+hierarchy helpers, so any new documentation UI should pass full term arrays into the helpers
+instead of hardcoding taxonomy IDs.
+
+Related docs and the “Browse all …” archive button rely on `chubes_get_documentation_archive_link()`
+and share the same helper layer. If those links are wrong, verify the taxonomy assignments and
+helper outputs before changing templates.
 
 ## Recent Major Changes
 

@@ -62,6 +62,16 @@ chubes_get_codebase_installs($term_id);
 
 // Project type detection (returns: wordpress-plugin, wordpress-theme, discord-bot, php-library)
 $project_type = chubes_get_codebase_project_type($term);
+
+// Hierarchy helpers (always derive project + top-level terms from assigned taxonomy)
+$project_term   = chubes_get_codebase_project_term_from_terms($terms);
+$category_term  = chubes_get_codebase_top_level_term_from_terms($terms);
+$primary_term   = chubes_get_codebase_primary_term($terms);
+
+Hierarchy helpers guarantee that every documentation feature (breadcrumbs, archive links,
+related lists) resolves to the correct project slug (e.g., `data-machine`) instead of generic
+category labels (e.g., `WordPress Plugins`). Always use these utilities rather than trying
+to walk the taxonomy tree manually.
 ```
 
 ### Navigation System
@@ -70,7 +80,13 @@ Dynamic parent page detection in `functions.php`:
 // Context-aware breadcrumb navigation
 chubes_get_parent_page();
 // Returns: ['url' => $parent_url, 'title' => $parent_title]
+
 ```
+
+Documentation-specific breadcrumbs live in `inc/breadcrumbs.php` and rely on the codebase
+helpers to emit paths like `Documentation → WordPress Plugins → Data Machine → Article` with
+links that mirror the `/docs/{category}/{project}/` routing. If breadcrumbs look wrong for a
+doc post, inspect the helper inputs first.
 
 ## File Structure
 
@@ -180,6 +196,11 @@ add_filter('home_template_hierarchy', 'chubes_home_template_hierarchy');
 - Input sanitization with `wp_unslash()` and `sanitize_text_field()`
 - Output escaping with `esc_html()`, `esc_url()`, `esc_attr()`
 - Honeypot protection on all contact forms
+
+### Documentation Experience
+- **Breadcrumb trail**: Uses codebase helpers to link back to `/docs/{category}/{project}/`.
+- **Project meta block**: Highlights both project + category with canonical URLs.
+- **Related documentation**: `chubes_get_related_documentation()` + `chubes_get_documentation_archive_link()` ensure suggestions and archive buttons stay within the same project context (e.g., all Data Machine docs).
 
 ## Local Development
 

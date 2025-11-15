@@ -7,6 +7,12 @@
  * Conditionally loads assets based on template type and post type.
  */
 
+/**
+ * Enqueue Theme Assets
+ *
+ * Centralizes all CSS and JavaScript asset loading with conditional logic
+ * based on current page context. Uses filemtime() for cache-busting.
+ */
 function chubes_enqueue_assets() {
     $theme_dir  = get_template_directory_uri();
     $theme_path = get_template_directory();

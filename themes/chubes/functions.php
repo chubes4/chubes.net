@@ -6,6 +6,12 @@
  * navigation system, and performance optimizations.
  */
 
+/**
+ * Theme Setup and Feature Registration
+ *
+ * Registers theme support for core WordPress features and sets up navigation menus.
+ * Enables Gutenberg editor support, custom logo, featured images, and editor styles.
+ */
 function chubes_theme_setup() {
     // Add support for various features
     add_theme_support('title-tag');
@@ -14,7 +20,7 @@ function chubes_theme_setup() {
     add_theme_support('menus');
     add_theme_support('editor-styles');
     add_editor_style('style.css');
-    
+
     // Register navigation menu location
     register_nav_menus(array(
         'primary' => __('Primary Navigation', 'chubes-theme'),
