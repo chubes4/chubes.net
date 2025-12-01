@@ -34,13 +34,6 @@ The homepage displays content in a responsive grid using the `chubes_homepage_co
 - Applies `wp_reset_postdata()` after queries
 - Links use `get_permalink()` and archive link functions
 
-## Custom Content Section
-
-- Optional section enabled via theme customizer (`chubes_homepage_custom_content_enabled`)
-- Content stored in `chubes_homepage_custom_content` theme mod
-- Renders content using `do_blocks(wp_kses_post())` for Gutenberg block support
-- Sanitized with `wp_kses_post()` for security
-
 ## Asset Loading
 
 - CSS loaded from `assets/css/home.css` on front page

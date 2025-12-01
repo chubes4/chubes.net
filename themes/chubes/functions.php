@@ -61,7 +61,7 @@ remove_action('wp_print_styles', 'print_emoji_styles');
 require_once get_template_directory() . '/inc/core/breadcrumbs.php';
 require_once get_template_directory() . '/inc/core/back-navigation.php';
 require_once get_template_directory() . '/inc/core/assets.php';
-require_once get_template_directory() . '/inc/core/custom-post-types.php';
+require_once get_template_directory() . '/inc/journal/journal-post-type.php';
 require_once get_template_directory() . '/inc/core/filters.php';
 require_once get_template_directory() . '/inc/journal/archive.php';
 require_once get_template_directory() . '/inc/homepage/columns.php';
@@ -83,51 +83,4 @@ function chubes_extend_search_post_types($query) {
 }
 add_action('pre_get_posts', 'chubes_extend_search_post_types');
 
-/**
- * Customizer Settings for Homepage
- * 
- * Adds customizer section for managing content below the latest content section
- * on the homepage, supporting Gutenberg blocks.
- * 
- * @param WP_Customize_Manager $wp_customize
- */
-function chubes_customize_register($wp_customize) {
-    // Add Homepage section
-    $wp_customize->add_section('chubes_homepage', array(
-        'title'    => __('Homepage Settings', 'chubes-theme'),
-        'priority' => 30,
-    ));
 
-    // Add setting for custom content section
-    $wp_customize->add_setting('chubes_homepage_custom_content', array(
-        'default'           => '',
-        'sanitize_callback' => 'wp_kses_post', // Allow HTML but sanitize
-        'transport'         => 'refresh',
-    ));
-
-    // Add control for custom content section
-    $wp_customize->add_control('chubes_homepage_custom_content', array(
-        'label'    => __('Custom Content Section', 'chubes-theme'),
-        'description' => __('Add content below the latest content section. You can use Gutenberg blocks by copying them from the block editor.', 'chubes-theme'),
-        'section'  => 'chubes_homepage',
-        'type'     => 'textarea',
-        'input_attrs' => array(
-            'placeholder' => __('Enter HTML or Gutenberg block markup here...', 'chubes-theme'),
-            'rows' => 8,
-        ),
-    ));
-
-    // Add setting for section visibility
-    $wp_customize->add_setting('chubes_homepage_custom_content_enabled', array(
-        'default'   => false,
-        'transport' => 'refresh',
-    ));
-
-    // Add control for section visibility
-    $wp_customize->add_control('chubes_homepage_custom_content_enabled', array(
-        'label'    => __('Enable Custom Content Section', 'chubes-theme'),
-        'section'  => 'chubes_homepage',
-        'type'     => 'checkbox',
-    ));
-}
-add_action('customize_register', 'chubes_customize_register');

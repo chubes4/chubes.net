@@ -51,9 +51,9 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 | File | Purpose |
 |------|---------|
 | `functions.php` | Asset loading, theme setup, navigation, module includes |
-| `inc/core/custom-post-types.php` | Journal, Game CPT registration (Documentation CPT by chubes-docs plugin) |
-| `inc/core/filters.php` | Template hierarchy filters for organized `/templates/` subdirs |
+| `inc/journal/journal-post-type.php` | Journal, Game CPT registration (Documentation CPT by chubes-docs plugin) |
+| `inc/core/filters.php` | Template hierarchy filters for flattened `/inc/core/templates/` |
 | `inc/core/assets.php` | Centralized CSS/JS enqueuing for all theme assets |
 | `inc/core/breadcrumbs.php` | Context-aware navigation links |
-| `templates/` | Organized by type: `/archive/`, `/single/`, `/page/` |
+| `inc/core/templates/` | Flattened templates directory |
 | `assets/css/`, `assets/js/` | Conditionally enqueued stylesheets and scripts |

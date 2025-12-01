@@ -30,10 +30,10 @@ This creates `/build/chubes.zip` for uploading to WordPress.
 ## Key files
 
 - `/inc/core/assets.php` — centralized asset enqueuing and localization
-- `/inc/core/custom-post-types.php` — registers `journal` and `game` post types (documentation post type is registered by chubes-docs plugin)
-- `/inc/core/filters.php` — template hierarchy routing to organized subdirectories
+- `/inc/journal/journal-post-type.php` — registers `journal` and `game` post types (documentation post type is registered by chubes-docs plugin)
+- `/inc/core/filters.php` — template hierarchy routing to flattened directory
 - `/inc/core/breadcrumbs.php` — breadcrumb generation for codebase taxonomy
-- `/templates/` — organized templates (`archive/`, `single/`, `page/`)
+- `/inc/core/templates/` — flattened templates directory
 - `build.sh` — production packaging script
 
 

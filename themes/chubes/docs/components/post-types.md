@@ -1,6 +1,6 @@
 Custom Post Types
 
-The theme registers two custom post types in inc/core/custom-post-types.php:
+The theme registers two custom post types in inc/journal/journal-post-type.php:
 
 - journal
   - Purpose: blog-style posts separate from the default posts table (journal entries).

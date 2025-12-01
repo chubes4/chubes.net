@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2025-11-30
+
+### Changed
+- **Template Organization**: Moved theme templates from `/templates/` to `/inc/core/templates/` for better code organization
+- **Custom Post Type Structure**: Reorganized journal CPT registration into dedicated `/inc/journal/journal-post-type.php` file
+- **Documentation Updates**: Updated all documentation files to reflect new file structure and organization
+- **Template Hierarchy**: Updated filters in `/inc/core/filters.php` to reference new template locations
+
 ## [2.0.0] - 2025-11-30
 
 ### Changed (Breaking)
