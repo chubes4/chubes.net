@@ -75,11 +75,11 @@ add_filter('404_template_hierarchy', 'chubes_404_template_hierarchy');
 
 /**
  * Home template hierarchy filter
- * Redirects home template lookups to /templates/ root
+ * Redirects home template lookups to /templates/archive/ for archive.php fallback
  */
 function chubes_home_template_hierarchy($templates) {
     return array_map(function($template) {
-        return 'templates/' . $template;
+        return 'templates/archive/' . $template;
     }, $templates);
 }
 add_filter('home_template_hierarchy', 'chubes_home_template_hierarchy');
@@ -94,3 +94,50 @@ function chubes_search_template_hierarchy($templates) {
     }, $templates);
 }
 add_filter('search_template_hierarchy', 'chubes_search_template_hierarchy');
+
+/**
+ * Customize archive titles
+ * 
+ * Formats archive titles with span wrapper for styling and handles
+ * special cases like blog index. Removes default "Category:" prefixes
+ * and replaces with styled markup.
+ *
+ * @param string $title Default archive title
+ * @return string Formatted archive title
+ */
+function chubes_archive_title($title) {
+	if (is_home()) {
+		return 'Blog';
+	}
+
+	if (is_category()) {
+		return '<span class="archive-type">Category</span>' . single_cat_title('', false);
+	}
+
+	if (is_tag()) {
+		return '<span class="archive-type">Tag</span>' . single_tag_title('', false);
+	}
+
+	if (is_author()) {
+		return '<span class="archive-type">Author</span>' . get_the_author();
+	}
+
+	if (is_day()) {
+		return '<span class="archive-type">Daily Archives</span>' . get_the_date();
+	}
+
+	if (is_month()) {
+		return '<span class="archive-type">Monthly Archives</span>' . get_the_date('F Y');
+	}
+
+	if (is_year()) {
+		return '<span class="archive-type">Yearly Archives</span>' . get_the_date('Y');
+	}
+
+	if (is_post_type_archive()) {
+		return post_type_archive_title('', false);
+	}
+
+	return $title;
+}
+add_filter('get_the_archive_title', 'chubes_archive_title');

@@ -25,6 +25,14 @@ function chubes_enqueue_assets() {
         filemtime( $theme_path . '/style.css' )
     );
     
+    // Root CSS variables and common styles - always enqueued
+    wp_enqueue_style(
+        'root-style',
+        $theme_dir . '/assets/css/root.css',
+        array('chubes-style'),
+        filemtime( $theme_path . '/assets/css/root.css' )
+    );
+    
     // Home page CSS
     if ( is_front_page() ) {
         wp_enqueue_style(
@@ -35,61 +43,24 @@ function chubes_enqueue_assets() {
         );
     }
     
-    // Documentation CSS
-    if ( is_singular( 'documentation' ) ) {
+    // Single post CSS - on all single post views
+    if ( is_singular() && !is_page() ) {
         wp_enqueue_style(
-            'documentation-style',
-            $theme_dir . '/assets/css/documentation.css',
+            'single-style',
+            $theme_dir . '/assets/css/single.css',
             array(),
-            filemtime( $theme_path . '/assets/css/documentation.css' )
+            filemtime( $theme_path . '/assets/css/single.css' )
         );
     }
     
-    // Archives CSS - on archives, taxonomy, categories, tags, and custom archive routes
-    $has_custom_archives = (
-        get_query_var( 'docs_category_archive' ) ||
-        get_query_var( 'docs_project_archive' ) ||
-        get_query_var( 'codebase_archive' ) ||
-        get_query_var( 'codebase_project' )
-    );
-    if (
-        is_post_type_archive() ||
-        is_tax( 'codebase' ) ||
-        is_post_type_archive( 'documentation' ) ||
-        is_category() ||
-        is_tag() ||
-        is_tax() ||
-        $has_custom_archives
-    ) {
+    // Archives CSS - on archives, taxonomy, categories, tags
+    if ( is_post_type_archive() || is_category() || is_tag() || is_tax() ) {
         wp_enqueue_style(
             'archives-style',
             $theme_dir . '/assets/css/archives.css',
             array(),
             filemtime( $theme_path . '/assets/css/archives.css' )
         );
-    }
-    
-    // Contact form CSS and JavaScript - on contact page
-    if ( is_page( 'contact' ) || is_page_template( 'page-contact.php' ) ) {
-        wp_enqueue_style(
-            'contact-css',
-            $theme_dir . '/assets/css/contact.css',
-            array(),
-            filemtime( $theme_path . '/assets/css/contact.css' )
-        );
-        wp_enqueue_script(
-            'contact-js',
-            $theme_dir . '/assets/js/contact.js',
-            array(),
-            filemtime( $theme_path . '/assets/js/contact.js' ),
-            true
-        );
-        
-        // Localize the contact script with REST API URL and nonce
-        wp_localize_script( 'contact-js', 'chubes_contact_params', array(
-            'rest_url' => rest_url( 'chubes/v1/contact' ),
-            'nonce'    => wp_create_nonce( 'contact_nonce' ),
-        ) );
     }
     
     // Mobile navigation functionality - always enqueued

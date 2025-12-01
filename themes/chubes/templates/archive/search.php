@@ -103,14 +103,7 @@ get_header(); ?>
             <?php endif; ?>
 
             <!-- Dynamic Back To Navigation -->
-            <div class="post-navigation">
-                <?php 
-                $parent = chubes_get_parent_page();
-                ?>
-                <a href="<?php echo esc_url($parent['url']); ?>" class="btn secondary">
-                    ← Back to <?php echo esc_html($parent['title']); ?>
-                </a>
-            </div>
+
         </div>
     </section>
 </main>

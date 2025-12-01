@@ -1,3 +1,4 @@
+<?php do_action('chubes_above_footer'); ?>
 <footer class="site-footer">
     <div class="container">
         <div class="footer-nav">
@@ -6,7 +7,6 @@
                 <li><a href="<?php echo home_url('/docs'); ?>">Documentation</a></li>
                 <li><a href="<?php echo home_url('/blog'); ?>">Blog</a></li>
                 <li><a href="<?php echo home_url('/journal'); ?>">Journal</a></li>
-                <li><a href="<?php echo home_url('/games'); ?>">Games</a></li>
             </ul>
         </div>
 

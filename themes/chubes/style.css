@@ -1,10 +1,10 @@
 /*
-Theme Name: Chubes Theme
+Theme Name: Chubes
 Theme URI: https://chubes.net/
 Author: Chris Huber
 Author URI: https://chubes.net/
 Description: Custom WordPress theme for Chubes.net - WordPress Development Portfolio
-Version: 1.0
+Version: 2.0.0
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: chubes-theme
@@ -18,7 +18,7 @@ body {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     line-height: 1.9;
-    color: #ddd;
+    color: var(--chubes-body-text-color);
     background-color: #111; /* Dark theme */
 }
 
@@ -92,7 +92,7 @@ figure.wp-block-image img {
 }
 
 a {
-    color: #ddd;
+    color: var(--chubes-body-text-color);
     text-decoration: underline;
     transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
     border-bottom: 2px solid transparent;
@@ -112,7 +112,7 @@ li {
 
 .btn {
     display: inline-block;
-    background: #00c2ff; /* Bright accent color */
+    background: var(--chubes-accent-color-1); /* Bright accent color */
     color: #000; /* Dark text for contrast */
     padding: 12px 24px;
     font-size: 16px;
@@ -136,6 +136,41 @@ li {
 .btn.secondary:hover {
     background: #555; /* Slightly lighter on hover */
     color: #fff;
+}
+
+/* Label Styles */
+.label-1 {
+  display: inline-block;
+  background: rgba(0, 194, 255, 0.1);
+  color: #00e0ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 194, 255, 0.2);
+  font-size: 0.9em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.label-1:hover {
+  background: rgba(0, 194, 255, 0.2);
+  text-decoration: none;
+}
+
+.label-2 {
+  display: inline-block;
+  background: rgba(68, 68, 68, 0.3);
+  color: #777;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.label-2:hover {
+  background: rgba(68, 68, 68, 0.5);
+  color: #999;
+  text-decoration: none;
 }
 
 /* Button icons */
@@ -177,7 +212,7 @@ li {
 }
 
 .site-title{
-    border-bottom: 2px dotted #00e0ff;
+    border-bottom: 2px dotted var(--chubes-accent-color-2);
     padding-bottom: 15px;
     margin-bottom: 0;
     margin-top: 15px;
@@ -190,7 +225,7 @@ li {
 }
 
 .site-footer .container {
-    border-top: 2px dotted #00e0ff;
+    border-top: 2px dotted var(--chubes-accent-color-2);
     display: flex;
     flex-direction: column;
 }
@@ -234,7 +269,7 @@ li {
 }
 
 .social-links li a:hover .icon {
-    fill: #00c2ff; /* Accent color on hover */
+    fill: var(--chubes-accent-color-1); /* Accent color on hover */
 }
 
 
@@ -328,7 +363,7 @@ button{
 .footer-cta {
     font-size: 18px;
     font-weight: bold;
-    color: #00c2ff;
+    color: var(--chubes-accent-color-1);
     text-decoration: none;
 }
 
@@ -630,14 +665,12 @@ body.admin-bar .hamburger {
 
 .no-results p {
   margin-bottom: 20px;
-  color: #ddd;
 }
 
 .no-results ul {
   text-align: left;
   max-width: 400px;
   margin: 0 auto 40px;
-  color: #ddd;
 }
 
 .no-results li {
@@ -1078,11 +1111,11 @@ body.admin-bar .hamburger {
 /* --- Code Block Styling --- */
 pre {
     background-color: #222; /* Slightly lighter dark background */
-    color: #ddd;
+    color: var(--chubes-body-text-color);
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     padding: 1em;
     border-radius: 6px; /* Consistent rounding */
-    border-left: 3px solid #00c2ff; /* Accent color marker */
+    border-left: 3px solid var(--chubes-accent-color-1); /* Accent color marker */
     overflow-x: auto; /* Handle long lines */
     margin: 1.5em 0; /* Add some vertical space */
     font-size: 0.95em; /* Slightly smaller font size often looks good for code */

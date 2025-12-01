@@ -41,8 +41,12 @@ function chubes_breadcrumbs($args = []) {
     
     // Home link
     echo '<a href="' . esc_url(home_url('/')) . '">' . esc_html($args['home_label']) . '</a>';
-    
-    if (is_home()) {
+
+    // Allow plugins to handle custom archive breadcrumbs (checked before other conditions)
+    $custom_archive_breadcrumbs = apply_filters('chubes_breadcrumb_custom_archive', null, $args);
+    if ($custom_archive_breadcrumbs !== null) {
+        echo $custom_archive_breadcrumbs;
+    } elseif (is_home()) {
         // Blog page
         if ($args['show_current']) {
             echo $args['separator'];
@@ -139,61 +143,28 @@ function chubes_breadcrumbs($args = []) {
                 echo $args['separator'];
                 echo $args['before_current'] . get_the_title() . $args['after_current'];
             }
-        } elseif (get_post_type() === 'game') {
-            // Game single
-            echo $args['separator'];
-            echo '<a href="' . esc_url(get_post_type_archive_link('game')) . '">Games</a>';
-            
-            if ($args['show_current']) {
-                echo $args['separator'];
-                echo $args['before_current'] . get_the_title() . $args['after_current'];
-            }
-        } elseif (get_post_type() === 'documentation') {
-            // Documentation single
-            echo $args['separator'];
-            echo '<a href="' . esc_url(get_post_type_archive_link('documentation')) . '">Documentation</a>';
-            
-            $codebase_terms = get_the_terms(get_the_ID(), 'codebase');
-            if ($codebase_terms && !is_wp_error($codebase_terms)) {
-                $top_level_term = chubes_get_codebase_top_level_term_from_terms($codebase_terms);
-                $project_term = chubes_get_codebase_project_term_from_terms($codebase_terms);
-
-                if ($top_level_term) {
-                    echo $args['separator'];
-                    $docs_category_url = home_url('/docs/' . $top_level_term->slug . '/');
-                    echo '<a href="' . esc_url($docs_category_url) . '">' . esc_html($top_level_term->name) . '</a>';
-                }
-
-                if ($project_term && (!$top_level_term || $project_term->term_id !== $top_level_term->term_id)) {
-                    echo $args['separator'];
-                    if ($top_level_term) {
-                        $project_url = home_url('/docs/' . $top_level_term->slug . '/' . $project_term->slug . '/');
-                    } else {
-                        $project_url = get_term_link($project_term);
-                    }
-                    echo '<a href="' . esc_url($project_url) . '">' . esc_html($project_term->name) . '</a>';
-                }
-            }
-            
-            if ($args['show_current']) {
-                echo $args['separator'];
-                echo $args['before_current'] . get_the_title() . $args['after_current'];
-            }
         } else {
-            // Other custom post types
-            $post_type = get_post_type_object(get_post_type());
-            $archive_link = get_post_type_archive_link(get_post_type());
+            // Allow plugins to handle custom post type breadcrumbs
+            $custom_single_breadcrumbs = apply_filters('chubes_breadcrumb_single_' . get_post_type(), null, $args, get_the_ID());
             
-            echo $args['separator'];
-            if ($archive_link) {
-                echo '<a href="' . esc_url($archive_link) . '">' . esc_html($post_type->labels->name) . '</a>';
+            if ($custom_single_breadcrumbs !== null) {
+                echo $custom_single_breadcrumbs;
             } else {
-                echo esc_html($post_type->labels->name);
-            }
+                // Other custom post types
+                $post_type = get_post_type_object(get_post_type());
+                $archive_link = get_post_type_archive_link(get_post_type());
             
-            if ($args['show_current']) {
                 echo $args['separator'];
-                echo $args['before_current'] . get_the_title() . $args['after_current'];
+                if ($archive_link) {
+                    echo '<a href="' . esc_url($archive_link) . '">' . esc_html($post_type->labels->name) . '</a>';
+                } else {
+                    echo esc_html($post_type->labels->name);
+                }
+            
+                if ($args['show_current']) {
+                    echo $args['separator'];
+                    echo $args['before_current'] . get_the_title() . $args['after_current'];
+                }
             }
         }
     } elseif (is_post_type_archive()) {
@@ -205,16 +176,6 @@ function chubes_breadcrumbs($args = []) {
                 echo $args['separator'];
                 echo $args['before_current'] . esc_html($post_type->labels->name) . $args['after_current'];
             }
-        }
-    } elseif (is_tax('codebase')) {
-        // Codebase taxonomy archive
-        echo $args['separator'];
-        echo '<a href="' . esc_url(get_post_type_archive_link('documentation')) . '">Documentation</a>';
-        
-        if ($args['show_current']) {
-            $term = get_queried_object();
-            echo $args['separator'];
-            echo $args['before_current'] . esc_html($term->name) . $args['after_current'];
         }
     } elseif (is_page() && !$post->post_parent) {
         // Page with no parent
@@ -285,5 +246,77 @@ function chubes_add_breadcrumbs() {
 // Hook breadcrumbs to display before the main content
 // Depending on your theme, you may need to adjust this hook
 add_action('chubes_before_main_content', 'chubes_add_breadcrumbs');
+
+/**
+ * Get parent page information for context-aware navigation
+ * 
+ * Provides intelligent back navigation based on content type:
+ * - Blog posts → Blog page
+ * - Custom post types → Archive page  
+ * - Pages with parents → Immediate parent page
+ * - Archive pages → Blog or homepage
+ * 
+ * @return array Parent page data with 'url' and 'title' keys
+ */
+function chubes_get_parent_page() {
+    global $post;
+    
+    // Default is homepage
+    $parent = array(
+        'url' => home_url('/'),
+        'title' => 'Chubes.net'
+    );
+    
+    // For single post - always go back to Blog
+    if (is_single() && get_post_type() === 'post') {
+        $parent = array(
+            'url' => get_permalink(get_option('page_for_posts')),
+            'title' => 'Blog'
+        );
+    } 
+    // For custom post types
+    elseif (is_single() && get_post_type() !== 'post') {
+        $post_type = get_post_type_object(get_post_type());
+        $archive_link = get_post_type_archive_link(get_post_type());
+
+        if ($archive_link) {
+            $parent = array(
+                'url' => $archive_link,
+                'title' => $post_type->labels->name
+            );
+        }
+    }
+    // For pages with ancestors
+    elseif (is_page()) {
+        if ($post->post_parent) {
+            // Get ancestors array (parent, grandparent, etc.)
+            $ancestors = get_post_ancestors($post->ID);
+            
+            // The first item in the array is the immediate parent
+            $parent_id = $ancestors[0];
+            $parent = array(
+                'url' => get_permalink($parent_id),
+                'title' => get_the_title($parent_id)
+            );
+        }
+    }
+    // For category archives
+    elseif (is_category() || is_tag() || is_date() || is_author()) {
+        $parent = array(
+            'url' => get_permalink(get_option('page_for_posts')),
+            'title' => 'Blog'
+        );
+    }
+    // For post type archives (like Journal or Game)
+    elseif (is_post_type_archive()) {
+        // These should go back to the homepage
+        $parent = array(
+            'url' => home_url('/'),
+            'title' => 'Chubes.net'
+        );
+    }
+    
+    return $parent;
+}
 
  

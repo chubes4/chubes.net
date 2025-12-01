@@ -17,7 +17,7 @@
 }
 
 .home section .container p {
-    color: #ddd;
+    color: var(--chubes-body-text-color);
     text-align: center;
 }
 
@@ -52,7 +52,6 @@
 .hero p {
     font-size: 20px;
     line-height: 1.6;
-    color: #ddd;
     margin-bottom: 35px;
     max-width: 700px;
     margin-left: auto;
@@ -81,18 +80,18 @@
     }
 }
 
-/* Three-Column Content Section */
-.docs-blog-journal {
+/* Homepage Columns Section */
+.homepage-columns {
     padding: 0px 0 10px;
 }
 
 .content-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
 }
 
-.docs-list, .blog-list, .journal-list {
+.homepage-column {
     background: rgba(34, 34, 34, 0.95);
     border: 1px solid rgba(68, 68, 68, 0.6);
     border-radius: 8px;
@@ -101,9 +100,7 @@
     box-sizing: border-box;
 }
 
-.docs-list .item-list,
-.blog-list .item-list,
-.journal-list .item-list {
+.homepage-column .item-list {
     list-style: none;
     padding: 0;
     margin: 10px 0 0;
@@ -123,25 +120,11 @@
 
 .item-list a { text-decoration: none; }
 
-.item-list a:hover { color: #00e0ff; }
+.item-list a:hover { color: var(--chubes-link-color); }
 
 .item-list .meta { color: #777; margin-top: 6px; }
 
 .list-cta { margin-top: 14px; text-align: center; }
-
-/* Tablet: 2 columns */
-@media (min-width: 640px) and (max-width: 767px) {
-    .content-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-/* Desktop: 3 columns */
-@media (min-width: 768px) {
-    .content-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-}
 
 
 /* About/Journey section removed on redesign */

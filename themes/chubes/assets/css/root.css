@@ -1,0 +1,63 @@
+/* Root CSS Variables - Design System Foundation */
+
+/* Semantic Color Variables */
+:root {
+  --chubes-body-text-color: #ddd;
+  --chubes-link-color: #00e0ff;
+  --chubes-accent-color-1: #00c2ff; /* Primary accent - buttons, backgrounds, borders */
+  --chubes-accent-color-2: #00e0ff; /* Secondary accent - links, text, interactive states */
+}
+
+/* Global Button Styles */
+.button-1, .button-2, .button-3 {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    line-height: 1.4;
+}
+
+.button-1 {
+    background-color: var(--chubes-accent-color-1);
+    color: #fff;
+    border-color: var(--chubes-accent-color-1);
+}
+
+.button-1:hover {
+    background-color: #009acb; /* Darker shade of accent 1 */
+    color: #fff;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.button-2 {
+    background-color: transparent;
+    color: var(--chubes-accent-color-2);
+    border-color: var(--chubes-accent-color-2);
+}
+
+.button-2:hover {
+    background-color: rgba(0, 224, 255, 0.1);
+    color: var(--chubes-accent-color-2);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.button-3 {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #bbb;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.button-3:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
