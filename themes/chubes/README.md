@@ -5,7 +5,7 @@ Custom WordPress theme for https://chubes.net. This repository contains a modula
 ## Project overview
 
 - Modular PHP organization under `/inc/`
-- Templates organized under `/templates/` with template-hierarchy filters
+- Templates organized under `/inc/core/templates/` with template-hierarchy filters
 - Conditional asset loading with cache-busting via `filemtime()`
 - Build script: `./build.sh` produces a ZIP for WordPress uploads in `/build/`
 - NO contact functionality (moved to chubes-contact plugin)
@@ -30,23 +30,15 @@ This creates `/build/chubes.zip` for uploading to WordPress.
 ## Key files
 
 - `/inc/core/assets.php` — centralized asset enqueuing and localization
-- `/inc/journal/journal-post-type.php` — registers `journal` and `game` post types (documentation post type is registered by chubes-docs plugin)
+- `/inc/journal/journal-post-type.php` — registers `journal` post type (game and documentation post types are registered by respective plugins)
 - `/inc/core/filters.php` — template hierarchy routing to flattened directory
-- `/inc/core/breadcrumbs.php` — breadcrumb generation for codebase taxonomy
+- `/inc/core/breadcrumbs.php` — breadcrumb generation for navigation
 - `/inc/core/templates/` — flattened templates directory
 - `build.sh` — production packaging script
 
 
 
-## Codebase taxonomy
 
-A hierarchical `codebase` taxonomy (registered by the chubes-docs plugin) organizes projects. Top-level slugs used by the theme are:
-- wordpress-plugins
-- wordpress-themes
-- discord-bots
-- php-libraries
-
-Helpers in `/inc/core/breadcrumbs.php` resolve project and top-level terms for templates and breadcrumbs. Always use provided helpers instead of walking term parents manually.
 
 ## Asset loading
 

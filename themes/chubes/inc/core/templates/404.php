@@ -11,14 +11,19 @@ get_header();
 <main class="site-main error-404">
     <section class="error-content">
         <div class="container">
-            <!-- 404 Title -->
-            <h1 class="error-title">404 - Page Not Found</h1>
 
-            <!-- Error Message -->
-            <p class="error-message">Oops! It looks like the page you’re looking for has sailed off into the horizon. Don’t worry—my sites are built to navigate, but sometimes the seas get tricky!</p>
+            <h1 class="error-title">404: Lost at Sea</h1>
+
+            <p class="error-message">The page you are looking for is lost at sea. It may never return again.</p>
+
+            <form class="search-form" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
+                <input type="search" class="search-input" placeholder="Search site..." value="<?php echo get_search_query(); ?>" name="s" />
+                <button type="submit" class="search-submit">
+                    <span class="search-text">Search</span>
+                </button>
+            </form>
 
             <div class="error-actions">
-
                 <a href="mailto:chubes@chubes.net" class="btn secondary">Contact Me</a>
             </div>
         </div>

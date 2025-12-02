@@ -9,7 +9,7 @@
 
 .home section .container {
     border-bottom: .5px solid #444;
-    padding: 30px 0;
+    padding: 15px 0;
 }
 
 .home section.tech-stack .container {
@@ -34,49 +34,68 @@
     }
 }
 
-/* Hero Section Enhancement */
-.hero {
-    padding: 40px 0;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-}
-
 .hero h1 {
-    font-size: 42px;
+    font-size: 36px;
     line-height: 1.2;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     color: #fff;
-}
-
-.hero p {
-    font-size: 20px;
-    line-height: 1.6;
-    margin-bottom: 35px;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
 }
 
-.hero .btn {
-    padding: 15px 32px;
-    font-size: 18px;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-image {
+    flex-shrink: 0;
+}
+
+.hero-image img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.hero-bio {
+    flex: 1;
+    text-align: left;
+}
+
+.hero-bio p {
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: var(--chubes-body-text-color);
+}
+
+.hero-bio p:last-child {
+    margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
     .hero {
-        padding: 60px 0;
+        padding: 40px 0;
     }
     
     .hero h1 {
-        font-size: 32px;
+        font-size: 28px;
+        margin-bottom: 24px;
     }
-    
-    .hero p {
-        font-size: 18px;
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-image img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .hero-bio {
+        text-align: left;
     }
 }
 

@@ -61,8 +61,10 @@ remove_action('wp_print_styles', 'print_emoji_styles');
 require_once get_template_directory() . '/inc/core/breadcrumbs.php';
 require_once get_template_directory() . '/inc/core/back-navigation.php';
 require_once get_template_directory() . '/inc/core/assets.php';
+require_once get_template_directory() . '/inc/core/code-blocks.php';
 require_once get_template_directory() . '/inc/journal/journal-post-type.php';
 require_once get_template_directory() . '/inc/core/filters.php';
+require_once get_template_directory() . '/inc/core/customizer.php';
 require_once get_template_directory() . '/inc/journal/archive.php';
 require_once get_template_directory() . '/inc/homepage/columns.php';
 

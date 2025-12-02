@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2025-12-02
+
+### Added
+- **Code Block Enhancements**: Added copy-to-clipboard functionality for all `core/code` blocks with visual feedback
+- **SVG Sprite System**: Created `assets/icons/chubes.svg` sprite file with copy and check icons for reusable iconography
+- **Language Labels**: Code blocks now display the programming language when specified (from `language-*` class)
+- **Documentation**: Added comprehensive installation and usage guides in `/docs/`
+- **Customizer Integration**: Added theme customizer support via `inc/core/customizer.php`
+
+### Changed
+- Updated README.md to reflect current file structure and removed outdated codebase taxonomy references
+- Updated functions.php to include new code-blocks and customizer modules
+- Various template refinements and documentation improvements
+
 ## [2.0.1] - 2025-11-30
 
 ### Changed
@@ -21,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Documentation system moved to `chubes-docs` plugin
   - Codebase taxonomy and tracking moved to `chubes-docs` plugin
 - **File Structure Reorganization**:
-  - Templates moved from theme root to `/templates/` subdirectories (`archive/`, `single/`, `page/`)
+  - Templates moved to `/inc/core/templates/`
   - PHP modules restructured under `/inc/core/`, `/inc/homepage/`, `/inc/journal/`
   - Removed `/php/` directory and autoloader system
 - **Theme Name**: Changed from "Chubes Theme" to "Chubes"
