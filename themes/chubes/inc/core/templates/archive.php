@@ -4,12 +4,12 @@
  * 
  * Single source of truth for all archive pages. Uses WordPress native
  * the_archive_title() and the_archive_description() with filter customization.
- * CPT-specific content rendered via chubes_archive_content hook.
+ * CPT-specific content can override default loop via chubes_archive_content filter.
  */
 get_header(); ?>
 
 <main class="site-main archive-<?php echo get_post_type() ?: 'blog'; ?>">
-    <section class="archive-header enhanced">
+    <section class="archive-header">
         <div class="container">
             <div class="archive-header-inner">
                 <?php the_archive_title('<h1>', '</h1>'); ?>
@@ -22,10 +22,15 @@ get_header(); ?>
 
     <section class="archive-posts">
         <div class="container">
-            <?php if (has_action('chubes_archive_content')) : ?>
-                <?php do_action('chubes_archive_content'); ?>
-            <?php else : ?>
-                <div class="post-grid enhanced">
+            <?php 
+            $custom_content = apply_filters( 'chubes_archive_content', '', get_queried_object() );
+            
+            if ( $custom_content ) : 
+                echo $custom_content;
+            else : 
+            ?>
+                <div class="post-grid">
+
                     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                         <div class="post-item">
                             <a href="<?php the_permalink(); ?>">

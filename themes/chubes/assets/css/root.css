@@ -1,12 +1,18 @@
 /* Root CSS Variables - Design System Foundation */
 
 /* Semantic Color Variables */
-:root {
+ :root {
   --chubes-body-text-color: #ddd;
   --chubes-link-color: #00e0ff;
   --chubes-accent-color-1: #00c2ff; /* Primary accent - buttons, backgrounds, borders */
   --chubes-accent-color-2: #00e0ff; /* Secondary accent - links, text, interactive states */
+  --chubes-muted-text-color: #777;
+  --chubes-background-primary: #111;
+  --chubes-background-secondary: #1d1d1d;
+  --chubes-border-primary: #444;
+  --chubes-border-secondary: #1a1a1a;
 }
+
 
 /* Global Button Styles */
 .button-1, .button-2, .button-3 {

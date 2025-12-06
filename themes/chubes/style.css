@@ -4,7 +4,7 @@ Theme URI: https://chubes.net/
 Author: Chris Huber
 Author URI: https://chubes.net/
 Description: Custom WordPress theme for Chubes.net - WordPress Development Portfolio
-Version: 2.0.2
+Version: 2.0.3
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: chubes-theme
@@ -19,7 +19,7 @@ body {
     font-size: 16px;
     line-height: 1.9;
     color: var(--chubes-body-text-color);
-    background-color: #111; /* Dark theme */
+    background-color: var(--chubes-background-primary); /* Dark theme */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -159,7 +159,7 @@ li {
 .label-2 {
   display: inline-block;
   background: rgba(68, 68, 68, 0.3);
-  color: #777;
+  color: var(--chubes-muted-text-color);
   padding: 2px 6px;
   border-radius: 3px;
   font-size: 0.8em;
@@ -169,7 +169,7 @@ li {
 
 .label-2:hover {
   background: rgba(68, 68, 68, 0.5);
-  color: #999;
+  color: var(--chubes-muted-text-color);
   text-decoration: none;
 }
 
@@ -531,7 +531,7 @@ body.admin-bar .hamburger {
 
 .overlay-nav .overlay-menu .sub-menu li a {
     font-size: 1.2rem;
-    color: #ccc;
+    color: var(--chubes-muted-text-color);
     padding-left: 20px;
 }
 
@@ -583,8 +583,8 @@ body.admin-bar .hamburger {
 .search-input {
   width: 100%;
   padding: 15px 20px;
-  background: rgba(34, 34, 34, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: var(--chubes-background-secondary);
+  border: 2px solid var(--chubes-border-secondary);
   border-radius: 8px;
   color: #fff;
   font-size: 18px;
@@ -596,7 +596,7 @@ body.admin-bar .hamburger {
 .search-input:focus {
   outline: none;
   border-color: #00e0ff;
-  background: rgba(34, 34, 34, 0.95);
+  background: var(--chubes-background-secondary);
 }
 
 .search-input::placeholder {
@@ -696,8 +696,8 @@ body.admin-bar .hamburger {
 .search-input-inline {
   flex: 1;
   padding: 12px 16px;
-  background: rgba(34, 34, 34, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: var(--chubes-background-secondary);
+  border: 2px solid var(--chubes-border-secondary);
   border-radius: 8px;
   color: #fff;
   font-size: 16px;
@@ -708,7 +708,7 @@ body.admin-bar .hamburger {
 .search-input-inline:focus {
   outline: none;
   border-color: #00e0ff;
-  background: rgba(34, 34, 34, 0.95);
+  background: var(--chubes-background-secondary);
 }
 
 .search-input-inline::placeholder {
@@ -831,10 +831,9 @@ body.admin-bar .hamburger {
     }
 }
 
-/* Enhanced Archive Headers */
-.archive-header.enhanced,
-
-.archive-header.enhanced::before {
+/* Archive Header */
+.archive-header,
+.archive-header::before {
     display: none;
 }
 
@@ -846,8 +845,7 @@ body.admin-bar .hamburger {
     padding: 0 20px;
 }
 
-.archive-header.enhanced h1,
-.archive-header.enhanced h1 {
+.archive-header h1 {
     font-size: 2.6rem;
     margin-bottom: 15px;
     color: #fff;
@@ -857,9 +855,9 @@ body.admin-bar .hamburger {
     display: inline-block;
 }
 
-.archive-header.enhanced p {
+.archive-header p {
     font-size: 1.1rem;
-    color: #ccc;
+    color: var(--chubes-muted-text-color);
     max-width: 700px;
     margin: 0 auto 30px;
     line-height: 1.7;
@@ -901,16 +899,16 @@ body.admin-bar .hamburger {
     font-weight: 500;
 }
 
-/* Enhanced Post Grid - Minimalist Version */
-.post-grid.enhanced {
+/* Post Grid */
+.post-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
     margin-top: 40px;
 }
 
-.post-grid.enhanced .post-item {
-    background: rgba(25, 25, 25, 0.7);
+.post-grid .post-item {
+    background: var(--chubes-background-secondary);
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -918,7 +916,7 @@ body.admin-bar .hamburger {
     height: 100%;
 }
 
-.post-grid.enhanced .post-item:hover {
+.post-grid .post-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 194, 255, 0.2);
 }
@@ -939,7 +937,7 @@ body.admin-bar .hamburger {
 }
 
 .post-content-preview p {
-    color: #aaa;
+    color: var(--chubes-muted-text-color);
     margin-bottom: 20px;
     line-height: 1.6;
     font-size: 0.95rem;
@@ -950,12 +948,12 @@ body.admin-bar .hamburger {
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--chubes-border-secondary);
     padding-top: 15px;
 }
 
 .post-date {
-    color: #777;
+    color: var(--chubes-muted-text-color);
     font-size: 0.9rem;
 }
 
@@ -979,13 +977,13 @@ body.admin-bar .hamburger {
 }
 
 /* Enhanced Journal List */
-.journal-list.enhanced {
+.journal-list {
     list-style: none;
     padding: 0;
     margin: 40px 0;
     border-radius: 8px;
     overflow: hidden;
-    background: rgba(25, 25, 25, 0.7);
+    background: var(--chubes-background-secondary);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -995,15 +993,15 @@ body.admin-bar .hamburger {
     gap: 10px;
 }
 
-.journal-list.enhanced li {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.journal-list li {
+    border-bottom: 1px solid var(--chubes-border-secondary);
 }
 
-.journal-list.enhanced li:last-child {
+.journal-list li:last-child {
     border-bottom: none;
 }
 
-.journal-list.enhanced a {
+.journal-list a {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1013,7 +1011,7 @@ body.admin-bar .hamburger {
     transition: background 0.3s ease;
 }
 
-.journal-list.enhanced a:hover {
+.journal-list a:hover {
     background: rgba(0, 194, 255, 0.1);
     color: #fff;
 }
@@ -1029,21 +1027,21 @@ body.admin-bar .hamburger {
 
 /* Responsive styles */
 @media (max-width: 768px) {
-    .archive-header.enhanced,
-    .archive-header.enhanced h1 {
+    .archive-header,
+    .archive-header h1 {
         font-size: 2.2rem;
     }
     
-    .archive-header.enhanced p {
+    .archive-header p {
         font-size: 1rem;
     }
     
-    .post-grid.enhanced {
+    .post-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 20px;
     }
     
-    .journal-list.enhanced a {
+    .journal-list a {
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
@@ -1055,9 +1053,9 @@ body.admin-bar .hamburger {
 }
 
 @media (max-width: 425px) {
-    .archive-header.enhanced h1,
+    .archive-header h1,
     
-    .post-grid.enhanced {
+    .post-grid {
         grid-template-columns: 1fr;
     }
     
@@ -1079,13 +1077,13 @@ body.admin-bar .hamburger {
     margin: 15px 0 25px;
     padding-bottom: 20px;
     border-top: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--chubes-border-secondary);
     padding-top: 0;
 }
 
 .single-post .post-meta p {
     margin: 0;
-    color: #777;
+    color: var(--chubes-muted-text-color);
     font-size: 0.9em;
 }
 
@@ -1110,7 +1108,7 @@ body.admin-bar .hamburger {
 
 /* --- Code Block Styling --- */
 pre {
-    background-color: #222; /* Slightly lighter dark background */
+    background-color: var(--chubes-background-secondary); /* Slightly lighter dark background */
     color: var(--chubes-body-text-color);
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     padding: 1em;

@@ -17,13 +17,13 @@ main.site-main {
 .post-meta {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--chubes-border-secondary);
     text-align: center;
 }
 
 .post-date {
     margin: 0;
-    color: #777;
+    color: var(--chubes-muted-text-color);
     font-size: 0.9em;
     font-style: italic;
 }
@@ -64,7 +64,7 @@ main.site-main {
 .post-navigation {
     margin-top: 40px;
     padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--chubes-border-secondary);
 }
 
 @media (max-width: 768px) {

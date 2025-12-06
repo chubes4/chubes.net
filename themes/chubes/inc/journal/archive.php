@@ -2,7 +2,7 @@
 /**
  * Journal Archive Content
  * 
- * Provides journal-specific archive rendering via chubes_archive_content hook.
+ * Provides journal-specific archive rendering via chubes_archive_content filter.
  * Renders a minimal list format instead of the default card grid.
  */
 
@@ -11,18 +11,24 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Render journal archive content
+ * Filter journal archive content
  * 
  * Outputs journal entries in a simple list format with title and date.
- * Hooked to chubes_archive_content, only executes on journal archives.
+ * Returns unmodified content for non-journal archives.
+ *
+ * @param string $content        The current archive content
+ * @param mixed  $queried_object The queried object
+ * @return string HTML content for journal archives, or unmodified content
  */
-function chubes_journal_archive_content() {
-	if (!is_post_type_archive('journal')) {
-		return;
+function chubes_journal_archive_content( $content, $queried_object ) {
+	if ( ! is_post_type_archive( 'journal' ) ) {
+		return $content;
 	}
+
+	ob_start();
 	?>
 	<ul class="journal-list enhanced">
-		<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 			<li>
 				<a href="<?php the_permalink(); ?>">
 					<span class="journal-title"><?php the_title(); ?></span>
@@ -36,12 +42,13 @@ function chubes_journal_archive_content() {
 
 	<div class="pagination">
 		<?php
-		echo paginate_links(array(
+		echo paginate_links( array(
 			'prev_text' => '&larr; Previous',
 			'next_text' => 'Next &rarr;',
-		));
+		) );
 		?>
 	</div>
 	<?php
+	return ob_get_clean();
 }
-add_action('chubes_archive_content', 'chubes_journal_archive_content');
+add_filter( 'chubes_archive_content', 'chubes_journal_archive_content', 10, 2 );

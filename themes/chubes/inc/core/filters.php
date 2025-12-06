@@ -63,15 +63,12 @@ function chubes_404_template_hierarchy($templates) {
 add_filter('404_template_hierarchy', 'chubes_404_template_hierarchy');
 
 /**
- * Home template hierarchy filter
- * Redirects home template lookups to /inc/core/templates/
+ * Home template filter
+ * Forces the blog Posts page to use the archive template directly
  */
-function chubes_home_template_hierarchy($templates) {
-    return array_map(function($template) {
-        return 'inc/core/templates/' . $template;
-    }, $templates);
-}
-add_filter('home_template_hierarchy', 'chubes_home_template_hierarchy');
+add_filter('home_template', function() {
+    return get_template_directory() . '/inc/core/templates/archive.php';
+});
 
 /**
  * Search template hierarchy filter

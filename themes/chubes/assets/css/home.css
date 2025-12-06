@@ -8,7 +8,7 @@
 }
 
 .home section .container {
-    border-bottom: .5px solid #444;
+    border-bottom: .5px solid var(--chubes-border-primary);
     padding: 15px 0;
 }
 
@@ -111,8 +111,8 @@
 }
 
 .homepage-column {
-    background: rgba(34, 34, 34, 0.95);
-    border: 1px solid rgba(68, 68, 68, 0.6);
+    background: var(--chubes-background-secondary);
+    border: 1px solid var(--chubes-border-primary);
     border-radius: 8px;
     padding: 20px;
     width: 100%;
@@ -130,7 +130,7 @@
 
 .item-list li {
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--chubes-border-secondary);
     width: 100%;
     box-sizing: border-box;
 }
@@ -141,7 +141,7 @@
 
 .item-list a:hover { color: var(--chubes-link-color); }
 
-.item-list .meta { color: #777; margin-top: 6px; }
+.item-list .meta { color: var(--chubes-muted-text-color); margin-top: 6px; }
 
 .list-cta { margin-top: 14px; text-align: center; }
 
