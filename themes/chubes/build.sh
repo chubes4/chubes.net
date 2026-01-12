@@ -24,6 +24,7 @@ rsync -av --progress . "$BUILD_DIR/$THEME_NAME/" \
     --exclude='CLAUDE.md' \
     --exclude='README.md' \
     --exclude='AGENTS.md' \
+    --exclude='CLAUDE.md' \
     --exclude='*.zip' \
     --exclude='assets/fonts/*.ttf'
 
