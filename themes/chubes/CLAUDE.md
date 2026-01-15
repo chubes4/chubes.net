@@ -29,13 +29,13 @@ Chubes Theme is a custom WordPress theme for https://chubes.net. It is a modular
 
 ### Core Structure
 - Traditional WordPress theme with modular PHP organization under `/inc/core/` and templates under `/inc/core/templates/`.
-- Custom post types (registered in `/inc/journal/journal-post-type.php`): `journal`, `game`.
+- Custom post types (registered in `/inc/journal/journal-post-type.php`): `journal`.
 - Unified hierarchical codebase taxonomy (registered in the `chubes-docs` plugin) used to organize project documentation and repositories.
 - Asset enqueuing and conditional loading are centralized in `/inc/core/assets.php`.
 - Template hierarchy filters implemented in `/inc/core/filters.php` route templates to the flattened directory.
 
 ### Directory Notes (selected)
-- `/templates/` contains theme templates organized by subfolders (`archive/`, `single/`, `page/`).
+- `/inc/core/templates/` contains the theme template files (front-page, archive, single, page, etc.).
 - `/assets/css/` and `/assets/js/` contain styles and scripts loaded conditionally by the theme.
 - `/inc/core/` contains modular PHP: assets, breadcrumbs, custom post types, filters, and back navigation.
 - `/inc/utils/` contains utility functions like Instagram embeds.
@@ -43,8 +43,7 @@ Chubes Theme is a custom WordPress theme for https://chubes.net. It is a modular
 
 ## Template Hierarchy System
 
-- Template lookup is routed to organized subdirectories via filters implemented in `/inc/core/filters.php`.
-- Archive templates live under `/templates/archive/`; single templates under `/templates/single/`; page templates under `/templates/page/`; root-level templates under `/templates/`.
+- Template lookups are routed to `/inc/core/templates/` via filters implemented in `/inc/core/filters.php`.
 
 ## Key Systems
 
@@ -63,7 +62,7 @@ Chubes Theme is a custom WordPress theme for https://chubes.net. It is a modular
 
 - Assets are enqueued in `/inc/core/assets.php` with conditional checks:
   - Front page: `assets/css/home.css`
-  - Documentation single posts: `chubes-docs/assets/css/documentation.css` (plugin-managed)
+  - Documentation single posts: plugin-managed docs CSS (enqueued by `chubes-docs`)
   - Archives and taxonomy pages: `assets/css/archives.css`
   - Global mobile navigation JS: `assets/js/navigation.js`
 - Asset versions use `filemtime()` to bust caches.
@@ -76,7 +75,7 @@ Chubes Theme is a custom WordPress theme for https://chubes.net. It is a modular
 
 ## Development Guidelines
 
-- Edit templates in `/templates/` and functionality in `/inc/`.
+- Edit templates in `/inc/core/templates/` and functionality in `/inc/`.
 - Use the helper functions in the chubes-docs plugin `inc/Core/Codebase.php` for all codebase-related URL and breadcrumb generation.
 - The project does not use automated tests; manual verification is required for changes.
 

@@ -4,10 +4,9 @@ The theme provides a dynamic homepage with hero section, content columns, and op
 
 ## Front Page Template
 
-- Location: `templates/front-page.php`
+- Location: `inc/core/templates/front-page.php`
 - Displays hero section with site description
-- Renders flexible column grid via `chubes_homepage_columns` action hook
-- Supports optional custom content section via theme customizer
+- Renders flexible column grid via the `chubes_homepage_columns` action hook
 
 ## Homepage Columns
 

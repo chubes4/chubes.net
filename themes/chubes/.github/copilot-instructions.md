@@ -3,23 +3,23 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 
 ## Architecture Overview
 **Chubes** is a **traditional WordPress theme** (no Node.js build pipeline) with:
-- **Custom post types**: Journal (blog), Game (interactive) - Documentation CPT is registered by the chubes-docs plugin
+- **Custom post types**: Journal (blog) - Game (interactive) is registered by the chubes-games plugin - Documentation CPT is registered by the chubes-docs plugin
 - **Unified codebase taxonomy**: Hierarchical organization for 4 project types (wordpress-plugins, wordpress-themes, discord-bots, php-libraries) - registered by the chubes-docs plugin
 - **Three core systems**: Documentation + Install tracking (WordPress.org API - handled by chubes-docs plugin), Navigation (context-aware breadcrumbs), Homepage customization (Customizer + Gutenberg)
-- **Template hierarchy system**: Organized subdirectories (`/templates/{archive,single,page}/`) via filters in `inc/core/filters.php`
+- **Template hierarchy system**: Routes lookups into `/inc/core/templates/` via filters in `inc/core/filters.php`
 - **Build pipeline**: `build.sh` creates `/build/` packages for production deployment
 - **Extended search**: Includes all custom post types in site-wide search
 
 ## Critical Files
 - **`functions.php`** — Theme setup, parent page detection, module includes
 - **`inc/core/assets.php`** — Centralized asset enqueuing for all theme CSS/JS with conditional loading
-- **`inc/core/filters.php`** — Template hierarchy filters for organized `/templates/` subdirs
+- **`inc/core/filters.php`** — Template hierarchy filters for `/inc/core/templates/`
 - **`inc/core/breadcrumbs.php`** — Context-aware navigation for back links
 
 ## Project-Specific Conventions
 1. **No build step**: Edit files directly. CSS/JS changes immediately reflected (see next point).
 2. **Asset versioning via `filemtime()`**: Each CSS/JS file uses file modification time as version in `wp_enqueue_*()`. Changing file contents auto-busts cache.
-3. **Template organization**: Use `/inc/core/filters.php` hierarchy filters to redirect lookups. Example: single posts → `/templates/single/`, archives → `/templates/archive/`.
+3. **Template organization**: Template lookups route into `/inc/core/templates/` via `/inc/core/filters.php`.
 4. **Clean URLs via rewrite rules**: `/wordpress-plugins/{project}/`, `/docs/{project}/{doc}/` — see chubes-docs plugin `inc/Core/RewriteRules.php`.
 5. **Data passing pattern**: PHP → JS uses `wp_localize_script('script-handle', 'object_name', $array)`. Follow naming: `*_params` or `*_vars`.
 6. **Procedural, modular PHP**: Add new features in `/inc/{category}/` files and hook registration in `functions.php`. No classes or namespacing.
@@ -51,7 +51,7 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 | File | Purpose |
 |------|---------|
 | `functions.php` | Asset loading, theme setup, navigation, module includes |
-| `inc/journal/journal-post-type.php` | Journal, Game CPT registration (Documentation CPT by chubes-docs plugin) |
+| `inc/journal/journal-post-type.php` | Journal CPT registration (Game by chubes-games, Documentation by chubes-docs) |
 | `inc/core/filters.php` | Template hierarchy filters for flattened `/inc/core/templates/` |
 | `inc/core/assets.php` | Centralized CSS/JS enqueuing for all theme assets |
 | `inc/core/breadcrumbs.php` | Context-aware navigation links |

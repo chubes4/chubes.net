@@ -1,21 +1,29 @@
-Custom Post Types
+# Custom Post Types
 
-The theme registers two custom post types in inc/journal/journal-post-type.php:
+## Theme: `chubes`
 
-- journal
-  - Purpose: blog-style posts separate from the default posts table (journal entries).
-  - Public archive slug: /journal.
-  - Templates: rendered via the theme's single and archive templates under templates/single/ and templates/archive/ (see templates/archive/archive.php and templates/single/single.php as generic fallbacks).
+The theme registers one custom post type in `inc/journal/journal-post-type.php`:
 
-- game
-  - Purpose: block-based games and interactive content.
-  - Public archive slug: /games (rewrite => 'games').
-  - Templates: uses the theme single and archive templates (templates/single/ and templates/archive/). Specific game template files can be added under templates/single/ and templates/archive/ as needed.
+- `journal`
+  - Purpose: blog-style posts separate from default posts (journal entries)
+  - Public archive slug: `/journal`
 
-The documentation post type is registered by the chubes-docs plugin:
-- documentation
-  - Purpose: plugin and project documentation, guides, and hierarchical documentation pages.
-  - Public archive slug: /docs (has_archive => 'docs').
-  - Templates: templates/single/single-documentation.php and templates/archive/archive-documentation.php are used by the theme's template hierarchy.
+## Plugin: `chubes-games`
 
-- All CPTs declare 'show_in_rest' => true to enable Gutenberg and REST usage.
+The `game` post type is registered by the `chubes-games` plugin (not the theme):
+
+- `game`
+  - Purpose: block-based games and interactive content
+  - Public archive slug: `/games`
+
+## Plugin: `chubes-docs`
+
+The `documentation` post type is registered by the `chubes-docs` plugin:
+
+- `documentation`
+  - Purpose: project documentation, guides, and hierarchical documentation pages
+  - Public archive slug: `/docs` (`has_archive` => `docs`)
+
+## Template Notes
+
+All of these post types are rendered using the theme’s normal template hierarchy. The `chubes-docs` plugin also injects documentation-specific archive behavior via theme hooks (see `chubes-docs/inc/Templates/Archive.php`).

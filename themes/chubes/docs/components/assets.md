@@ -1,8 +1,8 @@
-Asset Loading Patterns
+# Asset Loading Patterns
 
-Centralized loader: inc/core/assets.php (function chubes_enqueue_assets) enqueues theme assets with conditional checks and uses filemtime() for cache-busting.
+Centralized loader: `inc/core/assets.php` (function `chubes_enqueue_assets`) enqueues theme assets with conditional checks and uses `filemtime()` for cache-busting.
 
-Files and when they load
+## Files and when they load
 
 - Always enqueued
   - style.css (get_stylesheet_uri())
@@ -13,23 +13,23 @@ Files and when they load
   - assets/css/home.css (when is_front_page())
 
 - Documentation single posts
-  - chubes-docs/assets/css/documentation.css (when is_singular('documentation')) - plugin-managed
+  - `chubes-docs/assets/css/related-posts.css` (enqueued by the `chubes-docs` plugin on `is_singular('documentation')`)
 
 - Archives and taxonomy pages
-  - assets/css/archives.css (on post type archives, is_tax('codebase'), and related custom archive query vars)
+  - `assets/css/archives.css` (on archives/taxonomy/category/tag)
+  - `chubes-docs/assets/css/archives.css` (enqueued by the `chubes-docs` plugin on documentation/codebase archive contexts)
 
 - Contact page
-  - assets/css/contact.css and assets/js/contact.js (when is_page('contact') or page template page-contact.php)
-  - contact.js is localized with chubes_contact_params containing rest_url('chubes/v1/contact') and a nonce via wp_localize_script in inc/core/assets.php
+  - Contact functionality and its frontend assets are handled by the `chubes-contact` plugin (not the theme asset loader).
 
 - Single posts
-  - assets/css/single.css (when is_single())
+  - assets/css/single.css (when is_singular() && !is_page())
 
-Cache-busting
+## Cache-busting
 
 - All enqueued files use filemtime( $theme_path . '/path/to/file' ) for the version argument so browsers refresh when files change.
 
-Asset Organization
+## Asset Organization
 
 - CSS files follow modular design with root.css as single source of truth for variables
 - No inline CSS used anywhere in the theme

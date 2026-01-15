@@ -44,7 +44,7 @@ This creates `/build/chubes.zip` for uploading to WordPress.
 
 Assets are conditionally enqueued in `/inc/core/assets.php`. Examples:
 - is_front_page() → assets/css/home.css
-- is_singular('documentation') → chubes-docs/assets/css/documentation.css (plugin-managed)
+- is_singular('documentation') → plugin-managed docs CSS (enqueued by `chubes-docs`)
 - Archive/taxonomy pages → assets/css/archives.css
 - Global navigation JS → assets/js/navigation.js
 
