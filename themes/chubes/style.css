@@ -25,7 +25,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
-    color: #fff;
+    color: var(--chubes-text-primary);
     line-height: 1.6;
 }
 
@@ -112,53 +112,53 @@ li {
 
 .btn {
     display: inline-block;
-    background: var(--chubes-accent-color-1); /* Bright accent color */
-    color: #000; /* Dark text for contrast */
+    background: var(--chubes-accent-color-1);
+    color: var(--chubes-text-contrast);
     padding: 12px 24px;
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
-    border-radius: 6px; /* Slightly rounded corners */
+    border-radius: 6px;
     transition: all 0.3s ease-in-out;
     line-height: inherit;
 }
 
 .btn:hover {
-    background: #009dc0; /* Slightly darker on hover */
-    color: #fff;
+    background: var(--chubes-accent-hover);
+    color: var(--chubes-text-primary);
 }
 
 .btn.secondary {
-    background: #333; /* Darker secondary button */
-    color: #fff;
+    background: var(--chubes-border-primary);
+    color: var(--chubes-text-primary);
 }
 
 .btn.secondary:hover {
-    background: #555; /* Slightly lighter on hover */
-    color: #fff;
+    background: var(--chubes-background-interactive);
+    color: var(--chubes-text-primary);
 }
 
 /* Label Styles */
 .label-1 {
   display: inline-block;
-  background: rgba(0, 194, 255, 0.1);
-  color: #00e0ff;
+  background: var(--chubes-accent-subtle);
+  color: var(--chubes-accent-color-2);
   padding: 2px 8px;
   border-radius: 4px;
-  border: 1px solid rgba(0, 194, 255, 0.2);
+  border: 1px solid var(--chubes-accent-medium);
   font-size: 0.9em;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .label-1:hover {
-  background: rgba(0, 194, 255, 0.2);
+  background: var(--chubes-accent-medium);
   text-decoration: none;
 }
 
 .label-2 {
   display: inline-block;
-  background: rgba(68, 68, 68, 0.3);
+  background: var(--chubes-border-default);
   color: var(--chubes-muted-text-color);
   padding: 2px 6px;
   border-radius: 3px;
@@ -168,7 +168,7 @@ li {
 }
 
 .label-2:hover {
-  background: rgba(68, 68, 68, 0.5);
+  background: var(--chubes-background-muted);
   color: var(--chubes-muted-text-color);
   text-decoration: none;
 }
@@ -187,8 +187,8 @@ li {
 }
 
 .site-title a:hover, a:hover, .site-footer a:hover {
-    color: #00e0ff;
-    border-bottom: 2px solid #00e0ff;
+    color: var(--chubes-accent-color-2);
+    border-bottom: 2px solid var(--chubes-accent-color-2);
 }
 
 
@@ -219,7 +219,7 @@ li {
 }
 
 .site-title a, .site-footer a{
-    color: #fff;
+    color: var(--chubes-text-primary);
     transition: color 0.3s ease-in-out;
     text-decoration: none;
 }
@@ -264,7 +264,7 @@ li {
 .social-links .icon {
     width: 24px;
     height: 24px;
-    fill: #fff; /* White icons by default */
+    fill: var(--chubes-text-primary);
     transition: fill 0.3s ease;
 }
 
@@ -323,7 +323,7 @@ button{
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: var(--chubes-overlay-medium);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -339,8 +339,8 @@ button{
 
 /* Visit Live Site Button */
 .overlay-btn {
-    background: #00c2ff;
-    color: #000;
+    background: var(--chubes-accent-color-1);
+    color: var(--chubes-text-contrast);
     padding: 12px 24px;
     font-size: 16px;
     font-weight: 600;
@@ -350,8 +350,8 @@ button{
 }
 
 .overlay-btn:hover {
-    background: #009dc0;
-    color: #fff;
+    background: var(--chubes-accent-hover);
+    color: var(--chubes-text-primary);
 }
 
 .wp-block-separator{
@@ -368,7 +368,7 @@ button{
 }
 
 .footer-cta:hover {
-    color: #009dc0;
+    color: var(--chubes-accent-hover);
 }
 
 .error-actions{
@@ -404,7 +404,7 @@ body.admin-bar .hamburger {
     position: absolute;
     width: 100%;
     height: 3px;
-    background-color: #fff; /* or your preferred color */
+    background-color: var(--chubes-text-primary);
     transition: all 0.4s ease;
 }
 
@@ -441,11 +441,11 @@ body.admin-bar .hamburger {
 .nav-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* a dark overlay */
+    background: var(--chubes-overlay-heavy);
     opacity: 0;
-    pointer-events: none; /* not clickable when hidden */
+    pointer-events: none;
     transition: opacity 0.4s ease;
-    z-index: 9998; /* behind the hamburger icon */
+    z-index: 9998;
 }
 
 .nav-overlay.open {
@@ -481,7 +481,7 @@ body.admin-bar .hamburger {
 
 /* Links start off hidden; we'll fade/slide them in when .open is toggled */
 .overlay-nav .overlay-menu li a {
-    color: #fff;
+    color: var(--chubes-text-primary);
     text-decoration: none;
     font-size: 1.5rem;
     opacity: 0;
@@ -490,7 +490,7 @@ body.admin-bar .hamburger {
 }
 
 .overlay-nav .overlay-menu li a:hover {
-    color: #00e0ff;
+    color: var(--chubes-accent-color-2);
 }
 
 /* Reveal the links in a staggered fashion when .open is active */
@@ -536,7 +536,7 @@ body.admin-bar .hamburger {
 }
 
 .overlay-nav .overlay-menu .sub-menu li a:hover {
-    color: #00e0ff;
+    color: var(--chubes-accent-color-2);
 }
 
 /* Stagger menu items for a cascading animation effect - support up to 8 items */
@@ -586,7 +586,7 @@ body.admin-bar .hamburger {
   background: var(--chubes-background-secondary);
   border: 2px solid var(--chubes-border-secondary);
   border-radius: 8px;
-  color: #fff;
+  color: var(--chubes-text-primary);
   font-size: 18px;
   font-family: inherit;
   margin-bottom: 15px;
@@ -595,21 +595,21 @@ body.admin-bar .hamburger {
 
 .search-input:focus {
   outline: none;
-  border-color: #00e0ff;
+  border-color: var(--chubes-accent-color-2);
   background: var(--chubes-background-secondary);
 }
 
 .search-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--chubes-placeholder-color);
 }
 
 .search-submit {
   width: 100%;
   padding: 15px 20px;
-  background: rgba(0, 224, 255, 0.1);
-  border: 2px solid #00e0ff;
+  background: var(--chubes-accent-subtle);
+  border: 2px solid var(--chubes-accent-color-2);
   border-radius: 8px;
-  color: #00e0ff;
+  color: var(--chubes-accent-color-2);
   font-size: 18px;
   font-family: inherit;
   font-weight: 600;
@@ -618,8 +618,8 @@ body.admin-bar .hamburger {
 }
 
 .search-submit:hover {
-  background: #00e0ff;
-  color: #000;
+  background: var(--chubes-accent-color-2);
+  color: var(--chubes-text-contrast);
   transform: translateY(-2px);
 }
 
@@ -642,8 +642,8 @@ body.admin-bar .hamburger {
 /* Search Results Styling */
 .post-type-label {
   display: inline-block;
-  background: rgba(0, 224, 255, 0.1);
-  color: #00e0ff;
+  background: var(--chubes-accent-subtle);
+  color: var(--chubes-accent-color-2);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
@@ -660,7 +660,7 @@ body.admin-bar .hamburger {
 
 .no-results h2 {
   margin-bottom: 20px;
-  color: #fff;
+  color: var(--chubes-text-primary);
 }
 
 .no-results p {
@@ -683,7 +683,7 @@ body.admin-bar .hamburger {
 
 .search-again h3 {
   margin-bottom: 15px;
-  color: #fff;
+  color: var(--chubes-text-primary);
 }
 
 .search-form-inline {
@@ -699,7 +699,7 @@ body.admin-bar .hamburger {
   background: var(--chubes-background-secondary);
   border: 2px solid var(--chubes-border-secondary);
   border-radius: 8px;
-  color: #fff;
+  color: var(--chubes-text-primary);
   font-size: 16px;
   font-family: inherit;
   transition: border-color 0.3s ease, background 0.3s ease;
@@ -707,20 +707,20 @@ body.admin-bar .hamburger {
 
 .search-input-inline:focus {
   outline: none;
-  border-color: #00e0ff;
+  border-color: var(--chubes-accent-color-2);
   background: var(--chubes-background-secondary);
 }
 
 .search-input-inline::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--chubes-placeholder-color);
 }
 
 .search-submit-inline {
   padding: 12px 24px;
-  background: rgba(0, 224, 255, 0.1);
-  border: 2px solid #00e0ff;
+  background: var(--chubes-accent-subtle);
+  border: 2px solid var(--chubes-accent-color-2);
   border-radius: 8px;
-  color: #00e0ff;
+  color: var(--chubes-accent-color-2);
   font-size: 16px;
   font-family: inherit;
   font-weight: 600;
@@ -730,8 +730,8 @@ body.admin-bar .hamburger {
 }
 
 .search-submit-inline:hover {
-  background: #00e0ff;
-  color: #000;
+  background: var(--chubes-accent-color-2);
+  color: var(--chubes-text-contrast);
   transform: translateY(-2px);
 }
 
@@ -763,14 +763,14 @@ body.admin-bar .hamburger {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 194, 255, 0.1);
+    border-bottom: 1px solid var(--chubes-accent-subtle);
     justify-content: center;
     gap: 0;
     line-height: 1.5;
 }
 
 .breadcrumbs a {
-    color: #00c2ff;
+    color: var(--chubes-accent-color-1);
     text-decoration: none;
     transition: color 0.3s ease;
     max-width: 300px;
@@ -780,18 +780,18 @@ body.admin-bar .hamburger {
 }
 
 .breadcrumbs a:hover {
-    color: #00e0ff;
+    color: var(--chubes-accent-color-2);
     text-decoration: underline;
 }
 
 .breadcrumbs-separator {
     margin: 0 8px;
-    color: #555;
+    color: var(--chubes-muted-text-color);
     flex-shrink: 0;
 }
 
 .breadcrumbs-current {
-    color: #eee;
+    color: var(--chubes-text-primary);
     font-weight: 500;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -848,7 +848,7 @@ body.admin-bar .hamburger {
 .archive-header h1 {
     font-size: 2.6rem;
     margin-bottom: 15px;
-    color: #fff;
+    color: var(--chubes-text-primary);
     font-weight: 600;
     line-height: 1.2;
     position: relative;
@@ -866,7 +866,7 @@ body.admin-bar .hamburger {
 .header-accent {
     width: 60px;
     height: 4px;
-    background: #00c2ff;
+    background: var(--chubes-accent-color-1);
     margin: 0 auto;
     position: relative;
     overflow: hidden;
@@ -893,7 +893,7 @@ body.admin-bar .hamburger {
     display: block;
     font-size: 1rem;
     text-transform: uppercase;
-    color: #00c2ff;
+    color: var(--chubes-accent-color-1);
     letter-spacing: 1px;
     margin-bottom: 5px;
     font-weight: 500;
@@ -912,13 +912,13 @@ body.admin-bar .hamburger {
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px var(--chubes-shadow-light);
     height: 100%;
 }
 
 .post-grid .post-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 194, 255, 0.2);
+    box-shadow: 0 8px 30px var(--chubes-shadow-medium), 0 0 10px var(--chubes-accent-medium);
 }
 
 .post-content-preview {
@@ -928,12 +928,12 @@ body.admin-bar .hamburger {
 .post-content-preview h3 {
     font-size: 1.4rem;
     margin-bottom: 15px;
-    color: #fff;
+    color: var(--chubes-text-primary);
     transition: color 0.3s ease;
 }
 
 .post-item:hover .post-content-preview h3 {
-    color: #00c2ff;
+    color: var(--chubes-accent-color-1);
 }
 
 .post-content-preview p {
@@ -958,7 +958,7 @@ body.admin-bar .hamburger {
 }
 
 .read-more {
-    color: #00c2ff;
+    color: var(--chubes-accent-color-1);
     font-weight: 500;
     position: relative;
     display: inline-block;
@@ -984,7 +984,7 @@ body.admin-bar .hamburger {
     border-radius: 8px;
     overflow: hidden;
     background: var(--chubes-background-secondary);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px var(--chubes-shadow-light);
 }
 
 .archive-journal .pagination{
@@ -1006,14 +1006,14 @@ body.admin-bar .hamburger {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    color: #ddd;
+    color: var(--chubes-body-text-color);
     text-decoration: none;
     transition: background 0.3s ease;
 }
 
 .journal-list a:hover {
-    background: rgba(0, 194, 255, 0.1);
-    color: #fff;
+    background: var(--chubes-accent-subtle);
+    color: var(--chubes-text-primary);
 }
 
 .journal-title {
@@ -1021,7 +1021,7 @@ body.admin-bar .hamburger {
 }
 
 .journal-date {
-    color: #00c2ff;
+    color: var(--chubes-accent-color-1);
     font-size: 0.9rem;
 }
 
@@ -1132,11 +1132,11 @@ pre code {
 
 /* Inline code (not inside pre) */
 :not(pre) > code {
-    background-color: rgba(0, 194, 255, 0.1); /* Subtle accent background */
-    color: #eee; /* Slightly brighter for inline */
+    background-color: var(--chubes-accent-subtle);
+    color: var(--chubes-text-primary);
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     padding: 0.2em 0.4em;
     border-radius: 3px;
-    font-size: 0.9em; /* Slightly smaller than body text */
+    font-size: 0.9em;
 }
 
