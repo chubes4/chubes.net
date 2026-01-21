@@ -18,6 +18,17 @@ function chubes_archive_template_hierarchy($templates) {
 add_filter('archive_template_hierarchy', 'chubes_archive_template_hierarchy');
 
 /**
+ * Taxonomy template hierarchy filter
+ * Redirects taxonomy template lookups to /inc/core/templates/
+ */
+function chubes_taxonomy_template_hierarchy($templates) {
+    return array_map(function($template) {
+        return 'inc/core/templates/' . $template;
+    }, $templates);
+}
+add_filter('taxonomy_template_hierarchy', 'chubes_taxonomy_template_hierarchy');
+
+/**
  * Single template hierarchy filter
  * Redirects single post template lookups to /inc/core/templates/
  */
