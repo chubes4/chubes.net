@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+- Add responsive font sizing for archive headers on mobile
+- Center post title with flexbox in single template
+- Hide header accent on documentation archives
+- Remove build.sh in favor of Homeboy builds
+
 ## [2.0.5] - 2026-01-20
 
 - Changed: consolidated CSS design system with semantic variables for colors, shadows, and overlays
