@@ -1,4 +1,4 @@
-Codebase Taxonomy
+# Codebase Taxonomy
 
 - Registration: The 'codebase' taxonomy is registered by the chubes-docs plugin in `inc/Core/Codebase.php` and ties it to the documentation post type.
 - Expected top-level terms (used throughout the theme):
