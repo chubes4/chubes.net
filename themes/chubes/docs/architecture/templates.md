@@ -13,3 +13,4 @@ Examples of specific templates
 - inc/core/templates/search.php (search results template)
 
 - The filters in inc/core/filters.php prepend 'inc/core/templates/' to normal WordPress template names
+- `chubes_taxonomy_template_hierarchy()` filter ensures codebase taxonomy archives properly route to inc/core/templates/

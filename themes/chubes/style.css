@@ -832,7 +832,6 @@ body.admin-bar .hamburger {
 }
 
 /* Archive Header */
-.archive-header,
 .archive-header::before {
     display: none;
 }
@@ -882,6 +881,10 @@ body.admin-bar .hamburger {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
     animation: shimmer 2s infinite;
+}
+
+.archive-documentation .header-accent {
+    display: none;
 }
 
 @keyframes shimmer {

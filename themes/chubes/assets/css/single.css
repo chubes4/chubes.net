@@ -19,6 +19,8 @@ main.site-main {
     padding-bottom: 20px;
     border-bottom: 1px solid var(--chubes-border-secondary);
     text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .post-date {
