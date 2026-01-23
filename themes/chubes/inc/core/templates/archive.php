@@ -13,7 +13,9 @@ get_header(); ?>
         <div class="container">
             <div class="archive-header-inner">
                 <?php the_archive_title('<h1>', '</h1>'); ?>
-                <?php the_archive_description('<p>', '</p>'); ?>
+                <?php if ( apply_filters( 'chubes_show_archive_description', true ) ) : ?>
+                    <?php the_archive_description('<p>', '</p>'); ?>
+                <?php endif; ?>
                 <?php do_action('chubes_archive_header_after'); ?>
                 <div class="header-accent"></div>
             </div>

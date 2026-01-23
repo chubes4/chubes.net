@@ -12,11 +12,11 @@
 .archive-header p {
     max-width: 600px;
     margin: 0 auto;
-    font-size: 1.1em;
+    font-size: var(--chubes-font-size-md);
 }
 
 @media (max-width: 768px) {
     .archive-header p {
-        font-size: 0.95em;
+        font-size: var(--chubes-font-size-sm);
     }
 }

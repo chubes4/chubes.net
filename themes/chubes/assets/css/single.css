@@ -10,7 +10,7 @@ main.site-main {
 
 .post-content h1 {
     margin-bottom: 20px;
-    font-size: 2.2em;
+    font-size: var(--chubes-font-size-3xl);
     line-height: 1.2;
 }
 
@@ -26,7 +26,7 @@ main.site-main {
 .post-date {
     margin: 0;
     color: var(--chubes-muted-text-color);
-    font-size: 0.9em;
+    font-size: var(--chubes-font-size-sm);
     font-style: italic;
 }
 
@@ -73,8 +73,8 @@ main.site-main {
     .post-content {
         padding: 0 15px;
     }
-    
+
     .post-content h1 {
-        font-size: 1.8em;
+        font-size: var(--chubes-font-size-2xl);
     }
 }

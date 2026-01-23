@@ -12,11 +12,11 @@
     background-color: var(--chubes-border-secondary);
     border-bottom: 1px solid var(--chubes-border-primary);
     border-radius: 6px 6px 0 0;
-    margin: -1em -1em 1em -1em;
+    margin: -1rem -1rem 1rem -1rem;
 }
 
 .code-block-language {
-    font-size: 0.75em;
+    font-size: var(--chubes-font-size-xs);
     color: var(--chubes-muted-text-color);
     text-transform: uppercase;
     letter-spacing: 0.05em;
