@@ -1,4 +1,4 @@
-Build script (./build.sh)
+# # Build script (./build.sh)
 
 - Purpose: packages the theme into a production zip file suitable for WordPress installation.
 - Behavior: copies repository files into a temporary build directory and creates a zip in /build/ while excluding development files.

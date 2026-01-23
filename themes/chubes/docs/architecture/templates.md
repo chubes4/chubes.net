@@ -1,4 +1,4 @@
-Template hierarchy and lookup
+# # Template hierarchy and lookup
 
 - Template organization: all theme templates live under the inc/core/templates/ directory
 - Lookup routing: the theme maps WordPress template hierarchy lookups to inc/core/templates/ via filters in inc/core/filters.php

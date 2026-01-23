@@ -1,4 +1,4 @@
-Rewrite rules and documentation routing
+# # Rewrite rules and documentation routing
 
 - Location: chubes-docs plugin `inc/Core/RewriteRules.php`
 
