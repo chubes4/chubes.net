@@ -19,7 +19,7 @@
 For full functionality, install and activate these plugins:
 
 - **chubes-contact**: Provides contact form functionality
-- **chubes-docs**: Adds documentation and codebase tracking features
+- **chubes-docs**: Adds documentation and project tracking features
 - **chubes-games**: Enables game-related post types and blocks
 
 ## Theme Setup

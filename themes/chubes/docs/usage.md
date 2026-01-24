@@ -19,6 +19,7 @@ The theme supports Gutenberg blocks for homepage content:
 - Custom post type for personal journal entries
 - Accessible at `/journal`
 - Supports all standard post features
+- [See detailed Journal documentation](components/journal.md)
 
 ### Pages
 - Standard WordPress pages

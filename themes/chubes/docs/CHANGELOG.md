@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add responsive font sizing for archive headers on mobile
 - Center post title with flexbox in single template
-- Hide header accent on documentation archives
 - Remove build.sh in favor of Homeboy builds
 
 ## [2.0.5] - 2026-01-20
@@ -69,10 +68,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2025-11-30
 
 ### Changed (Breaking)
-- **Major Architectural Refactor**: Moved contact forms, documentation system, and codebase tracking to separate plugins
+- **Major Architectural Refactor**: Moved contact forms, documentation system, and project tracking to separate plugins
   - Contact functionality moved to `chubes-contact` plugin
   - Documentation system moved to `chubes-docs` plugin
-  - Codebase taxonomy and tracking moved to `chubes-docs` plugin
+  - Project taxonomy and tracking moved to `chubes-docs` plugin
 - **File Structure Reorganization**:
   - Templates moved to `/inc/core/templates/`
   - PHP modules restructured under `/inc/core/`, `/inc/homepage/`, `/inc/journal/`
@@ -120,6 +119,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of Chubes WordPress theme
 - Basic theme structure with custom post types (journal, portfolio, game)
 - Contact form functionality
-- Documentation system with codebase taxonomy
+- Documentation system with project taxonomy
 - Asset management and responsive design
 - Custom navigation and footer components

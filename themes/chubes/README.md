@@ -1,6 +1,6 @@
 # Chubes Theme
 
-Custom WordPress theme for https://chubes.net. This repository contains a modular, performance-focused WordPress theme with a documentation/codebase tracking system.
+Custom WordPress theme for https://chubes.net. This repository contains a modular, performance-focused WordPress theme with a documentation/project tracking system.
 
 ## Project overview
 
@@ -36,21 +36,12 @@ This creates `/build/chubes.zip` for uploading to WordPress.
 - `/inc/core/templates/` — flattened templates directory
 - `build.sh` — production packaging script
 
-
-
-
-
 ## Asset loading
 
 Assets are conditionally enqueued in `/inc/core/assets.php`. Examples:
 - is_front_page() → assets/css/home.css
-- is_singular('documentation') → plugin-managed docs CSS (enqueued by `chubes-docs`)
 - Archive/taxonomy pages → assets/css/archives.css
 - Global navigation JS → assets/js/navigation.js
-
-## Contributing
-
-Open PRs against the repository. Keep changes minimal and focused. Verify behavior manually; there is no automated test suite.
 
 ---
 Built by Chris Huber — https://chubes.net
