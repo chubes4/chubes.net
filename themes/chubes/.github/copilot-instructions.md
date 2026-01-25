@@ -4,7 +4,7 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 ## Architecture Overview
 **Chubes** is a **traditional WordPress theme** (no Node.js build pipeline) with:
 - **Custom post types**: Journal (blog) - Game (interactive) is registered by the chubes-games plugin - Documentation CPT is registered by the chubes-docs plugin
-- **Unified codebase taxonomy**: Hierarchical organization for 4 project types (wordpress-plugins, wordpress-themes, discord-bots, php-libraries) - registered by the chubes-docs plugin
+- **Unified project taxonomy**: Hierarchical organization for 4 project types (wordpress-plugins, wordpress-themes, discord-bots, php-libraries) - registered by the chubes-docs plugin
 - **Three core systems**: Documentation + Install tracking (WordPress.org API - handled by chubes-docs plugin), Navigation (context-aware breadcrumbs), Homepage customization (Customizer + Gutenberg)
 - **Template hierarchy system**: Routes lookups into `/inc/core/templates/` via filters in `inc/core/filters.php`
 - **Build pipeline**: `build.sh` creates `/build/` packages for production deployment
@@ -30,7 +30,7 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
    - Always sanitize input (`sanitize_text_field()`, `sanitize_email()`, `sanitize_textarea_field()`) and escape output (`esc_html()`, `esc_url()`, `esc_attr()`)
 
 ## Data Flows
-1. **Documentation archives**: URL `/docs/{project}/{doc}/` → rewrite rule sets query var → chubes-docs plugin `inc/Core/RewriteRules.php` handler → template resolved via hierarchy filter → documentation posts rendered with codebase taxonomy filtering.
+1. **Documentation archives**: URL `/docs/{project}/{doc}/` → rewrite rule sets query var → chubes-docs plugin `inc/Core/RewriteRules.php` handler → template resolved via hierarchy filter → documentation posts rendered with project taxonomy filtering.
 2. **Install tracking**: WordPress.org API integration handled by chubes-docs plugin → `term_meta` storage (unified key: `codebase_installs`) → rendered in admin UI.
 
 ## Development Workflow
@@ -44,7 +44,7 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 - Keep feature code modular: one feature per `/inc/{category}/` file, hook registration in `functions.php`.
 - For new rewrite rules, add to `inc/core/rewrite-rules.php` and flush rewrite rules via admin interface or `wp_cache_flush()`.
 - Respect template hierarchy: never hardcode template paths; leverage filters in `inc/core/filters.php`.
-- When working with codebase taxonomy, use unified term meta keys: `codebase_github_url`, `codebase_wp_url`, `codebase_installs`.
+- When working with project taxonomy, use unified term meta keys: `codebase_github_url`, `codebase_wp_url`, `codebase_installs`.
 - Use vanilla JavaScript (Fetch API) for client-side logic; no jQuery dependencies.
 
 ## Key Files at a Glance

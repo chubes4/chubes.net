@@ -30,7 +30,7 @@ Chubes Theme is a custom WordPress theme for https://chubes.net. It is a modular
 ### Core Structure
 - Traditional WordPress theme with modular PHP organization under `/inc/core/` and templates under `/inc/core/templates/`.
 - Custom post types (registered in `/inc/journal/journal-post-type.php`): `journal`.
-- Unified hierarchical codebase taxonomy (registered in the `chubes-docs` plugin) used to organize project documentation and repositories.
+- Unified hierarchical project taxonomy (registered in the `chubes-docs` plugin) used to organize project documentation and repositories.
 - Asset enqueuing and conditional loading are centralized in `/inc/core/assets.php`.
 - Template hierarchy filters implemented in `/inc/core/filters.php` route templates to the flattened directory.
 
@@ -52,7 +52,7 @@ Chubes Theme is a custom WordPress theme for https://chubes.net. It is a modular
 ### Codebase Documentation & Tracking
 - Documentation is implemented as a `documentation` post type and a hierarchical `codebase` taxonomy (both registered in the `chubes-docs` plugin).
 - Top-level taxonomy categories are expected to be: `wordpress-plugins`, `wordpress-themes`, `discord-bots`, `php-libraries` (these names are used by templates and helpers in the repository).
-- Helper functions in the chubes-docs plugin `inc/Core/Codebase.php` provide canonical resolution helpers for codebase taxonomy; templates and breadcrumb logic prefer these helpers.
+- Helper functions in the chubes-docs plugin `inc/Core/Codebase.php` provide canonical resolution helpers for project taxonomy; templates and breadcrumb logic prefer these helpers.
 - Repository metadata fields and install tracking are provided by the `chubes-docs` plugin, which hooks into the theme's `chubes_codebase_registered` action.
 
 ### Related Posts

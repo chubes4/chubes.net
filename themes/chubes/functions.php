@@ -54,7 +54,7 @@ remove_action('wp_print_styles', 'print_emoji_styles');
  * - Core: Assets, CPTs, template filters
  * - Contact: REST API for form processing with spam protection
  * 
- * Documentation CPT, codebase taxonomy, rewrite rules, related posts,
+ * Documentation CPT, project taxonomy, rewrite rules, related posts,
  * and sync fields are registered by the chubes-docs plugin which must
  * be active for documentation features.
  */
