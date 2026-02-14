@@ -53,6 +53,72 @@ function chubes_enhance_code_block( $block_content, $block ) {
 add_filter( 'render_block', 'chubes_enhance_code_block', 10, 2 );
 
 /**
+ * Enhance raw <pre><code> blocks in post content (e.g. from REST API posts)
+ * Adds wp-block-code class, language detection, header bar, and copy button.
+ *
+ * @param string $content Post content.
+ * @return string Enhanced content.
+ */
+function chubes_enhance_raw_code_blocks( $content ) {
+	// Match <pre> tags that DON'T already have wp-block-code (already handled by render_block)
+	if ( strpos( $content, '<pre' ) === false ) {
+		return $content;
+	}
+
+	$sprite_url = get_template_directory_uri() . '/assets/icons/chubes.svg';
+
+	$content = preg_replace_callback(
+		'/<pre(?P<pre_attrs>[^>]*)>\s*<code(?P<code_attrs>[^>]*)>(?P<code>.*?)<\/code>\s*<\/pre>/si',
+		function ( $m ) use ( $sprite_url ) {
+			$pre_attrs  = $m['pre_attrs'];
+			$code_attrs = $m['code_attrs'];
+			$code_body  = $m['code'];
+
+			// Skip if already enhanced (has wp-block-code)
+			if ( strpos( $pre_attrs, 'wp-block-code' ) !== false && strpos( $pre_attrs, 'code-block-header' ) !== false ) {
+				return $m[0];
+			}
+
+			// Detect language from pre or code class
+			$language = '';
+			if ( preg_match( '/language-(\w+)/', $pre_attrs . ' ' . $code_attrs, $lang_m ) ) {
+				$language = $lang_m[1];
+			}
+
+			// Ensure language class on <code>
+			if ( $language && strpos( $code_attrs, 'language-' ) === false ) {
+				$code_attrs = trim( $code_attrs . ' class="language-' . esc_attr( $language ) . '"' );
+				// Fix double class attr if there was already a class
+				$code_attrs = preg_replace( '/class="([^"]*)" class="/', 'class="$1 ', $code_attrs );
+			}
+
+			// Add wp-block-code to pre if missing
+			if ( strpos( $pre_attrs, 'wp-block-code' ) === false ) {
+				if ( strpos( $pre_attrs, 'class=' ) !== false ) {
+					$pre_attrs = preg_replace( '/class="([^"]*)"/', 'class="$1 wp-block-code"', $pre_attrs );
+				} else {
+					$pre_attrs .= ' class="wp-block-code"';
+				}
+			}
+
+			// Build header
+			$header  = '<div class="code-block-header">';
+			$header .= '<span class="code-block-language">' . esc_html( $language ) . '</span>';
+			$header .= '<button class="code-copy-btn" aria-label="Copy code">';
+			$header .= '<svg><use href="' . esc_url( $sprite_url ) . '#icon-copy"></use></svg>';
+			$header .= '</button>';
+			$header .= '</div>';
+
+			return '<pre' . $pre_attrs . '>' . $header . '<code' . $code_attrs . '>' . $code_body . '</code></pre>';
+		},
+		$content
+	);
+
+	return $content;
+}
+add_filter( 'the_content', 'chubes_enhance_raw_code_blocks', 20 );
+
+/**
  * Enqueue code block assets when code blocks are present
  */
 function chubes_enqueue_code_block_assets() {

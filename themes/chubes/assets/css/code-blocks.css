@@ -3,12 +3,24 @@
 .wp-block-code {
     position: relative;
     overflow: hidden;
+    padding: 0;
+    border-radius: 6px;
+    background-color: var(--chubes-background-secondary, #1e1e2e);
 }
 
 .wp-block-code code {
     display: block;
     overflow-x: auto;
     padding: var(--chubes-space-base);
+    font-size: var(--chubes-font-size-sm);
+    line-height: 1.6;
+    tab-size: 4;
+}
+
+/* Ensure Prism styles aren't overridden */
+.wp-block-code pre[class*="language-"],
+.wp-block-code code[class*="language-"] {
+    font-size: var(--chubes-font-size-sm);
 }
 
 .code-block-header {
@@ -18,8 +30,6 @@
     padding: 8px 12px;
     background-color: var(--chubes-border-secondary);
     border-bottom: 1px solid var(--chubes-border-primary);
-    border-radius: 6px 6px 0 0;
-    margin: -1rem -1rem 0 -1rem;
     position: sticky;
     top: 0;
     z-index: 1;
