@@ -12,6 +12,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Auto-detect programming language from code content.
+ *
+ * @param string $code The code content (may contain HTML entities).
+ * @return string Language identifier or empty string.
+ */
+function chubes_detect_code_language( $code ) {
+	$text = html_entity_decode( wp_strip_all_tags( $code ) );
+
+	// PHP
+	if ( preg_match( '/(<\?php|\$this->|function\s+\w+\s*\(|->|namespace\s|use\s+[A-Z]|\barray\s*\(|\bnew\s+\w+)/', $text ) ) {
+		return 'php';
+	}
+	// JavaScript / TypeScript
+	if ( preg_match( '/(const\s+\w+\s*=|let\s+\w+\s*=|=>\s*{|import\s+.*from\s|require\s*\(|module\.exports|console\.\w+)/', $text ) ) {
+		return 'javascript';
+	}
+	// CSS
+	if ( preg_match( '/(\{[^}]*:\s*[^;]+;|@media\s|@import\s|\.[\w-]+\s*\{|#[\w-]+\s*\{)/', $text ) ) {
+		return 'css';
+	}
+	// SQL
+	if ( preg_match( '/\b(SELECT|INSERT INTO|UPDATE\s+\w+\s+SET|CREATE TABLE|ALTER TABLE|DROP TABLE|WHERE|JOIN)\b/i', $text ) ) {
+		return 'sql';
+	}
+	// Bash / Shell
+	if ( preg_match( '/(^(sudo|apt|npm|wp |composer |git |ssh |chmod|chown|mkdir|curl|wget|systemctl|cd |ls |cat |grep |echo )|^\#!\/bin\/(bash|sh)|&&\s*\\\\?$|\|\s*grep)/m', $text ) ) {
+		return 'bash';
+	}
+	// INI / systemd
+	if ( preg_match( '/^\[(Unit|Service|Install|Timer|Socket|Mount)\]/m', $text ) ) {
+		return 'ini';
+	}
+	// JSON
+	if ( preg_match( '/^\s*[\[{]/', $text ) && preg_match( '/["\']:\s*/', $text ) ) {
+		return 'json';
+	}
+	// YAML
+	if ( preg_match( '/^[\w-]+:\s*.+$/m', $text ) && preg_match( '/^\s{2,}[\w-]+:/m', $text ) ) {
+		return 'yaml';
+	}
+	// HTML
+	if ( preg_match( '/<(div|span|section|article|header|footer|html|body|head|form|input|button)\b/i', $text ) ) {
+		return 'markup';
+	}
+	// Nginx / Apache config
+	if ( preg_match( '/(server\s*{|location\s+[\\/~]|proxy_pass|<VirtualHost|RewriteRule)/', $text ) ) {
+		return 'nginx';
+	}
+
+	return '';
+}
+
+/**
  * Filter core/code block output to inject copy button and language label
  *
  * @param string $block_content The block content
@@ -26,6 +79,11 @@ function chubes_enhance_code_block( $block_content, $block ) {
 	$language = '';
 	if ( preg_match( '/class="[^"]*language-(\w+)[^"]*"/', $block_content, $matches ) ) {
 		$language = $matches[1];
+	}
+
+	// Auto-detect language from code content if none specified
+	if ( ! $language && preg_match( '/<code[^>]*>(.*?)<\/code>/si', $block_content, $code_m ) ) {
+		$language = chubes_detect_code_language( $code_m[1] );
 	}
 
 	// Ensure language class is on the <code> element for Prism.js
@@ -85,11 +143,18 @@ function chubes_enhance_raw_code_blocks( $content ) {
 				$language = $lang_m[1];
 			}
 
+			// Auto-detect language from code content if none specified
+			if ( ! $language ) {
+				$language = chubes_detect_code_language( $code_body );
+			}
+
 			// Ensure language class on <code>
 			if ( $language && strpos( $code_attrs, 'language-' ) === false ) {
-				$code_attrs = trim( $code_attrs . ' class="language-' . esc_attr( $language ) . '"' );
-				// Fix double class attr if there was already a class
-				$code_attrs = preg_replace( '/class="([^"]*)" class="/', 'class="$1 ', $code_attrs );
+				if ( strpos( $code_attrs, 'class=' ) !== false ) {
+					$code_attrs = preg_replace( '/class="([^"]*)"/', 'class="$1 language-' . esc_attr( $language ) . '"', $code_attrs );
+				} else {
+					$code_attrs = trim( $code_attrs ) . ' class="language-' . esc_attr( $language ) . '"';
+				}
 			}
 
 			// Add wp-block-code to pre if missing
