@@ -28,6 +28,11 @@ function chubes_enhance_code_block( $block_content, $block ) {
 		$language = $matches[1];
 	}
 
+	// Ensure language class is on the <code> element for Prism.js
+	if ( $language && strpos( $block_content, '<code class="language-' ) === false ) {
+		$block_content = str_replace( '<code>', '<code class="language-' . esc_attr( $language ) . '">', $block_content );
+	}
+
 	$sprite_url = get_template_directory_uri() . '/assets/icons/chubes.svg';
 
 	$header = '<div class="code-block-header">';
@@ -65,6 +70,37 @@ function chubes_enqueue_code_block_assets() {
 		get_template_directory_uri() . '/assets/css/code-blocks.css',
 		array(),
 		filemtime( get_template_directory() . '/assets/css/code-blocks.css' )
+	);
+
+	// Prism.js syntax highlighting
+	wp_enqueue_style(
+		'prism-theme',
+		get_template_directory_uri() . '/assets/vendor/prism/prism-tomorrow.min.css',
+		array(),
+		'1.29.0'
+	);
+
+	wp_enqueue_script(
+		'prism-core',
+		get_template_directory_uri() . '/assets/vendor/prism/prism.min.js',
+		array(),
+		'1.29.0',
+		true
+	);
+
+	wp_enqueue_script(
+		'prism-autoloader',
+		get_template_directory_uri() . '/assets/vendor/prism/prism-autoloader.min.js',
+		array( 'prism-core' ),
+		'1.29.0',
+		true
+	);
+
+	// Set autoloader CDN path for language grammars
+	wp_add_inline_script(
+		'prism-autoloader',
+		'Prism.plugins.autoloader.languages_path = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/";',
+		'before'
 	);
 
 	wp_enqueue_script(
