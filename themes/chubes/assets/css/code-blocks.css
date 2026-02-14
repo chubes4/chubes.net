@@ -2,6 +2,13 @@
 
 .wp-block-code {
     position: relative;
+    overflow: hidden;
+}
+
+.wp-block-code code {
+    display: block;
+    overflow-x: auto;
+    padding: var(--chubes-space-base);
 }
 
 .code-block-header {
@@ -12,7 +19,10 @@
     background-color: var(--chubes-border-secondary);
     border-bottom: 1px solid var(--chubes-border-primary);
     border-radius: 6px 6px 0 0;
-    margin: -1rem -1rem 1rem -1rem;
+    margin: -1rem -1rem 0 -1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .code-block-language {

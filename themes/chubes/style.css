@@ -1129,8 +1129,8 @@ pre code {
     padding: 0; /* Remove padding if parent pre has it */
     border-radius: 0; /* Remove border-radius if parent pre has it */
     border: none; /* Remove border if parent pre has it */
-    color: inherit; /* Inherit color from pre */
     font-size: inherit; /* Inherit font size from pre */
+    /* Don't override color — let Prism.js syntax highlighting through */
 }
 
 /* Inline code (not inside pre) */
