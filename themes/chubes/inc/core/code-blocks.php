@@ -244,11 +244,11 @@ function chubes_enqueue_code_block_assets() {
 		true
 	);
 
-	// Set autoloader CDN path for language grammars
+	// Set autoloader CDN path for language grammars (must run AFTER autoloader loads)
 	wp_add_inline_script(
 		'prism-autoloader',
 		'Prism.plugins.autoloader.languages_path = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/";',
-		'before'
+		'after'
 	);
 
 	wp_enqueue_script(
