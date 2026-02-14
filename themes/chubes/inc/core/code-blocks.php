@@ -61,7 +61,13 @@ function chubes_enqueue_code_block_assets() {
 	}
 
 	$post = get_post();
-	if ( ! $post || ! has_block( 'core/code', $post ) ) {
+	if ( ! $post ) {
+		return;
+	}
+
+	// Check for Gutenberg code blocks OR raw <pre><code> in content
+	$has_code = has_block( 'core/code', $post ) || strpos( $post->post_content, '<pre><code' ) !== false || strpos( $post->post_content, '<pre class=' ) !== false;
+	if ( ! $has_code ) {
 		return;
 	}
 
