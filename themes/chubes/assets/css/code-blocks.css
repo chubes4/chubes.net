@@ -1,29 +1,16 @@
 /* Code Block Enhancements
  *
- * Structure: .wp-block-code (pre) > .code-block-header + code
- * Prism Tomorrow theme targets pre[class*="language-"] and code[class*="language-"]
- * so both elements must carry the language-* class.
+ * Structure: .code-block-wrapper > .code-block-header + pre.wp-block-code > code
+ * Header lives outside <pre> so Prism sees clean <pre><code> and highlights properly.
  */
 
-/* Container — reset WP core pre padding, let children handle spacing */
-.wp-block-code {
-    position: relative;
-    overflow: hidden;
+/* Wrapper — visual container with left accent border */
+.code-block-wrapper {
     margin: 1.5em 0;
-    padding: 0;
-    border: none;
     border-radius: 6px;
-    background: #2d2d2d; /* Match Prism Tomorrow background */
-}
-
-/* Code element — the actual scrollable code area */
-.wp-block-code code {
-    display: block;
-    overflow-x: auto;
-    padding: 1em;
-    font-size: 0.875em;
-    line-height: 1.5;
-    tab-size: 4;
+    overflow: hidden;
+    border-left: 3px solid var(--chubes-accent-color-1, #6196cc);
+    background: #2d2d2d;
 }
 
 /* Header bar — language label + copy button */
@@ -41,8 +28,29 @@
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    font-family: inherit;
     line-height: 1;
+}
+
+/* Pre element — reset WP/Prism defaults, wrapper handles visuals */
+.code-block-wrapper .wp-block-code,
+.code-block-wrapper pre[class*="language-"] {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+/* Code element — the scrollable code area */
+.code-block-wrapper code,
+.code-block-wrapper code[class*="language-"] {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+    font-size: 0.875em;
+    line-height: 1.5;
+    tab-size: 4;
+    background: transparent;
 }
 
 /* Copy button */
@@ -78,17 +86,4 @@
 .code-copy-btn svg {
     width: 14px;
     height: 14px;
-}
-
-/* Override Prism Tomorrow defaults that conflict with our layout.
- * Prism sets padding/margin/background on pre[class*="language-"]
- * but we handle that on .wp-block-code and .wp-block-code code. */
-.wp-block-code[class*="language-"] {
-    padding: 0;
-    margin: 1.5em 0;
-    background: #2d2d2d;
-}
-
-.wp-block-code[class*="language-"] > code[class*="language-"] {
-    font-size: 0.875em;
 }

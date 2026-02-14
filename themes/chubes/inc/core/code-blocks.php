@@ -99,18 +99,16 @@ function chubes_enhance_code_block( $block_content, $block ) {
 
 	$sprite_url = get_template_directory_uri() . '/assets/icons/chubes.svg';
 
-	$header = '<div class="code-block-header">';
+	$header  = '<div class="code-block-header">';
 	$header .= '<span class="code-block-language">' . esc_html( $language ) . '</span>';
 	$header .= '<button class="code-copy-btn" aria-label="Copy code">';
 	$header .= '<svg><use href="' . esc_url( $sprite_url ) . '#icon-copy"></use></svg>';
 	$header .= '</button>';
 	$header .= '</div>';
 
-	$block_content = preg_replace(
-		'/(<pre[^>]*class="[^"]*wp-block-code[^"]*"[^>]*>)/',
-		'$1' . $header,
-		$block_content
-	);
+	// Mark as enhanced so the_content filter skips it, then wrap
+	$block_content = str_replace( '<pre ', '<pre data-chubes-enhanced ', $block_content );
+	$block_content = '<div class="code-block-wrapper">' . $header . $block_content . '</div>';
 
 	return $block_content;
 }
@@ -138,8 +136,8 @@ function chubes_enhance_raw_code_blocks( $content ) {
 			$code_attrs = $m['code_attrs'];
 			$code_body  = $m['code'];
 
-			// Skip if already enhanced (has wp-block-code)
-			if ( strpos( $pre_attrs, 'wp-block-code' ) !== false && strpos( $pre_attrs, 'code-block-header' ) !== false ) {
+			// Skip if already enhanced by render_block (has data-enhanced marker)
+			if ( strpos( $pre_attrs, 'data-chubes-enhanced' ) !== false ) {
 				return $m[0];
 			}
 
@@ -187,7 +185,7 @@ function chubes_enhance_raw_code_blocks( $content ) {
 			$header .= '</button>';
 			$header .= '</div>';
 
-			return '<pre' . $pre_attrs . '>' . $header . '<code' . $code_attrs . '>' . $code_body . '</code></pre>';
+			return '<div class="code-block-wrapper">' . $header . '<pre' . $pre_attrs . '><code' . $code_attrs . '>' . $code_body . '</code></pre></div>';
 		},
 		$content
 	);
