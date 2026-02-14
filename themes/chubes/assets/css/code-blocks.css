@@ -1,78 +1,94 @@
-/* Code Block Enhancements */
+/* Code Block Enhancements
+ *
+ * Structure: .wp-block-code (pre) > .code-block-header + code
+ * Prism Tomorrow theme targets pre[class*="language-"] and code[class*="language-"]
+ * so both elements must carry the language-* class.
+ */
 
+/* Container — reset WP core pre padding, let children handle spacing */
 .wp-block-code {
     position: relative;
     overflow: hidden;
+    margin: 1.5em 0;
     padding: 0;
+    border: none;
     border-radius: 6px;
-    background-color: var(--chubes-background-secondary, #1e1e2e);
+    background: #2d2d2d; /* Match Prism Tomorrow background */
 }
 
+/* Code element — the actual scrollable code area */
 .wp-block-code code {
     display: block;
     overflow-x: auto;
-    padding: var(--chubes-space-base);
-    font-size: var(--chubes-font-size-sm);
-    line-height: 1.6;
+    padding: 1em;
+    font-size: 0.875em;
+    line-height: 1.5;
     tab-size: 4;
 }
 
-/* Ensure Prism styles aren't overridden */
-.wp-block-code pre[class*="language-"],
-.wp-block-code code[class*="language-"] {
-    font-size: var(--chubes-font-size-sm);
-}
-
+/* Header bar — language label + copy button */
 .code-block-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    background-color: var(--chubes-border-secondary);
-    border-bottom: 1px solid var(--chubes-border-primary);
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    padding: 0.4em 0.75em;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .code-block-language {
-    font-size: var(--chubes-font-size-xs);
-    color: var(--chubes-muted-text-color);
+    font-size: 0.7em;
+    color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     font-family: inherit;
+    line-height: 1;
 }
 
+/* Copy button */
 .code-copy-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     padding: 0;
     background: transparent;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    color: var(--chubes-muted-text-color);
+    color: rgba(255, 255, 255, 0.4);
     transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .code-copy-btn:hover {
-    color: var(--chubes-accent-color-2);
-    background-color: var(--chubes-background-secondary);
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-.code-copy-btn:focus {
-    outline: 2px solid var(--chubes-accent-color-1);
+.code-copy-btn:focus-visible {
+    outline: 2px solid var(--chubes-accent-color-1, #6196cc);
     outline-offset: 2px;
 }
 
 .code-copy-btn.copied {
-    color: var(--chubes-success-color);
+    color: #7ec699;
 }
 
 .code-copy-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
+}
+
+/* Override Prism Tomorrow defaults that conflict with our layout.
+ * Prism sets padding/margin/background on pre[class*="language-"]
+ * but we handle that on .wp-block-code and .wp-block-code code. */
+.wp-block-code[class*="language-"] {
+    padding: 0;
+    margin: 1.5em 0;
+    background: #2d2d2d;
+}
+
+.wp-block-code[class*="language-"] > code[class*="language-"] {
+    font-size: 0.875em;
 }

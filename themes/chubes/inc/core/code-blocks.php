@@ -86,9 +86,15 @@ function chubes_enhance_code_block( $block_content, $block ) {
 		$language = chubes_detect_code_language( $code_m[1] );
 	}
 
-	// Ensure language class is on the <code> element for Prism.js
-	if ( $language && strpos( $block_content, '<code class="language-' ) === false ) {
-		$block_content = str_replace( '<code>', '<code class="language-' . esc_attr( $language ) . '">', $block_content );
+	// Ensure language class on both <pre> and <code> for Prism.js
+	$lang_class = 'language-' . esc_attr( $language );
+	if ( $language ) {
+		if ( strpos( $block_content, '<code class="language-' ) === false ) {
+			$block_content = str_replace( '<code>', '<code class="' . $lang_class . '">', $block_content );
+		}
+		if ( strpos( $block_content, 'language-' ) === false || ! preg_match( '/pre[^>]*class="[^"]*language-/', $block_content ) ) {
+			$block_content = preg_replace( '/(<pre[^>]*class="[^"]*)(")/', '$1 ' . $lang_class . '$2', $block_content );
+		}
 	}
 
 	$sprite_url = get_template_directory_uri() . '/assets/icons/chubes.svg';
@@ -157,13 +163,20 @@ function chubes_enhance_raw_code_blocks( $content ) {
 				}
 			}
 
-			// Add wp-block-code to pre if missing
-			if ( strpos( $pre_attrs, 'wp-block-code' ) === false ) {
-				if ( strpos( $pre_attrs, 'class=' ) !== false ) {
-					$pre_attrs = preg_replace( '/class="([^"]*)"/', 'class="$1 wp-block-code"', $pre_attrs );
-				} else {
-					$pre_attrs .= ' class="wp-block-code"';
+			// Ensure wp-block-code and language class on <pre>
+			$pre_classes = 'wp-block-code';
+			if ( $language ) {
+				$pre_classes .= ' language-' . esc_attr( $language );
+			}
+			if ( strpos( $pre_attrs, 'class=' ) !== false ) {
+				// Merge into existing class attribute
+				if ( strpos( $pre_attrs, 'wp-block-code' ) === false ) {
+					$pre_attrs = preg_replace( '/class="([^"]*)"/', 'class="$1 ' . $pre_classes . '"', $pre_attrs );
+				} elseif ( $language && strpos( $pre_attrs, 'language-' ) === false ) {
+					$pre_attrs = preg_replace( '/class="([^"]*)"/', 'class="$1 language-' . esc_attr( $language ) . '"', $pre_attrs );
 				}
+			} else {
+				$pre_attrs .= ' class="' . $pre_classes . '"';
 			}
 
 			// Build header
