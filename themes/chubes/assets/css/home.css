@@ -146,6 +146,19 @@
 .list-cta { margin-top: 14px; text-align: center; }
 
 
+/* Docs API hint */
+.docs-api-hint {
+    margin: 12px 0 0;
+    font-size: var(--chubes-font-size-xs);
+    color: var(--chubes-muted-text-color);
+    text-align: center;
+}
+
+.docs-api-hint code {
+    font-size: inherit;
+    color: var(--chubes-accent-color);
+}
+
 /* About/Journey section removed on redesign */
 
  
