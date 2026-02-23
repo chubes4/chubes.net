@@ -6,3 +6,4 @@ Thumbs.db
 *.tmp
 *.bak
 build/chubes.zip
+build/
