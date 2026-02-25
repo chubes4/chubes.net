@@ -1,0 +1,104 @@
+/**
+ * DocSync Bridge — Chubes Theme Integration
+ *
+ * Maps --docsync-* design tokens to --chubes-* theme variables so the
+ * DocSync plugin renders with the chubes dark theme palette instead of
+ * its own light-mode defaults.
+ *
+ * Also widens the content container on documentation pages to accommodate
+ * the sidebar navigation.
+ */
+
+/* === Token mapping === */
+:root {
+	/* Surfaces */
+	--docsync-background-primary: var(--chubes-background-primary);
+	--docsync-background-secondary: var(--chubes-background-secondary);
+	--docsync-background-card: var(--chubes-background-card);
+	--docsync-background-muted: var(--chubes-background-muted);
+	--docsync-background-interactive: var(--chubes-background-interactive);
+
+	/* Borders */
+	--docsync-border-default: var(--chubes-border-default);
+	--docsync-border-light: var(--chubes-border-light);
+	--docsync-border-faint: var(--chubes-border-faint);
+
+	/* Text */
+	--docsync-text-primary: var(--chubes-text-primary);
+	--docsync-text-secondary: var(--chubes-text-secondary);
+	--docsync-text-contrast: var(--chubes-text-contrast);
+	--docsync-body-text-color: var(--chubes-body-text-color);
+	--docsync-muted-text-color: var(--chubes-muted-text-color);
+	--docsync-heading-color: var(--chubes-text-primary);
+	--docsync-link-color: var(--chubes-link-color);
+
+	/* Accent */
+	--docsync-accent-strong: var(--chubes-accent-color-2);
+	--docsync-accent-medium: var(--chubes-accent-medium);
+	--docsync-accent-subtle: var(--chubes-accent-subtle);
+	--docsync-accent-active: var(--chubes-accent-active);
+	--docsync-accent-color-2: var(--chubes-accent-color-2);
+
+	/* Elevation */
+	--docsync-shadow-light: 0 1px 3px var(--chubes-shadow-light);
+	--docsync-shadow-medium: 0 4px 12px var(--chubes-shadow-medium);
+}
+
+/* Disable DocSync's built-in dark mode — the theme IS already dark */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--docsync-background-primary: var(--chubes-background-primary);
+		--docsync-background-secondary: var(--chubes-background-secondary);
+		--docsync-background-card: var(--chubes-background-card);
+		--docsync-background-muted: var(--chubes-background-muted);
+		--docsync-background-interactive: var(--chubes-background-interactive);
+		--docsync-border-default: var(--chubes-border-default);
+		--docsync-border-light: var(--chubes-border-light);
+		--docsync-border-faint: var(--chubes-border-faint);
+		--docsync-text-primary: var(--chubes-text-primary);
+		--docsync-text-secondary: var(--chubes-text-secondary);
+		--docsync-text-contrast: var(--chubes-text-contrast);
+		--docsync-body-text-color: var(--chubes-body-text-color);
+		--docsync-muted-text-color: var(--chubes-muted-text-color);
+		--docsync-heading-color: var(--chubes-text-primary);
+		--docsync-link-color: var(--chubes-link-color);
+		--docsync-accent-strong: var(--chubes-accent-color-2);
+		--docsync-accent-medium: var(--chubes-accent-medium);
+		--docsync-accent-subtle: var(--chubes-accent-subtle);
+		--docsync-accent-active: var(--chubes-accent-active);
+		--docsync-accent-color-2: var(--chubes-accent-color-2);
+		--docsync-shadow-light: 0 1px 3px var(--chubes-shadow-light);
+		--docsync-shadow-medium: 0 4px 12px var(--chubes-shadow-medium);
+	}
+}
+
+/* === Documentation page layout adjustments === */
+
+/* Widen the content container to fit the sidebar */
+.single-documentation .post-content {
+	max-width: 1100px;
+}
+
+/* On mobile, restore normal width */
+@media (max-width: 1024px) {
+	.single-documentation .post-content {
+		max-width: 800px;
+	}
+}
+
+/* Fix related posts mobile overflow */
+.related-posts {
+	overflow: hidden;
+}
+
+.related-actions {
+	flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+	.related-actions .button-1,
+	.related-actions .button-2 {
+		min-width: 0;
+		width: 100%;
+	}
+}
