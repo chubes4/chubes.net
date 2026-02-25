@@ -53,6 +53,16 @@ function chubes_enqueue_assets() {
         );
     }
     
+    // DocSync bridge — maps docsync tokens to chubes theme variables
+    if ( is_singular( 'documentation' ) || is_post_type_archive( 'documentation' ) || is_tax( 'project' ) ) {
+        wp_enqueue_style(
+            'docsync-bridge',
+            $theme_dir . '/assets/css/docsync-bridge.css',
+            array( 'root-style' ),
+            filemtime( $theme_path . '/assets/css/docsync-bridge.css' )
+        );
+    }
+
     // Archives CSS - on archives, taxonomy, categories, tags
     if ( is_post_type_archive() || is_category() || is_tag() || is_tax() ) {
         wp_enqueue_style(
