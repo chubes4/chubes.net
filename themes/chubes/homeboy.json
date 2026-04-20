@@ -1,0 +1,15 @@
+{
+  "auto_cleanup": false,
+  "changelog_target": "docs/CHANGELOG.md",
+  "extensions": {
+    "wordpress": {}
+  },
+  "id": "chubes",
+  "remote_path": "wp-content/themes/chubes",
+  "version_targets": [
+    {
+      "file": "style.css",
+      "pattern": "Version:\\s*([\\d.]+)"
+    }
+  ]
+}
