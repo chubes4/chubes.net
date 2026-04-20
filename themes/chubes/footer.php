@@ -7,6 +7,9 @@
                 <li><a href="<?php echo home_url('/docs'); ?>">Documentation</a></li>
                 <li><a href="<?php echo home_url('/blog'); ?>">Blog</a></li>
                 <li><a href="<?php echo home_url('/journal'); ?>">Journal</a></li>
+                <?php if ( current_user_can( 'read_private_pages' ) ) : ?>
+                    <li><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=wiki' ) ); ?>">Wiki</a></li>
+                <?php endif; ?>
             </ul>
         </div>
 
