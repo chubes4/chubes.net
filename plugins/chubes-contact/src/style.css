@@ -1,0 +1,105 @@
+.wp-block-chubes-contact-form .contact-form {
+	background: rgba(34,34,34,.95);
+	border: 2px solid rgba(0,194,255,.6);
+	border-radius: 8px;
+	box-shadow: 0 10px 30px rgba(0,0,0,.4),0 0 20px rgba(0,194,255,.15);
+	margin: 0 auto 30px;
+	max-width: 600px;
+	padding: 25px;
+	transition: box-shadow .3s ease,transform .3s ease;
+}
+
+.wp-block-chubes-contact-form .contact-form:hover {
+	box-shadow: 0 12px 35px rgba(0,0,0,.5),0 0 25px rgba(0,194,255,.2);
+	transform: translateY(-2px);
+}
+
+.wp-block-chubes-contact-form .contact-form h1,
+.wp-block-chubes-contact-form .contact-form h2 {
+	color: #fff;
+	font-size: 28px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.wp-block-chubes-contact-form .contact-form label {
+	color: #fff;
+	display: block;
+	font-weight: 600;
+	margin: 15px 0 5px;
+}
+
+.wp-block-chubes-contact-form .contact-form input[type=email],
+.wp-block-chubes-contact-form .contact-form input[type=text],
+.wp-block-chubes-contact-form .contact-form textarea {
+	background: hsla(0,0%,7%,.7);
+	border: 1px solid rgba(0,194,255,.4);
+	border-radius: 6px;
+	box-sizing: border-box;
+	color: #fff;
+	font-size: 16px;
+	padding: 12px;
+	transition: border-color .3s ease,box-shadow .3s ease;
+	width: 100%;
+}
+
+.wp-block-chubes-contact-form .contact-form input[type=email]:focus,
+.wp-block-chubes-contact-form .contact-form input[type=text]:focus,
+.wp-block-chubes-contact-form .contact-form textarea:focus {
+	border-color: var(--chubes-accent-color-2,#00e0ff);
+	box-shadow: 0 0 8px rgba(0,224,255,.2);
+	outline: none;
+}
+
+.wp-block-chubes-contact-form .contact-form textarea {
+	min-height: 100px;
+	resize: vertical;
+}
+
+.wp-block-chubes-contact-form .contact-form button[type=submit] {
+	background: var(--chubes-accent-color-1,#00c2ff);
+	border: none;
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(0,194,255,.2);
+	color: #000;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 600;
+	margin-top: 20px;
+	padding: 12px 28px;
+	transition: background .3s ease,color .3s ease,transform .3s ease,box-shadow .3s ease;
+	width: 100%;
+}
+
+.wp-block-chubes-contact-form .contact-form button[type=submit]:hover {
+	background: #009dc0;
+	box-shadow: 0 6px 15px rgba(0,194,255,.3);
+	color: #fff;
+	transform: translateY(-2px);
+}
+
+.wp-block-chubes-contact-form .contact-form .contact-error,
+.wp-block-chubes-contact-form .contact-form .contact-success {
+	display: none;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.wp-block-chubes-contact-form .contact-form .contact-error {
+	color: #ff4f4f;
+}
+
+.wp-block-chubes-contact-form .contact-form .contact-success {
+	color: var(--chubes-accent-color-2,#00e0ff);
+}
+
+.wp-block-chubes-contact-form .contact-honeypot {
+	display: none!important;
+}
+
+.wp-block-chubes-contact-form .contact-help-text {
+	color: #888!important;
+	display: block!important;
+	margin: 5px 0!important;
+}

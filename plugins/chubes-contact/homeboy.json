@@ -1,0 +1,33 @@
+{
+  "auto_cleanup": false,
+  "changelog_target": "docs/CHANGELOG.md",
+  "extensions": {
+    "wordpress": {
+      "settings": {
+        "package_excludes": [
+          "/src"
+        ]
+      }
+    }
+  },
+  "id": "chubes-contact",
+  "remote_path": "wp-content/plugins/chubes-contact",
+  "version_targets": [
+    {
+      "file": "chubes-contact.php",
+      "pattern": "(?m)^\\s*\\*?\\s*Version:\\s*([0-9.]+)"
+    },
+    {
+      "file": "chubes-contact.php",
+      "pattern": "CHUBES_CONTACT_VERSION',\\s*'([0-9.]+)'"
+    },
+    {
+      "file": "src/block.json",
+      "pattern": "\"version\":\\s*\"([0-9.]+)\""
+    },
+    {
+      "file": "package.json",
+      "pattern": "\"version\":\\s*\"([0-9.]+)\""
+    }
+  ]
+}
