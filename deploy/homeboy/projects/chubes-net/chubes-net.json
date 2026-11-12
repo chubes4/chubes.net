@@ -1,0 +1,60 @@
+{
+  "domain": "chubes.net",
+  "server_id": "chubes-net",
+  "base_path": "/var/www/chubes.net",
+  "path_roots": {
+    "wp_content": "wp-content"
+  },
+  "remote_files": {
+    "pinned_files": []
+  },
+  "remote_logs": {
+    "pinned_logs": [
+      {
+        "path": "wp-content/debug.log",
+        "label": "WordPress Debug Log",
+        "tail_lines": 100
+      },
+      {
+        "path": "/var/log/nginx/error.log",
+        "label": "Nginx Error Log",
+        "tail_lines": 200
+      }
+    ]
+  },
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "name": "",
+    "user": "",
+    "use_ssh_tunnel": true
+  },
+  "api": {
+    "enabled": false,
+    "base_url": ""
+  },
+  "sub_targets": [],
+  "shared_tables": [],
+  "components": [
+    {
+      "id": "chubes",
+      "remote_path": "wp-content/themes/chubes",
+      "local_path": "themes/chubes"
+    },
+    {
+      "id": "chubes-contact",
+      "remote_path": "wp-content/plugins/chubes-contact",
+      "local_path": "plugins/chubes-contact"
+    },
+    {
+      "id": "poem-block",
+      "remote_path": "wp-content/plugins/poem-block",
+      "local_path": "plugins/poem-block"
+    },
+    {
+      "id": "visualizer-block",
+      "remote_path": "wp-content/plugins/visualizer-block",
+      "local_path": "plugins/visualizer-block"
+    }
+  ]
+}

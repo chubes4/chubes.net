@@ -1,0 +1,22 @@
+# Build output
+build/
+dist/
+
+# Dependencies
+node_modules/
+vendor/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs and temp
+*.log
+*.tmp
+
+# Homeboy runtime
+artifacts/

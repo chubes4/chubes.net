@@ -1,0 +1,147 @@
+name: Deploy
+
+# Runs after Release on main. Builds main's tip and deploys every component
+# whose build differs from what is installed on the server
+# (`deploy --ref <sha> --outdated`). Homeboy compares deploy receipts and
+# installed trees, so a failed or skipped run heals on the next one.
+#
+# Unattended runs only touch the server when the repository variable
+# DEPLOY_AUTOMATION is exactly `enabled`. Manual runs default to dry run.
+on:
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: 'Commit/ref to deploy. Empty = main.'
+        type: string
+        default: ''
+      dry_run:
+        description: 'Plan only. Nothing on the server changes.'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false
+
+env:
+  HOMEBOY_VERSION: '0.459.0'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.sha || 'main' }}
+          fetch-depth: 0
+
+      - name: Prepare
+        id: sha
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/homeboy-output" "${RUNNER_TEMP}/homeboy-select"
+          echo "HOMEBOY_OUTPUT_DIR=${RUNNER_TEMP}/homeboy-output" >> "${GITHUB_ENV}"
+          echo "HOMEBOY_BUILD_CACHE_DIR=${RUNNER_TEMP}/homeboy-build-cache" >> "${GITHUB_ENV}"
+          echo "sha=$(git rev-parse HEAD)" >> "${GITHUB_OUTPUT}"
+
+      - name: Restore build cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/homeboy-build-cache
+          key: homeboy-build-${{ env.HOMEBOY_VERSION }}-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: homeboy-build-${{ env.HOMEBOY_VERSION }}-
+
+      # Builds every component at the sha and compares it with the server.
+      # Read-only.
+      - name: Select outdated components
+        uses: Extra-Chill/homeboy-action@v2
+        env:
+          HOMEBOY_OUTPUT_DIR: ${{ runner.temp }}/homeboy-select
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          component: themes/chubes
+          config-dir: deploy/homeboy
+          version: ${{ env.HOMEBOY_VERSION }}
+          extension-ref: ${{ format('v{0}', env.HOMEBOY_VERSION) }}
+          commands: deploy chubes-net --ref ${{ steps.sha.outputs.sha }} --outdated --dry-run
+          auto-setup: 'false'
+          ssh-key: ${{ secrets.CHUBES_DEPLOY_SSH_KEY }}
+          ssh-known-hosts: ${{ secrets.CHUBES_DEPLOY_KNOWN_HOSTS }}
+
+      - name: Plan
+        id: plan
+        shell: bash
+        env:
+          EVENT: ${{ github.event_name }}
+          REQUEST_DRY_RUN: ${{ inputs.dry_run }}
+          AUTOMATION: ${{ vars.DEPLOY_AUTOMATION }}
+          SHA: ${{ steps.sha.outputs.sha }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          results=("${RUNNER_TEMP}"/homeboy-select/operations-*.json)
+          if [ "${#results[@]}" -ne 1 ]; then
+            echo "::error::Expected one selection result, found ${#results[@]}."
+            exit 1
+          fi
+          deploy_count="$(jq '[.data.results[] | select(.status == "planned")] | length' "${results[0]}")"
+          dry_run=true
+          if [ "${EVENT}" = workflow_dispatch ]; then
+            [ "${REQUEST_DRY_RUN}" = false ] && dry_run=false
+          elif [ "${AUTOMATION:-}" = enabled ]; then
+            dry_run=false
+          fi
+          {
+            echo "deploy_count=${deploy_count}"
+            echo "dry_run=${dry_run}"
+          } >> "${GITHUB_OUTPUT}"
+          {
+            echo "## Deploy plan: ${SHA}"
+            echo "Dry run: ${dry_run}; outdated: ${deploy_count}"
+            echo '```json'
+            jq '[.data.results[] | {id, status, local_version, remote_version}]' "${results[0]}"
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Deploy
+        if: steps.plan.outputs.dry_run == 'false' && steps.plan.outputs.deploy_count != '0'
+        uses: Extra-Chill/homeboy-action@v2
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          component: themes/chubes
+          config-dir: deploy/homeboy
+          version: ${{ env.HOMEBOY_VERSION }}
+          extension-ref: ${{ format('v{0}', env.HOMEBOY_VERSION) }}
+          commands: deploy chubes-net --ref ${{ steps.sha.outputs.sha }} --outdated --verify --confirm-dangerous
+          ssh-key: ${{ secrets.CHUBES_DEPLOY_SSH_KEY }}
+          ssh-known-hosts: ${{ secrets.CHUBES_DEPLOY_KNOWN_HOSTS }}
+
+      - name: Save build cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/homeboy-build-cache
+          key: homeboy-build-${{ env.HOMEBOY_VERSION }}-${{ github.sha }}-${{ github.run_id }}
+
+      - name: Upload deploy evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/homeboy-select
+            ${{ runner.temp }}/homeboy-output
+          if-no-files-found: warn
+          retention-days: 30

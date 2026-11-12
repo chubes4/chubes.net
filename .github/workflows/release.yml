@@ -1,0 +1,43 @@
+name: Release
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
+# Every merge releases each component with unreleased commits since its own
+# `<component-id>-vX.Y.Z` tag: version bump, changelog and GitHub Release.
+# Components with nothing new are skipped. Deploy runs after this completes.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Preview the releases without making changes'
+        type: boolean
+        default: false
+      component:
+        description: 'Release only the component at this path (e.g. plugins/chubes-contact). Empty releases every changed component.'
+        type: string
+        default: ''
+      bump:
+        description: 'Explicit bump for that component: major, minor, patch or X.Y.Z.'
+        type: string
+        default: ''
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    uses: Extra-Chill/homeboy-action/.github/workflows/release.yml@v2
+    with:
+      components: ${{ inputs.component == '' && 'all' || '' }}
+      component: ${{ inputs.component }}
+      args: ${{ inputs.component && inputs.bump && format('--bump {0} --force-lower-bump', inputs.bump) || '' }}
+      dry-run: ${{ inputs.dry-run || false }}
+      php-version: '8.4'
+    secrets: inherit

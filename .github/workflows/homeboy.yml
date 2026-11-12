@@ -1,0 +1,40 @@
+name: Homeboy
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: homeboy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+# Must match the permissions the reusable ci.yml requests.
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  # Runs each changed component's own lint and tests (themes/*, plugins/*),
+  # using that component's homeboy.json. Differential gating keeps each
+  # component's pre-existing findings from blocking; only new ones fail.
+  homeboy:
+    uses: Extra-Chill/homeboy-action/.github/workflows/ci.yml@v2
+    with:
+      components: changed
+      shared-paths: '.github/workflows/homeboy.yml'
+      commands: review lint,review test
+      scope: full
+      differential-gating: 'true'
+      baseline-commands: auto
+    secrets: inherit
+
+  site:
+    name: Site infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Deploy config is consistent
+        run: python3 deploy/tests/deploy-config-test.py
