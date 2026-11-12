@@ -3,7 +3,7 @@
  * Plugin Name: Chubes Contact
  * Plugin URI: https://chubes.net
  * Description: A Gutenberg block-based contact form with REST API integration.
- * Version: 0.1.2
+ * Version: 0.1.3
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Chris Huber
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('CHUBES_CONTACT_VERSION', '0.1.2');
+define('CHUBES_CONTACT_VERSION', '0.1.3');
 define('CHUBES_CONTACT_PATH', plugin_dir_path(__FILE__));
 define('CHUBES_CONTACT_URL', plugin_dir_url(__FILE__));
 
