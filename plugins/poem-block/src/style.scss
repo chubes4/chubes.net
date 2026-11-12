@@ -1,0 +1,46 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-create-block-poem-block {
+	background-color: #21759b;
+	color: #fff;
+	padding: 2px;
+}
+.poem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+    margin: 15px 0;
+}
+.poem-nav-button.next{
+    margin-left: 10px;
+}
+.poem-navigation {
+    display: flex;
+    justify-content: center;
+}
+.poem-page-number{
+    margin: 15px 0;
+    text-align: center;
+}
+    .poem-nav-button {
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        background-color: #00c2ff;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+    }
+.poem p{
+    display: flex;
+    justify-content: center;
+}
