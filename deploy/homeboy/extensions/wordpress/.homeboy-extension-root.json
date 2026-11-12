@@ -1,6 +1,0 @@
-{
-  "shared_assets": [
-    "scripts/lib",
-    "dependency-adapters"
-  ]
-}

@@ -1,0 +1,6 @@
+# Homeboy writes runtime state (extensions, caches, leases, keys) into its
+# config root. Only the checked-in deploy config belongs in git.
+/*
+!/.gitignore
+!/projects/
+!/servers/
