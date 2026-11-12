@@ -16,8 +16,8 @@
  */
 
 // Prevent direct access
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined('ABSPATH') ) {
+	exit;
 }
 
 // Define plugin constants
@@ -31,14 +31,14 @@ require_once CHUBES_CONTACT_PATH . 'inc/Api/ContactEndpoint.php';
  * Initialize the plugin
  */
 function chubes_contact_init() {
-    // Register REST API routes
-    if (class_exists('Chubes\\Contact\\Api\\ContactEndpoint')) {
-        $api = new \Chubes\Contact\Api\ContactEndpoint();
-        $api->register();
-    }
+	// Register REST API routes
+	if ( class_exists('Chubes\\Contact\\Api\\ContactEndpoint') ) {
+		$api = new \Chubes\Contact\Api\ContactEndpoint();
+		$api->register();
+	}
 
-    // Register Blocks
-    register_block_type(CHUBES_CONTACT_PATH . 'build');
+	// Register Blocks
+	register_block_type(CHUBES_CONTACT_PATH . 'build');
 }
 add_action('init', 'chubes_contact_init');
 
@@ -46,13 +46,13 @@ add_action('init', 'chubes_contact_init');
  * Localize script for frontend
  */
 function chubes_contact_localize_script() {
-    $config = array(
-        'nonce' => wp_create_nonce('contact_nonce'),
-        'rest_url' => get_rest_url(null, 'chubes/v1/contact')
-    );
-    
-    // The handle is derived from the block name "chubes/contact-form"
-    // plus "-view-script" because it is defined as "viewScript" in block.json
-    wp_localize_script('chubes-contact-form-view-script', 'chubes_contact_params', $config);
+	$config = array(
+		'nonce'    => wp_create_nonce('contact_nonce'),
+		'rest_url' => get_rest_url(null, 'chubes/v1/contact'),
+	);
+
+	// The handle is derived from the block name "chubes/contact-form"
+	// plus "-view-script" because it is defined as "viewScript" in block.json
+	wp_localize_script('chubes-contact-form-view-script', 'chubesContactParams', $config);
 }
 add_action('wp_enqueue_scripts', 'chubes_contact_localize_script');

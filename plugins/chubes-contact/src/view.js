@@ -1,11 +1,11 @@
-/* global chubes_contact_params */
+/* global chubesContactParams */
 document.addEventListener( 'DOMContentLoaded', function () {
 	const form = document.getElementById( 'contactForm' );
 	if ( ! form ) {
 		return;
 	}
 
-	if ( typeof chubes_contact_params === 'undefined' ) {
+	if ( typeof chubesContactParams === 'undefined' ) {
 		// eslint-disable-next-line no-console
 		console.error( 'Chubes Contact: Params not found' );
 		return;
@@ -23,7 +23,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			contactMessage: field( 'contactMessage' ),
 			contact_honeypot: field( 'contact_honeypot' ),
 			contact_timestamp: field( 'contact_timestamp' ),
-			nonce: chubes_contact_params.nonce,
+			nonce: chubesContactParams.nonce,
 		};
 
 		const errorEl = formEl.querySelector( '.contact-error' );
@@ -35,7 +35,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		successEl.style.display = 'none';
 		successEl.textContent = '';
 
-		fetch( chubes_contact_params.rest_url, {
+		fetch( chubesContactParams.rest_url, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify( payload ),

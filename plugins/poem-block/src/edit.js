@@ -3,6 +3,9 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -18,6 +21,9 @@ import { useBlockProps } from '@wordpress/block-editor';
  * Those files can contain any CSS code that gets applied to the editor.
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+/**
+ * Internal dependencies
  */
 import './editor.scss';
 

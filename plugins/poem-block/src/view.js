@@ -1,11 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Document loaded');
     const poemBlocks = document.querySelectorAll('.poem');
     let currentIndex = 0;
 
     if (poemBlocks.length > 0) {
-        console.log('Poem blocks found:', poemBlocks.length);
-
         // Temporarily add navigation controls and page numbers to each poem block for height calculation
         poemBlocks.forEach((block, index) => {
             const navigation = document.createElement('div');
@@ -69,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
             block.appendChild(navigation);
             block.appendChild(pageNumber);
 
-            console.log(`Navigation controls and page number added to poem block ${index + 1}`);
         });
 
         // Update page numbers on navigation
@@ -85,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Event listeners for navigation buttons
         document.querySelectorAll('.poem-nav-button.prev').forEach((button) => {
             button.addEventListener('click', () => {
-                console.log('Previous button clicked');
                 poemBlocks[currentIndex].style.display = 'none';
                 currentIndex = (currentIndex === 0) ? poemBlocks.length - 1 : currentIndex - 1;
                 poemBlocks[currentIndex].style.display = 'block';
@@ -95,14 +90,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.querySelectorAll('.poem-nav-button.next').forEach((button) => {
             button.addEventListener('click', () => {
-                console.log('Next button clicked');
                 poemBlocks[currentIndex].style.display = 'none';
                 currentIndex = (currentIndex === poemBlocks.length - 1) ? 0 : currentIndex + 1;
                 poemBlocks[currentIndex].style.display = 'block';
                 updatePageNumbers();
             });
         });
-    } else {
-        console.log('No poem blocks found');
     }
 });

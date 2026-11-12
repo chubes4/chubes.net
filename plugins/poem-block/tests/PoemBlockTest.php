@@ -22,7 +22,7 @@ class PoemBlockTest extends WP_UnitTestCase {
 	 * @return array<string, mixed>
 	 */
 	private function metadata(): array {
-		$json = file_get_contents( dirname( __DIR__ ) . '/src/block.json' );
+		$json = file_get_contents( dirname( __DIR__ ) . '/src/block.json' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local file.
 		$this->assertIsString( $json );
 
 		$metadata = json_decode( $json, true );
