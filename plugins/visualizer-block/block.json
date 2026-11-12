@@ -1,0 +1,89 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "visualizer-block/visualizer",
+    "version": "0.3.1",
+    "title": "Particle Visualizer",
+    "category": "widgets",
+    "icon": "chart-line",
+    "description": "Interactive particle visualization with customizable effects",
+    "keywords": ["animation", "particles", "visual", "interactive"],
+    "textdomain": "visualizer-block",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "spacing": {
+            "margin": true,
+            "padding": true
+        },
+        "color": {
+            "background": true,
+            "text": true
+        }
+    },
+    "attributes": {
+        "backgroundColor": {
+            "type": "string",
+            "default": "#0a0a0a"
+        },
+        "primaryColor": {
+            "type": "string",
+            "default": "#64ffda"
+        },
+        "secondaryColor": {
+            "type": "string",
+            "default": "#ff6b9d"
+        },
+        "animationSpeed": {
+            "type": "number",
+            "default": 1
+        },
+        "particleCount": {
+            "type": "number",
+            "default": 150
+        },
+        "particleSize": {
+            "type": "number",
+            "default": 3
+        },
+        "connectionDistance": {
+            "type": "number",
+            "default": 100
+        },
+        "mouseInteraction": {
+            "type": "string",
+            "default": "none"
+        },
+        "bounceOffWalls": {
+            "type": "boolean",
+            "default": false
+        },
+        "rubberizeParticles": {
+            "type": "boolean",
+            "default": false
+        },
+        "particleMagnetism": {
+            "type": "boolean",
+            "default": false
+        },
+        "collisionColorChange": {
+            "type": "boolean",
+            "default": false
+        },
+        "audioSync": {
+            "type": "boolean",
+            "default": false
+        },
+        "glowEffect": {
+            "type": "boolean",
+            "default": false
+        },
+        "showControls": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "editorScript": "file:./build/index.js",
+    "editorStyle": "file:./build/index.css",
+    "style": "file:./build/index.css"
+} 
