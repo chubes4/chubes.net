@@ -1,15 +1,6 @@
 {
   "auto_cleanup": false,
   "changelog_target": "docs/CHANGELOG.md",
-  "extensions": {
-    "wordpress": {
-      "settings": {
-        "package_excludes": [
-          "/src"
-        ]
-      }
-    }
-  },
   "id": "poem-block",
   "remote_path": "wp-content/plugins/poem-block",
   "version_targets": [
