@@ -3,7 +3,7 @@
  * Plugin Name:       Poem Block
  * Description:       Paginated poem block: one stanza per page with previous/next navigation.
  * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires PHP:      7.4
  * Version:           0.1.2
  * Author:            Chris Huber
  * Author URI:        https://chubes.net
