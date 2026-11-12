@@ -8,9 +8,10 @@
  * exclusion hook does to them, the query helpers, and the /journal link.
  *
  * Standalone rather than WP_UnitTestCase because WP Codebox cannot yet run
- * PHPUnit for theme components (Extra-Chill/homeboy#17163).
+ * PHPUnit for theme components (Extra-Chill/homeboy#17163). The
+ * extension runs tests/**/*-smoke.php on host PHP.
  *
- * Run: php tests/journal.php
+ * Run: php tests/journal-smoke.php
  *
  * @package Chubes
  */
