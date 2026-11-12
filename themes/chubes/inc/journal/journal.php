@@ -175,7 +175,7 @@ function chubes_journal_exclude_from_blog($query) {
 	if ($term) {
 		$excluded   = (array) $query->get('category__not_in');
 		$excluded[] = $term->term_id;
-		$query->set('category__not_in', array_filter($excluded));
+		$query->set('category__not_in', array_values(array_filter($excluded)));
 	}
 }
 add_action('pre_get_posts', 'chubes_journal_exclude_from_blog');

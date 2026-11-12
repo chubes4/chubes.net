@@ -1333,5 +1333,10 @@
       "file": "style.css",
       "pattern": "Version:\\s*([\\d.]+)"
     }
-  ]
+  ],
+  "self_checks": {
+    "test": [
+      "php tests/journal.php"
+    ]
+  }
 }
