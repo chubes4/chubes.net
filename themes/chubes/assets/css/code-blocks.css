@@ -1,0 +1,89 @@
+/* Code Block Enhancements
+ *
+ * Structure: .code-block-wrapper > .code-block-header + pre.wp-block-code > code
+ * Header lives outside <pre> so Prism sees clean <pre><code> and highlights properly.
+ */
+
+/* Wrapper — visual container with left accent border */
+.code-block-wrapper {
+    margin: 1.5em 0;
+    border-radius: 6px;
+    overflow: hidden;
+    border-left: 3px solid var(--chubes-accent-color-1, #6196cc);
+    background: #2d2d2d;
+}
+
+/* Header bar — language label + copy button */
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4em 0.75em;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-block-language {
+    font-size: 0.7em;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1;
+}
+
+/* Pre element — reset WP/Prism defaults, wrapper handles visuals */
+.code-block-wrapper .wp-block-code,
+.code-block-wrapper pre[class*="language-"] {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+/* Code element — the scrollable code area */
+.code-block-wrapper code,
+.code-block-wrapper code[class*="language-"] {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+    font-size: 0.875em;
+    line-height: 1.5;
+    tab-size: 4;
+    background: transparent;
+}
+
+/* Copy button */
+.code-copy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.code-copy-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.code-copy-btn:focus-visible {
+    outline: 2px solid var(--chubes-accent-color-1, #6196cc);
+    outline-offset: 2px;
+}
+
+.code-copy-btn.copied {
+    color: #7ec699;
+}
+
+.code-copy-btn svg {
+    width: 14px;
+    height: 14px;
+}

@@ -1,0 +1,128 @@
+/* Root CSS Variables - Design System Foundation */
+
+/* Semantic Color Variables */
+:root {
+  /* Base Colors */
+  --chubes-body-text-color: #ddd;
+  --chubes-link-color: #00e0ff;
+  --chubes-accent-color-1: #00c2ff;
+  --chubes-accent-color-2: #00e0ff;
+  --chubes-muted-text-color: #777;
+  --chubes-background-primary: #111;
+  --chubes-background-secondary: #1d1d1d;
+  --chubes-border-primary: #444;
+  --chubes-border-secondary: #1a1a1a;
+
+  /* Accent Opacity Levels */
+  --chubes-accent-subtle: rgba(0, 194, 255, 0.1);
+  --chubes-accent-medium: rgba(0, 194, 255, 0.2);
+  --chubes-accent-strong: rgba(0, 194, 255, 0.3);
+
+  /* Accent States */
+  --chubes-accent-hover: #009dc0;
+  --chubes-accent-active: #00c4e6;
+
+  /* Backgrounds */
+  --chubes-background-card: rgba(34, 34, 34, 0.95);
+  --chubes-background-muted: rgba(34, 34, 34, 0.5);
+  --chubes-background-interactive: rgba(68, 68, 68, 0.8);
+
+  /* Borders */
+  --chubes-border-default: rgba(68, 68, 68, 0.5);
+  --chubes-border-light: rgba(255, 255, 255, 0.1);
+  --chubes-border-faint: rgba(255, 255, 255, 0.05);
+
+  /* Text */
+  --chubes-text-primary: #fff;
+  --chubes-text-secondary: #bbb;
+  --chubes-text-contrast: #000;
+
+  /* State Colors */
+  --chubes-success-color: #4ade80;
+
+  /* UI Effects */
+  --chubes-placeholder-color: rgba(255, 255, 255, 0.5);
+  --chubes-overlay-medium: rgba(0, 0, 0, 0.6);
+  --chubes-overlay-heavy: rgba(0, 0, 0, 0.9);
+  --chubes-shadow-light: rgba(0, 0, 0, 0.2);
+  --chubes-shadow-medium: rgba(0, 0, 0, 0.3);
+
+  /* Project Type Colors */
+  --chubes-project-wordpress-plugin: #00e0ff;
+  --chubes-project-wordpress-theme: #ff6b6b;
+  --chubes-project-discord-bot: #4ecdc4;
+  --chubes-project-php-library: #45b7d1;
+
+  /* Typography Scale */
+  --chubes-font-size-xs: 0.75rem;
+  --chubes-font-size-sm: 0.875rem;
+  --chubes-font-size-base: 1rem;
+  --chubes-font-size-md: 1.1rem;
+  --chubes-font-size-lg: 1.25rem;
+  --chubes-font-size-xl: 1.5rem;
+  --chubes-font-size-2xl: 1.8rem;
+  --chubes-font-size-3xl: 2.2rem;
+
+  /* Spacing Scale */
+  --chubes-space-xs: 0.25rem;
+  --chubes-space-sm: 0.5rem;
+  --chubes-space-md: 0.75rem;
+  --chubes-space-base: 1rem;
+  --chubes-space-lg: 1.25rem;
+  --chubes-space-xl: 1.5rem;
+}
+
+
+/* Global Button Styles */
+.button-1, .button-2, .button-3 {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    line-height: 1.4;
+}
+
+.button-1 {
+    background-color: var(--chubes-accent-color-1);
+    color: var(--chubes-text-primary);
+    border-color: var(--chubes-accent-color-1);
+}
+
+.button-1:hover {
+    background-color: var(--chubes-accent-hover);
+    color: var(--chubes-text-primary);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.button-2 {
+    background-color: transparent;
+    color: var(--chubes-accent-color-2);
+    border-color: var(--chubes-accent-color-2);
+}
+
+.button-2:hover {
+    background-color: var(--chubes-accent-subtle);
+    color: var(--chubes-accent-color-2);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.button-3 {
+    background-color: var(--chubes-border-faint);
+    color: var(--chubes-text-secondary);
+    border-color: var(--chubes-border-light);
+}
+
+.button-3:hover {
+    background-color: var(--chubes-border-light);
+    color: var(--chubes-text-primary);
+    border-color: var(--chubes-border-light);
+    transform: translateY(-2px);
+    text-decoration: none;
+}

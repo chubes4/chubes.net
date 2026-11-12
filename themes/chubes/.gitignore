@@ -1,0 +1,9 @@
+dist/
+build/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+build/chubes.zip
+build/

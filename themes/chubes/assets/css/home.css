@@ -1,0 +1,164 @@
+/* Home Page Specific Styles */
+
+/* Home Section Layout */
+.home section .container ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.home section .container {
+    border-bottom: .5px solid var(--chubes-border-primary);
+    padding: 15px 0;
+}
+
+.home section.tech-stack .container {
+    border-bottom: none;
+}
+
+.home section .container p {
+    color: var(--chubes-body-text-color);
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .home h1, .home h2 {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 425px) {
+    .home section .container ul, .journal-list {
+        flex-direction: column;
+        padding: 0;
+    }
+}
+
+.hero h1 {
+    font-size: 36px;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    color: var(--chubes-text-primary);
+    text-align: center;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-image {
+    flex-shrink: 0;
+}
+
+.hero-image img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.hero-bio {
+    flex: 1;
+    text-align: left;
+}
+
+.hero-bio p {
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: var(--chubes-body-text-color);
+}
+
+.hero-bio p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 40px 0;
+    }
+    
+    .hero h1 {
+        font-size: 28px;
+        margin-bottom: 24px;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-image img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .hero-bio {
+        text-align: left;
+    }
+}
+
+/* Homepage Columns Section */
+.homepage-columns {
+    padding: 0px 0 10px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.homepage-column {
+    background: var(--chubes-background-secondary);
+    border: 1px solid var(--chubes-border-primary);
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.homepage-column .item-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.item-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--chubes-border-secondary);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.item-list li:last-child { border-bottom: none; }
+
+.item-list a { text-decoration: none; }
+
+.item-list a:hover { color: var(--chubes-link-color); }
+
+.item-list .meta { color: var(--chubes-muted-text-color); margin-top: 6px; }
+
+.list-cta { margin-top: 14px; text-align: center; }
+
+
+/* Docs API hint */
+.docs-api-hint {
+    margin: 12px 0 0;
+    font-size: var(--chubes-font-size-xs);
+    color: var(--chubes-muted-text-color);
+    text-align: center;
+}
+
+.docs-api-hint code {
+    font-size: inherit;
+    color: var(--chubes-accent-color);
+}
+
+/* About/Journey section removed on redesign */
+
+ 
