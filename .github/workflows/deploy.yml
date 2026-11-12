@@ -72,6 +72,8 @@ jobs:
           component: themes/chubes
           config-dir: deploy/homeboy
           version: ${{ env.HOMEBOY_VERSION }}
+          # Homeboy's packaging build needs PHP 8+ on the runner.
+          php-version: '8.4'
           extension-ref: ${{ format('v{0}', env.HOMEBOY_VERSION) }}
           commands: deploy chubes-net --ref ${{ steps.sha.outputs.sha }} --outdated --dry-run
           auto-setup: 'false'
@@ -123,6 +125,8 @@ jobs:
           component: themes/chubes
           config-dir: deploy/homeboy
           version: ${{ env.HOMEBOY_VERSION }}
+          # Homeboy's packaging build needs PHP 8+ on the runner.
+          php-version: '8.4'
           extension-ref: ${{ format('v{0}', env.HOMEBOY_VERSION) }}
           commands: deploy chubes-net --ref ${{ steps.sha.outputs.sha }} --outdated --verify --confirm-dangerous
           ssh-key: ${{ secrets.CHUBES_DEPLOY_SSH_KEY }}
