@@ -9,7 +9,7 @@
  *
  * Standalone rather than WP_UnitTestCase because WP Codebox cannot yet run
  * PHPUnit for theme components (Extra-Chill/homeboy#17163). The
- * extension runs tests/**/*-smoke.php on host PHP.
+ * extension runs tests/*-smoke.php scripts on host PHP.
  *
  * Run: php tests/journal-smoke.php
  *
