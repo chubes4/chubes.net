@@ -7,4 +7,4 @@ npm ci
 npm run build   # src/ -> build/
 ```
 
-The block name keeps its original `create-block/` namespace because published posts reference it.
+The main file is still the scaffold name `my-first-block.php`, because WordPress records active plugins by file path and renaming it would deactivate the plugin. The block name `create-block/poem-block` stays for the same reason: published posts reference it.

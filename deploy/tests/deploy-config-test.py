@@ -33,6 +33,23 @@ for local_path, c in attached.items():
     if pathlib.PurePosixPath(c["remote_path"]).name != pathlib.PurePosixPath(local_path).name:
         errors.append(f"{local_path}: directory name must match the installed slug in {c['remote_path']}")
 
+# WordPress stores active plugins as "<dir>/<main file>". Renaming either one
+# silently deactivates the plugin on deploy. These match production's
+# active_plugins option; change one only together with a migration.
+PLUGIN_MAIN_FILES = {
+    "plugins/chubes-contact": "chubes-contact.php",
+    "plugins/poem-block": "my-first-block.php",
+    "plugins/visualizer-block": "visualizer-block.php",
+}
+for local_path in attached:
+    if not local_path.startswith("plugins/"):
+        continue
+    main = PLUGIN_MAIN_FILES.get(local_path)
+    if main is None:
+        errors.append(f"{local_path}: add its main plugin file to PLUGIN_MAIN_FILES")
+    elif "Plugin Name:" not in (root / local_path / main).read_text() if (root / local_path / main).exists() else True:
+        errors.append(f"{local_path}/{main}: missing, or has no Plugin Name header")
+
 server = json.loads((root / "deploy/homeboy/servers" / f"{project['server_id']}.json").read_text())
 if server.get("user") == "root":
     errors.append("deploy server user must be the restricted deploy user, not root")

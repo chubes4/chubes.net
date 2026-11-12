@@ -5,7 +5,7 @@
   "remote_path": "wp-content/plugins/poem-block",
   "version_targets": [
     {
-      "file": "poem-block.php",
+      "file": "my-first-block.php",
       "pattern": "(?m)^\\s*\\*?\\s*Version:\\s*([0-9.]+)"
     },
     {
