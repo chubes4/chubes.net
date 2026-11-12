@@ -72,8 +72,17 @@ class ContactEndpointTest extends WP_UnitTestCase {
 		return rest_get_server()->dispatch( $request );
 	}
 
-	public function test_block_is_registered(): void {
-		$this->assertTrue( WP_Block_Type_Registry::get_instance()->is_registered( 'chubes/contact-form' ) );
+	public function test_block_name_is_the_one_published_pages_use(): void {
+		// Pages store <!-- wp:chubes/contact-form -->. CI does not build the
+		// block, so assert the source metadata rather than the registry.
+		$json = file_get_contents( dirname( __DIR__ ) . '/src/block.json' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local file.
+		$this->assertIsString( $json );
+
+		$this->assertSame( 'chubes/contact-form', json_decode( $json, true )['name'] );
+	}
+
+	public function test_block_registration_is_hooked_to_init(): void {
+		$this->assertNotFalse( has_action( 'init', 'chubes_contact_init' ) );
 	}
 
 	public function test_route_is_registered(): void {
