@@ -2,6 +2,11 @@
 
 All notable changes to the **wordpress** extension will be documented in this file.
 
+## [3.54.5] - 2026-11-12
+
+### Fixed
+- keep the my-first-block.php main file
+
 ## [3.54.4] - 2026-11-11
 
 ### Fixed
