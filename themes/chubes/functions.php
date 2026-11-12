@@ -22,6 +22,7 @@ function chubes_theme_setup() {
     add_editor_style('style.css');
     add_editor_style('assets/css/root.css');
 
+    add_theme_support('docsync-templates');
 
     // Register navigation menu location
     register_nav_menus(array(
@@ -62,16 +63,14 @@ require_once get_template_directory() . '/inc/core/breadcrumbs.php';
 require_once get_template_directory() . '/inc/core/back-navigation.php';
 require_once get_template_directory() . '/inc/core/assets.php';
 require_once get_template_directory() . '/inc/core/code-blocks.php';
-require_once get_template_directory() . '/inc/journal/journal-post-type.php';
 require_once get_template_directory() . '/inc/core/filters.php';
 require_once get_template_directory() . '/inc/core/customizer.php';
-require_once get_template_directory() . '/inc/journal/archive.php';
+require_once get_template_directory() . '/inc/journal/journal.php';
 require_once get_template_directory() . '/inc/homepage/columns.php';
 
 /**
  * Extend Search Results to Include Custom Post Types
  * 
- * Includes Journal post type in search results.
  * Game is added by chubes-games plugin when active.
  * Documentation is added by chubes-docs plugin when active.
  * 
@@ -79,7 +78,7 @@ require_once get_template_directory() . '/inc/homepage/columns.php';
  */
 function chubes_extend_search_post_types($query) {
     if (!is_admin() && $query->is_main_query() && $query->is_search()) {
-        $post_types = array('post', 'journal');
+        $post_types = array('post');
         $query->set('post_type', apply_filters('chubes_search_post_types', $post_types));
     }
 }

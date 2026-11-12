@@ -1,57 +1,37 @@
-# Journal Post Type
+# Journal
 
-The theme provides a custom `journal` post type for personal journal entries and blog-style content separate from WordPress default posts.
+Journal entries are regular WordPress posts in the **Journal** category (slug `journal`). Journal is not a separate post type: entries share categories, tags, search, sitemaps and the editor with every other post.
 
-## Features
+Implementation: `inc/journal/journal.php`.
 
-- **Gutenberg Editor Support**: Full block editor capabilities
-- **Public Archive**: Accessible at `/journal` URL
-- **Standard Post Features**: Title, content, featured images, excerpts, custom fields, revisions
-- **REST API Support**: Available via WordPress REST API
-- **Admin UI**: Dedicated menu item with edit icon
+## Behavior
 
-## Registration Details
+| Concern | Behavior |
+|---|---|
+| Archive | `/journal` (and `/journal/page/N`) instead of `/category/journal`. `/category/journal/...` 301s to `/journal/...`. |
+| Archive layout | Minimal title and date list (`.journal-list`) instead of the card grid, via `chubes_archive_content`. |
+| Feed | `/journal/feed`. Journal entries are excluded from the main `/feed`. |
+| Blog | Excluded from the posts page (`/blog`) and the homepage Blog column. |
+| Entry URLs | `/{slug}`, like every post. Legacy `/journal/{slug}` URLs from the old post type 301 to the current permalink. |
+| Breadcrumbs / back link | Home / Journal / Entry. |
+| Search | Included, as regular posts. |
 
-```php
-$args = array(
-    'label'         => __('Journal', 'chubes-theme'),
-    'public'        => true,
-    'show_ui'       => true,
-    'menu_position' => 6,
-    'menu_icon'     => 'dashicons-edit',
-    'supports'      => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions'),
-    'has_archive'   => true,
-    'rewrite'       => array('slug' => 'journal'),
-    'show_in_rest'  => true,
-);
-register_post_type('journal', $args);
+## Writing an entry
+
+Create a normal post and give it the **Journal** category.
+
+## Helpers
+
+- `chubes_journal_term()`: the Journal `WP_Term`, or `null`.
+- `chubes_journal_url()`: archive URL.
+- `chubes_is_journal_post( $post )` / `chubes_is_journal_archive()`.
+- `chubes_blog_query_args( $args )` / `chubes_journal_query_args( $args )`: `WP_Query` args for each stream.
+
+## Migrating from the old `journal` post type
+
+```bash
+wp chubes journal migrate --dry-run
+wp chubes journal migrate
 ```
 
-## Usage
-
-### Creating Journal Entries
-
-1. In WordPress admin, navigate to **Journal > Add New**
-2. Use the Gutenberg editor to create content
-3. Set featured images, categories, and tags as needed
-4. Publish to make entries available at `/journal`
-
-### Displaying Journal Content
-
-The theme automatically provides:
-- Archive template at `/journal` showing all entries
-- Single entry templates for individual journal posts
-- Integration with theme's search functionality
-- Homepage integration (latest journal entries can be displayed)
-
-## Technical Implementation
-
-- **Location**: `inc/journal/journal-post-type.php`
-- **Hook**: Registered on `init` action
-- **Templates**: Uses theme's standard template hierarchy
-- **Search Integration**: Included in theme's search post types filter
-
-## Notes
-
-This post type is intended for personal journal/blog content and is separate from the default WordPress `post` type. Documentation and game content are handled by respective plugins (`chubes-docs` and `chubes-games`).</content>
-<parameter name="filePath">chubes/docs/components/journal.md
+Creates the Journal category if missing, converts every `journal` post type entry (any status) to a `post` with only the Journal category, and flushes rewrites. It refuses to run if a journal slug collides with an existing post or page, and it is safe to re-run.

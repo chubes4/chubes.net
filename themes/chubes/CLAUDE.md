@@ -29,7 +29,7 @@ Chubes Theme is a custom WordPress theme for https://chubes.net. It is a modular
 
 ### Core Structure
 - Traditional WordPress theme with modular PHP organization under `/inc/core/` and templates under `/inc/core/templates/`.
-- Custom post types (registered in `/inc/journal/journal-post-type.php`): `journal`.
+- Journal is the `journal` category on regular posts (`/inc/journal/journal.php`), not a post type.
 - Unified hierarchical project taxonomy (registered in the `chubes-docs` plugin) used to organize project documentation and repositories.
 - Asset enqueuing and conditional loading are centralized in `/inc/core/assets.php`.
 - Template hierarchy filters implemented in `/inc/core/filters.php` route templates to the flattened directory.

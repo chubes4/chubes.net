@@ -29,12 +29,12 @@ After activation:
 1. Go to Appearance > Customize to configure homepage content
 2. Set up your homepage by creating a page and assigning it as the front page
 3. Configure navigation menus under Appearance > Menus
-4. Add content to your journal posts and pages
+4. Add posts (use the Journal category for journal entries) and pages
 
 ## File Structure
 
 - `/inc/core/templates/` - Theme templates
 - `/inc/core/assets.php` - Asset enqueuing
-- `/inc/journal/` - Journal post type registration
+- `/inc/journal/` - Journal category routing and archive
 - `/assets/css/` - Stylesheets
 - `/assets/js/` - JavaScript files

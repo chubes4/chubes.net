@@ -14,11 +14,9 @@ if (!defined('ABSPATH')) {
  * Render Blog column on homepage
  */
 function chubes_homepage_blog_column() {
-	$blog_query = new WP_Query([
-		'post_type'      => 'post',
+	$blog_query = new WP_Query(chubes_blog_query_args([
 		'posts_per_page' => 3,
-		'post_status'    => 'publish',
-	]);
+	]));
 	?>
 	<div class="homepage-column">
 		<h3>Blog</h3>
@@ -48,11 +46,9 @@ add_action('chubes_homepage_columns', 'chubes_homepage_blog_column', 10);
  * Render Journal column on homepage
  */
 function chubes_homepage_journal_column() {
-	$journal_query = new WP_Query([
-		'post_type'      => 'journal',
+	$journal_query = new WP_Query(chubes_journal_query_args([
 		'posts_per_page' => 3,
-		'post_status'    => 'publish',
-	]);
+	]));
 	?>
 	<div class="homepage-column">
 		<h3>Journal</h3>
@@ -70,7 +66,7 @@ function chubes_homepage_journal_column() {
 			<?php endif; ?>
 		</ul>
 		<div class="list-cta">
-			<a class="btn secondary" href="<?php echo esc_url(get_post_type_archive_link('journal')); ?>">View all Journal</a>
+			<a class="btn secondary" href="<?php echo esc_url(chubes_journal_url()); ?>">View all Journal</a>
 		</div>
 	</div>
 	<?php

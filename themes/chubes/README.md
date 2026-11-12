@@ -30,7 +30,7 @@ This creates `/build/chubes.zip` for uploading to WordPress.
 ## Key files
 
 - `/inc/core/assets.php` — centralized asset enqueuing and localization
-- `/inc/journal/journal-post-type.php` — registers `journal` post type (game and documentation post types are registered by respective plugins)
+- `/inc/journal/journal.php` — Journal: posts in the `journal` category, served at `/journal` and kept out of the main blog and feed (game and documentation post types are registered by respective plugins)
 - `/inc/core/filters.php` — template hierarchy routing to flattened directory
 - `/inc/core/breadcrumbs.php` — breadcrumb generation for navigation
 - `/inc/core/templates/` — flattened templates directory

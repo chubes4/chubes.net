@@ -3,7 +3,7 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 
 ## Architecture Overview
 **Chubes** is a **traditional WordPress theme** (no Node.js build pipeline) with:
-- **Custom post types**: Journal (blog) - Game (interactive) is registered by the chubes-games plugin - Documentation CPT is registered by the chubes-docs plugin
+- **Journal**: `journal` category on regular posts, served at `/journal` - Game (interactive) is registered by the chubes-games plugin - Documentation CPT is registered by the chubes-docs plugin
 - **Unified project taxonomy**: Hierarchical organization for 4 project types (wordpress-plugins, wordpress-themes, discord-bots, php-libraries) - registered by the chubes-docs plugin
 - **Three core systems**: Documentation + Install tracking (WordPress.org API - handled by chubes-docs plugin), Navigation (context-aware breadcrumbs), Homepage customization (Customizer + Gutenberg)
 - **Template hierarchy system**: Routes lookups into `/inc/core/templates/` via filters in `inc/core/filters.php`
@@ -51,7 +51,7 @@ Guidance for AI coding agents contributing to the Chubes WordPress theme—a cus
 | File | Purpose |
 |------|---------|
 | `functions.php` | Asset loading, theme setup, navigation, module includes |
-| `inc/journal/journal-post-type.php` | Journal CPT registration (Game by chubes-games, Documentation by chubes-docs) |
+| `inc/journal/journal.php` | Journal category routing, archive, feed exclusion, migration CLI |
 | `inc/core/filters.php` | Template hierarchy filters for flattened `/inc/core/templates/` |
 | `inc/core/assets.php` | Centralized CSS/JS enqueuing for all theme assets |
 | `inc/core/breadcrumbs.php` | Context-aware navigation links |

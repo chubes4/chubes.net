@@ -16,9 +16,9 @@ The theme supports Gutenberg blocks for homepage content:
 - Featured images are displayed prominently
 
 ### Journal Posts
-- Custom post type for personal journal entries
-- Accessible at `/journal`
-- Supports all standard post features
+- Regular posts in the **Journal** category
+- Accessible at `/journal`, with its own feed at `/journal/feed`
+- Kept out of the main blog page and the main `/feed`
 - [See detailed Journal documentation](components/journal.md)
 
 ### Pages

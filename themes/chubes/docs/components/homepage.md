@@ -21,7 +21,7 @@ The homepage displays content in a responsive grid using the `chubes_homepage_co
 
 ### Journal Column
 
-- Displays latest 3 journal entries (`journal` post type)
+- Displays latest 3 journal entries (posts in the `journal` category)
 - Shows entry title, date, and link to full entry
 - Includes "View all Journal" link to journal archive
 - Hook priority: 20

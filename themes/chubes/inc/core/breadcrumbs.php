@@ -316,7 +316,7 @@ function chubes_get_parent_page() {
         );
     }
     
-    return $parent;
+    return apply_filters('chubes_parent_page', $parent);
 }
 
  

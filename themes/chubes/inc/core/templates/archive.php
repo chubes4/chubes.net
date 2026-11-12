@@ -8,7 +8,7 @@
  */
 get_header(); ?>
 
-<main class="site-main archive-<?php echo get_post_type() ?: 'blog'; ?>">
+<main class="site-main archive-<?php echo esc_attr( apply_filters( 'chubes_archive_type', get_post_type() ?: 'blog' ) ); ?>">
     <section class="archive-header">
         <div class="container">
             <div class="archive-header-inner">
